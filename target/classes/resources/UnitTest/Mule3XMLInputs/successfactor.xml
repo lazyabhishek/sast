@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:successfactors="http://www.mulesoft.org/schema/mule/successfactors" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/successfactors http://www.mulesoft.org/schema/mule/successfactors/current/mule-successfactors.xsd">
+    <successfactors:config name="Success_Factors__Configuration" username="user" password="pass" companyId="ID" connectionTimeout="50000" receiveTimeout="50000" wsdlLocation="" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" doc:name="Success Factors: Configuration">
+        <reconnect frequency="3000" count="5"/>
+    </successfactors:config>
+    <flow name="successfactorFlow">
+        <successfactors:insert config-ref="Success_Factors__Configuration" type="type" doc:name="Success Factors" input-ref="#[flowVars.abc]"/>
+    </flow>
+    <flow name="successfactorFlow1">
+        <successfactors:delete config-ref="Success_Factors__Configuration" type="type" input-ref="#[flowVars.abc]" doc:name="Success Factors"/>
+    </flow>
+    <flow name="successfactorFlow2">
+        <successfactors:update config-ref="Success_Factors__Configuration" type="name" input-ref="#[flowVars.abc]" doc:name="Success Factors"/>
+    </flow>
+    <flow name="successfactorFlow3">
+        <successfactors:upsert config-ref="Success_Factors__Configuration" type="name" input-ref="#[flowVars.abc]" doc:name="Success Factors"/>
+    </flow>
+</mule>

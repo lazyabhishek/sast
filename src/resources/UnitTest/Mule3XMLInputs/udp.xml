@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:udp="http://www.mulesoft.org/schema/mule/udp" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/udp http://www.mulesoft.org/schema/mule/udp/current/mule-udp.xsd">
+    <udp:connector name="UDP" timeout="50000" validateConnections="true" receiveBufferSize="50000" sendBufferSize="50000" broadcast="true" keepSendSocketOpen="true" doc:name="UDP">
+        <reconnect frequency="3000" count="5"/>
+    </udp:connector>
+    <udp:connector name="UDP1" timeout="50000" validateConnections="true" receiveBufferSize="50000" sendBufferSize="50000" broadcast="true" keepSendSocketOpen="true" doc:name="UDP">
+        <reconnect frequency="3000" count="5"/>
+    </udp:connector>
+    <flow name="udpFlow">
+        <udp:inbound-endpoint exchange-pattern="request-response" host="host" port="8080" connector-ref="UDP" responseTimeout="10000" doc:name="UDP"/>
+        <udp:outbound-endpoint exchange-pattern="request-response" host="localhost" port="80" responseTimeout="10000" doc:name="UDP" connector-ref="UDP1"/>
+    </flow>
+</mule>

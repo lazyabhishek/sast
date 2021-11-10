@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:rosetta="http://www.mulesoft.org/schema/mule/rosetta" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/rosetta http://www.mulesoft.org/schema/mule/rosetta/current/mule-rosetta.xsd">
+	<rosetta:config name="RosettaNet__Configuration" pipRole="INITIATOR" doc:name="RosettaNet: Configuration"  
+	listenerConfigName="http" servicePath="path" keystorePath="key" keystorePass="pass" privatePass="pass1"
+	 signingOverride="ALWAYS" globalUsageCode="Test" objectStore="object_store" selfBusinessIdentifier="self" selfLocationId="loca" partnerBusinessIdentifier="bus" partnerLocationId="loc" pipFile="file" />
+	<flow name="rosettaFlow" >
+		<rosetta:action-source doc:name="RosettaNet (Streaming)" config-ref="RosettaNet__Configuration"/>
+		<rosetta:send-action doc:name="RosettaNet" config-ref="RosettaNet__Configuration">
+			<rosetta:content ><![CDATA[#[vars.abc]]]></rosetta:content>
+		</rosetta:send-action>
+	</flow>
+</mule>

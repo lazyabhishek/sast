@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:microsoft-dynamics-ax="http://www.mulesoft.org/schema/mule/microsoft-dynamics-ax" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/microsoft-dynamics-ax http://www.mulesoft.org/schema/mule/microsoft-dynamics-ax/current/mule-microsoft-dynamics-ax.xsd">
+<microsoft-dynamics-ax:dynamics-ax-config doc:name="Microsoft Dynamics AX 2012: Gateway Connection" name="Microsoft_Dynamics_AX_2012__Gateway_Connection">
+<microsoft-dynamics-ax:gateway-connection aosEndpointPort="8080" aosServerName="aos" aosWsdlPort="8080" company="company" connectionTimeout="10000" disableCnCheck="true" gatewayRouterServiceAddress="addr" language="lang" logonAsUser="logon" messageId="id" partitionKey="key" password="pass" receiveTimeout="10000" username="user">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</microsoft-dynamics-ax:gateway-connection>
+</microsoft-dynamics-ax:dynamics-ax-config>
+<flow name="ms_2012Flow">
+<microsoft-dynamics-ax:invoke-document-service-operation action="operation" config-ref="Microsoft_Dynamics_AX_2012__Gateway_Connection" doc:name="Microsoft Dynamics AX 2012" service="service"/>
+</flow>
+<flow name="ms_2012Flow1">
+<microsoft-dynamics-ax:query-table config-ref="Microsoft_Dynamics_AX_2012__Gateway_Connection" doc:name="Microsoft Dynamics AX 2012" itemsPerPage="10000">
+<microsoft-dynamics-ax:query>#[vars.abc]</microsoft-dynamics-ax:query>
+</microsoft-dynamics-ax:query-table>
+</flow>
+<flow name="ms_2012Flow2">
+<microsoft-dynamics-ax:static-query config-ref="Microsoft_Dynamics_AX_2012__Gateway_Connection" doc:name="Microsoft Dynamics AX 2012" itemsPerPage="10000" staticQueryName="name"/>
+</flow>
+
+</mule>

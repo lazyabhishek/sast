@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:peoplesoft="http://www.mulesoft.org/schema/mule/peoplesoft" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/peoplesoft http://www.mulesoft.org/schema/mule/peoplesoft/current/mule-peoplesoft.xsd">
+	<peoplesoft:config name="PeopleSoft__Configuration" doc:name="PeopleSoft: Configuration">
+		<peoplesoft:connection server="server" username="user" password="pass" domainConnectionPassword="pass1" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</peoplesoft:connection>
+	</peoplesoft:config>
+	<flow name="peoplesoftFlow" >
+		<peoplesoft:invoke-operation component="name" operation="op" doc:name="PeopleSoft"  config-ref="PeopleSoft__Configuration">
+			<peoplesoft:content ><![CDATA[#[vars.abc]]]></peoplesoft:content>
+		</peoplesoft:invoke-operation>
+	</flow>
+</mule>

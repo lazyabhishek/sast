@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:servicenow="http://www.mulesoft.org/schema/mule/servicenow" xmlns:s-service-mngt-api="http://www.mulesoft.org/schema/mule/s-service-mngt-api" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/s-service-mngt-api http://www.mulesoft.org/schema/mule/s-service-mngt-api/current/mule-s-service-mngt-api.xsd
+http://www.mulesoft.org/schema/mule/servicenow http://www.mulesoft.org/schema/mule/servicenow/current/mule-servicenow.xsd">
+    <servicenow:config name="ServiceNow__Basic_Configuration" username="user" password="pass" serviceAddress="addr" serviceNowVersion="EUREKA" doc:name="ServiceNow: Basic Configuration">
+        <servicenow:list-of-user-table>
+            <servicenow:list-of-user-table>10</servicenow:list-of-user-table>
+            <servicenow:list-of-user-table>abc</servicenow:list-of-user-table>
+        </servicenow:list-of-user-table>
+    </servicenow:config>
+    <flow name="servicenowFlow">
+        <servicenow:invoke config-ref="ServiceNow__Basic_Configuration" type="table||operation" doc:name="ServiceNow"/>
+    </flow>
+</mule>

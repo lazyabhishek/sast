@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:cloudhub="http://www.mulesoft.org/schema/mule/cloudhub" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/cloudhub http://www.mulesoft.org/schema/mule/cloudhub/current/mule-cloudhub.xsd">
+	<cloudhub:config name="Cloudhub__Basic_Auth_Authentication" doc:name="Cloudhub: Basic Auth Authentication">
+		<cloudhub:connection username="anji" password="amar" />
+	</cloudhub:config>
+	<flow name="list-applications" >
+	    <cloudhub:list-notifications doc:name="Cloudhub"  config-ref="Cloudhub__Basic_Auth_Authentication" domain=".com" status="UNREAD"/>
+		<cloudhub:create-notification doc:name="Cloudhub"  config-ref="Cloudhub__Basic_Auth_Authentication" domain="american-flight" priority="INFO">
+<!-- 			<cloudhub:message ><![CDATA[#[vars.abc]]]></cloudhub:message> -->
+		</cloudhub:create-notification>
+		<cloudhub:mark-notification doc:name="Cloudhub" config-ref="Cloudhub__Basic_Auth_Authentication" notificationId="1" markAs="READ"/>
+	</flow>
+</mule>

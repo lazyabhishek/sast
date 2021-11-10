@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:ftps="http://www.mulesoft.org/schema/mule/ftps"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ftps http://www.mulesoft.org/schema/mule/ftps/current/mule-ftps.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<ftps:config name="FTPS__FTPS_Basic_Config" doc:name="FTPS: FTPS Basic Config" >
+		<ftps:connection host="host" port="8080" username="user" password="pass" connectionTimeoutUnit="MILLISECONDS" connectionTimeout="1000" responseTimeoutUnit="MILLISECONDS" responseTimeout="1000" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+			<pooling-profile exhaustedAction="WHEN_EXHAUSTED_GROW" initialisationPolicy="INITIALISE_ONE" maxActive="100" />
+			<tls:context >
+				<tls:key-store path="path" keyPassword="pass" />
+			</tls:context>
+		</ftps:connection>
+	</ftps:config>
+	<flow name="ftpsFlow"  >
+		<ftps:listener doc:name="FTPS (Streaming)"  config-ref="FTPS__FTPS_Basic_Config" directory="path" moveToDirectory="move" renameTo="name">
+			<scheduling-strategy >
+				<fixed-frequency frequency="2000"/>
+			</scheduling-strategy>
+		</ftps:listener>
+		<ftps:write doc:name="FTPS"  config-ref="FTPS__FTPS_Basic_Config" path="path">
+			<ftps:content ><![CDATA[#[vars.abc]]]></ftps:content>
+		</ftps:write>
+	</flow>
+</mule>

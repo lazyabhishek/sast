@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:rosetta-net="http://www.mulesoft.org/schema/mule/rosetta-net" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/rosetta-net http://www.mulesoft.org/schema/mule/rosetta-net/current/mule-rosetta-net.xsd">
+    <rosetta-net:config name="RosettaNet__Configuration" httpListener-ref="http" servicePath="path" httpRequest-ref="" keystorePath="key" keystorePass="pass" privatePass="pass1" signingOverride="ALWAYS" globalUsageCode="Test" objectStore-ref="object_store" selfBusinessIdentifier="self" selfLocationId="loca" partnerBusinessIdentifier="bus" partnerLocationId="loc" pipRole="INITIATOR" pipFile="file" doc:name="RosettaNet: Configuration"/>
+    <flow name="rosettaFlow">
+        <rosetta-net:action-source config-ref="RosettaNet__Configuration" doc:name="RosettaNet (Streaming)"/>
+        <rosetta-net:send-action config-ref="RosettaNet__Configuration" doc:name="RosettaNet" input-ref="#[flowVars.abc]"/>
+    </flow>
+</mule>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ftp" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ftp http://www.mulesoft.org/schema/mule/ftp/current/mule-ftp.xsd">
+	
+	<flow name="ftpFlow" >
+		<ftp:listener doc:name="FTP"  config-ref="FTP" directory="path" outputMimeType="application/json" 
+		outputEncoding="UTF-8" moveToDirectory="move">
+			<scheduling-strategy >
+				<fixed-frequency frequency="3000" timeUnit="MILLISECONDS"/>
+			</scheduling-strategy>
+			<redelivery-policy idExpression="#[payload]" maxRedeliveryCount="100" messageDigestAlgorithm="SHA" 
+			object-store-ref="Bean" useSecureHash="false"/>
+		</ftp:listener>
+		<ftp:write doc:name="FTP" config-ref="FTP" path="path" encoding="UTF-8">
+		</ftp:write>
+	</flow>
+	<ftp:config name="FTP" doc:name="FTP"  doc:description="notes" >
+		<ftp:connection workingDir="path" host="host" port="8080" username="user" password="password" connectionTimeoutUnit="MILLISECONDS" 
+		connectionTimeout="1000" responseTimeoutUnit="MILLISECONDS" responseTimeout="10000" passive="true">
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</ftp:connection>
+	</ftp:config>
+	
+</mule>

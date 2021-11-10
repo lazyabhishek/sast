@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sfdc-marketing-cloud="http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud/current/mule-sfdc-marketing-cloud.xsd">
+	<sfdc-marketing-cloud:sfdc-marketing-cloud-config name="Salesforce__Basic_Authentication" doc:name="Salesforce: Basic Authentication"  doc:description="anji" >
+		<sfdc-marketing-cloud:basic-connection username="user" password="password" authEndPoint="endpoint" readTimeout="10" connectionTimeout="10" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sfdc-marketing-cloud:basic-connection>
+	</sfdc-marketing-cloud:sfdc-marketing-cloud-config>
+	<sfdc-marketing-cloud:sfdc-marketing-cloud-config name="Salesforce__OAuth_2_0_Username_Password" doc:name="Salesforce: OAuth 2.0 Username-Password"  doc:description="anji" >
+		<sfdc-marketing-cloud:oauth-user-pass-connection clientId="id" clientSecret="secret" authEndpoint="endpoint" soapEndpoint="https://login.salesforce.com/services/Soap/c/37.0/" readTimeout="10" connectionTimeout="10" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sfdc-marketing-cloud:oauth-user-pass-connection>
+	</sfdc-marketing-cloud:sfdc-marketing-cloud-config>
+	<flow name="sfdcFlow"  >
+		<sfdc-marketing-cloud:create doc:name="Salesforce" 
+		config-ref="Salesforce__Basic_Authentication" objectType="object" createOptions="#[payload]">
+			<sfdc-marketing-cloud:api-objects ><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+		</sfdc-marketing-cloud:create>
+	</flow>
+	<flow name="sfdcFlow1"  >
+		<sfdc-marketing-cloud:create doc:name="Salesforce" 
+		config-ref="Salesforce__OAuth_2_0_Username_Password" objectType="object" createOptions="#[payload]">
+			<sfdc-marketing-cloud:api-objects ><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+		</sfdc-marketing-cloud:create>
+	</flow>
+	<flow name="sfdcFlow2"  >
+		<sfdc-marketing-cloud:delete  doc:name="Salesforce"  
+		config-ref="Salesforce__Basic_Authentication" deleteOptions="#[payload]">
+			<sfdc-marketing-cloud:api-objects ><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+		</sfdc-marketing-cloud:delete>
+	</flow>
+	<flow name="sfdcFlow3"  >
+		<sfdc-marketing-cloud:delete doc:name="Salesforce" config-ref="Salesforce__OAuth_2_0_Username_Password" 
+		 deleteOptions="#[payload]">
+			<sfdc-marketing-cloud:api-objects ><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+		</sfdc-marketing-cloud:delete>
+	</flow>
+	<flow name="sfdcFlow4"  >
+		<sfdc-marketing-cloud:retrieve doc:name="Salesforce"  config-ref="Salesforce__Basic_Authentication" retrieveOptions="#[payload]">
+			<sfdc-marketing-cloud:query ><![CDATA[#[payload]]]></sfdc-marketing-cloud:query>
+		</sfdc-marketing-cloud:retrieve>
+	</flow>
+	<flow name="sfdcFlow5" >
+		<sfdc-marketing-cloud:update objectType="object" doc:name="Salesforce"  config-ref="Salesforce__Basic_Authentication" updateOptions="#[payload]">
+			<sfdc-marketing-cloud:api-objects ><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+		</sfdc-marketing-cloud:update>
+	</flow>
+	<flow name="sfdcFlow6"  >
+		<sfdc-marketing-cloud:upsert objectType="object" doc:name="Salesforce"  config-ref="Salesforce__Basic_Authentication" upsertOptions="#[payload]">
+			<sfdc-marketing-cloud:api-objects ><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+		</sfdc-marketing-cloud:upsert>
+	</flow>
+</mule>

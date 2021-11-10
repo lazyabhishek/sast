@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dynamics365="http://www.mulesoft.org/schema/mule/dynamics365" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/dynamics365 http://www.mulesoft.org/schema/mule/dynamics365/current/mule-dynamics365.xsd">
+    <dynamics365:config-with-oauth name="Microsoft_Dynamics_365__OAuth_2_0_Connection" clientId="id" clientSecret="sec" readTimeout="1000" connectionTimeout="1000" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" doc:name="Microsoft Dynamics 365: OAuth 2.0 Connection">
+        <dynamics365:oauth-callback-config domain="domain" localPort="port" remotePort="callback" path="path" async="true"/>
+        <dynamics365:oauth-store-config objectStore-ref="object_store"/>
+    </dynamics365:config-with-oauth>
+    <dynamics365:config-oauth-user-pass name="Microsoft_Dynamics_365__OAuth_2_0_Username_Password" clientId="id" clientSecret="sec" username="user" password="pass" resource="res" tokenRequestEndpoint="token" readTimeout="1000" connectionTimeout="1000" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" doc:name="Microsoft Dynamics 365: OAuth 2.0 Username-Password">
+        <dynamics365:connection-pooling-profile maxActive="100" initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect frequency="3000" count="5"/>
+    </dynamics365:config-oauth-user-pass>
+    <flow name="ms_365Flow">
+        <dynamics365:create config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" doc:name="Microsoft Dynamics 365" logicalName="name">
+            <dynamics365:attributes ref="#[flowVars.abc]"/>
+        </dynamics365:create>
+    </flow>
+    <flow name="ms_365Flow1">
+        <dynamics365:create-multiple config-ref="Microsoft_Dynamics_365__OAuth_2_0_Username_Password" logicalName="name" doc:name="Microsoft Dynamics 365" useSingleTransaction="true">
+            <dynamics365:attributes-list ref="#[flowVars.abc]"/>
+        </dynamics365:create-multiple>
+    </flow>
+    <flow name="ms_365Flow2">
+        <dynamics365:delete config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" id="#[flowVars.abc]" logicalName="name" doc:name="Microsoft Dynamics 365"/>
+    </flow>
+    <flow name="ms_365Flow3">
+        <dynamics365:delete-multiple config-ref="Microsoft_Dynamics_365__OAuth_2_0_Username_Password" logicalName="name" useSingleTransaction="true" doc:name="Microsoft Dynamics 365">
+            <dynamics365:ids ref="#[flowVars.abc]"/>
+        </dynamics365:delete-multiple>
+    </flow>
+    <flow name="ms_365Flow4">
+        <dynamics365:disassociate config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" logicalName="name" doc:name="Microsoft Dynamics 365">
+            <dynamics365:attributes ref="#[flowVars.abc]"/>
+        </dynamics365:disassociate>
+    </flow>
+    <flow name="ms_365Flow5">
+        <dynamics365:do-action config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" actionName="name" boundedEntityId="id" boundedEntityType="type" doc:name="Microsoft Dynamics 365">
+            <dynamics365:related-entities ref="#[flowVars.abc]"/>
+        </dynamics365:do-action>
+    </flow>
+    <flow name="ms_365Flow6">
+        <dynamics365:invoke config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" uri="#[flowVars.abc]" httpMethod="DELETE" json="#[flowVars.abc]" doc:name="Microsoft Dynamics 365">
+            <dynamics365:headers ref="#[flowVars.abc]"/>
+        </dynamics365:invoke>
+    </flow>
+    <flow name="ms_365Flow7">
+        <dynamics365:retrieve config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" id="#[flowVars.abc]" logicalName="name" doc:name="Microsoft Dynamics 365"/>
+    </flow>
+    <flow name="ms_365Flow8">
+        <dynamics365:retrieve-multiple config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" dataQueryURL="#[flowVars.abc]" fetchSize="50000" doc:name="Microsoft Dynamics 365"/>
+    </flow>
+    <flow name="ms_365Flow9">
+        <dynamics365:retrieve-multiple-by-query config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" query="dsql:" fetchSize="10000" doc:name="Microsoft Dynamics 365"/>
+    </flow>
+    <flow name="ms_365Flow10">
+        <dynamics365:update config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" logicalName="name" doc:name="Microsoft Dynamics 365">
+            <dynamics365:attributes ref="#[flowVars.abc]"/>
+        </dynamics365:update>
+    </flow>
+    <flow name="ms_365Flow11">
+        <dynamics365:update-multiple config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" logicalName="name" useSingleTransaction="true" doc:name="Microsoft Dynamics 365">
+            <dynamics365:attributes-list ref="#[flowVars.abc]"/>
+        </dynamics365:update-multiple>
+    </flow>
+    <flow name="ms_365Flow12">
+        <dynamics365:unauthorize config-ref="Microsoft_Dynamics_365__OAuth_2_0_Connection" accessTokenId="id" doc:name="Microsoft Dynamics 365"/>
+    </flow>
+</mule>

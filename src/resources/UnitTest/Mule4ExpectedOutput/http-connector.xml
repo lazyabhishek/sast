@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd 
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+	<http:listener-config name="HTTP_Listener_Configuration" doc:name="HTTP Listener Configuration" >
+		<http:listener-connection host="0.0.0.0" port="8081" basePath="/test" protocol="HTTPS">
+			<tls:context>
+				<tls:trust-store password="csdacsdv" type="jceks"/>
+				<tls:key-store algorithm="wv" alias="wefwe" keyPassword="wefwef" password="wfewef" path="wfwe"/>
+			</tls:context>
+		</http:listener-connection>
+	</http:listener-config>
+	<flow name="httpConfigFlow" >
+		<http:listener doc:name="HTTP" config-ref="HTTP_Listener_Configuration" path="/test" allowedMethods="GET">
+			<http:response statusCode="#[vars.httpStatus default 200]" reasonPhrase="success">
+				<http:body><![CDATA[#[payload]]]></http:body>
+			</http:response>
+			<http:error-response statusCode="#[vars.httpStatus default 500]" reasonPhrase="Internal Server Error" >
+				<http:body>#[error]</http:body>
+			</http:error-response>
+		</http:listener>
+	</flow>
+</mule>

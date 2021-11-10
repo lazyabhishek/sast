@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:coupa="http://www.mulesoft.org/schema/mule/coupa" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/coupa http://www.mulesoft.org/schema/mule/coupa/current/mule-coupa.xsd">
+<coupa:config doc:name="Coupa: Configuration" name="Coupa__Configuration">
+<coupa:coupa-connection apiKey="key" coupaInstance="instance">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</coupa:coupa-connection>
+</coupa:config>
+<flow name="coupaFlow">
+<coupa:approvals action="action" config-ref="Coupa__Configuration" doc:name="Coupa" id="id"/>
+</flow>
+<flow name="coupaFlow1">
+<coupa:expense-reports config-ref="Coupa__Configuration" doc:name="Coupa" id="id"/>
+</flow>
+<flow name="coupaFlow2">
+<coupa:inventory-transactions config-ref="Coupa__Configuration" doc:name="Coupa" id="id"/>
+</flow>
+<flow name="coupaFlow3">
+<coupa:void-invoice config-ref="Coupa__Configuration" doc:name="Coupa" id="id"/>
+</flow>
+<flow name="coupaFlow4">
+<coupa:purchase-orders action="action" config-ref="Coupa__Configuration" doc:name="Coupa" id="id"/>
+</flow>
+<flow name="coupaFlow5">
+<coupa:requisitions action="action" config-ref="Coupa__Configuration" doc:name="Coupa">
+<coupa:entity><![CDATA[#[vars.abc]]]></coupa:entity>
+</coupa:requisitions>
+</flow>
+<flow name="coupaFlow6">
+<coupa:creste-suppliers-remit-to-address config-ref="Coupa__Configuration" doc:name="Coupa" supplierId="id">
+<coupa:entity><![CDATA[#[vars.abc]]]></coupa:entity>
+</coupa:creste-suppliers-remit-to-address>
+</flow>
+
+</mule>

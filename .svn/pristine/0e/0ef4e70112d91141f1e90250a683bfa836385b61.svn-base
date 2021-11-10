@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="migrate-appFlow">
+		<scheduler doc:name="Poll">
+			<scheduling-strategy >
+				<cron expression="test" timeZone="test"/>
+			</scheduling-strategy>
+		</scheduler>
+	</flow>
+	<flow name="migrate-appFlow1" >
+		<scheduler doc:name="Poll" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="10000" startDelay="10" timeUnit="MINUTES"/>
+			</scheduling-strategy>
+		</scheduler>
+	</flow>
+</mule>

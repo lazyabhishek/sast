@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sqs="http://www.mulesoft.org/schema/mule/sqs" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sqs http://www.mulesoft.org/schema/mule/sqs/current/mule-sqs.xsd">
+    <sqs:config name="Amazon_SQS__Configuration" accessKey="key" secretKey="key" defaultQueueName="name" region="APNORTHEAST1" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" proxyDomain="domain" proxyWorkstation="work" doc:name="Amazon SQS: Configuration">
+        <reconnect frequency="3000" count="5"/>
+    </sqs:config>
+    <sqs:config name="Amazon_SQS__Configuration1" accessKey="key" secretKey="key" defaultQueueName="name" region="APNORTHEAST1" roleARN="arn" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" proxyDomain="domain" proxyWorkstation="work" doc:name="Amazon SQS: Configuration">
+        <reconnect frequency="3000" count="5"/>
+    </sqs:config>
+    <flow name="sqsFlow">
+        <sqs:add-permission config-ref="Amazon_SQS__Configuration" doc:name="Amazon SQS" label="label" queueUrl="url">
+            <sqs:account-ids ref="vars.abc"/>
+            <sqs:actions ref="vars.abc"/>
+        </sqs:add-permission>
+    </flow>
+    <flow name="sqsFlow1">
+        <sqs:send-message config-ref="Amazon_SQS__Configuration1" queueUrl="url" doc:name="Amazon SQS">
+            <sqs:message messageBody="vars.abc"/>
+        </sqs:send-message>
+    </flow>
+</mule>

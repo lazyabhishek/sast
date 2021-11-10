@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:apikit="http://www.mulesoft.org/schema/mule/apikit"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/apikit http://www.mulesoft.org/schema/mule/apikit/current/mule-apikit.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+
+<apikit:config name="x-sfcc-config" raml="x-sfcc.raml"
+		consoleEnabled="false" doc:name="Router" />
+		<http:listener-config name="x-sfcc-http-listener-config"
+		host="${https.host}" port="${https.port}" doc:name="HTTP Listener Configuration"
+		protocol="HTTPS">
+        <tls:context>
+            <tls:trust-store/>
+            <tls:key-store type="pkcs12" path="jks/serverStore.jks" alias="${alias.name}" keyPassword="${key.password}" password="${key.password}"/>
+        </tls:context>
+	</http:listener-config>
+		<flow name="x-sfcc-main">
+        <http:listener config-ref="x-sfcc-http-listener-config" path="/api/*" doc:name="HTTP">
+            <http:response-builder />
+        </http:listener>
+        <apikit:router config-ref="x-sfcc-config" doc:name="APIkit Router" />
+        </flow>
+	    <flow name="x-sfcc-console">
+	        <http:listener config-ref="x-sfcc-http-listener-config" path="/console/*" doc:name="HTTP" />
+	        <apikit:console config-ref="x-sfcc-config" doc:name="APIkit Console" />
+	    </flow>
+</mule>

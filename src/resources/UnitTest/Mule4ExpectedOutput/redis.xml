@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:redis="http://www.mulesoft.org/schema/mule/redis" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/redis/current/mule-redis.xsd">
+	<redis:redis-config name="Redis__Configuration" doc:name="Redis: Configuration"  >
+		<redis:nonclustered-connection host="host" port="8080" connectionTimeout="3000" password="pass" entryTTL="10" />
+	</redis:redis-config>
+	<flow name="redisFlow"  >
+		<redis:subscribe doc:name="Redis (Streaming)"  config-ref="Redis__Configuration">
+			<redis:channels >
+				<redis:channel value="10" />
+			</redis:channels>
+		</redis:subscribe>
+		<redis:add-to-set doc:name="Redis"  config-ref="Redis__Configuration" key="key" mustSucceed="true">
+			<redis:value ><![CDATA[#[vars.abc]]]></redis:value>
+		</redis:add-to-set>
+	</flow>
+	<flow name="redisFlow1"  >
+		<redis:add-to-sorted-set doc:name="Redis"  config-ref="Redis__Configuration" key="key" score="score" mustSucceed="true">
+			<redis:value ><![CDATA[#[vars.abc]]]></redis:value>
+		</redis:add-to-sorted-set>
+	</flow>
+	<flow name="redisFlow2"  >
+		<redis:decrement doc:name="Redis"  config-ref="Redis__Configuration" key="key" step="step"/>
+	</flow>
+	<flow name="redisFlow3" >
+		<redis:del doc:name="Redis" config-ref="Redis__Configuration" key="key"/>
+	</flow>
+	<flow name="redisFlow4" >
+		<redis:exists doc:name="Redis"  config-ref="Redis__Configuration" key="key"/>
+	</flow>
+	<flow name="redisFlow5"  >
+		<redis:expire doc:name="Redis" config-ref="Redis__Configuration" key="key" seconds="sec"/>
+	</flow>
+	<flow name="redisFlow6"  >
+		<redis:expire-at unixTime="time" doc:name="Redis"  config-ref="Redis__Configuration" key="key"/>
+	</flow>
+	<flow name="redisFlow7" >
+		<redis:get doc:name="Redis"  config-ref="Redis__Configuration" key="key"/>
+	</flow>
+	<flow name="redisFlow8"  >
+		<redis:get-all-from-hash doc:name="Redis"  config-ref="Redis__Configuration" key="key"/>
+	</flow>
+	<flow name="redisFlow9"  >
+		<redis:get-from-hash doc:name="Redis"  config-ref="Redis__Configuration" key="key" field="feild"/>
+	</flow>
+	<flow name="redisFlow10" >
+		<redis:get-range-by-index doc:name="Redis"  config-ref="Redis__Configuration" key="key" start="start" end="end" ascendingOrder="false"/>
+	</flow>
+	<flow name="redisFlow11" >
+		<redis:get-range-by-score doc:name="Redis"  config-ref="Redis__Configuration" key="key" min="min" max="max" ascendingOrder="false"/>
+	</flow>
+	<flow name="redisFlow12"  >
+		<redis:get-ttl doc:name="Redis"  config-ref="Redis__Configuration" key="key"/>
+	</flow>
+	<flow name="redisFlow13"  >
+		<redis:increment doc:name="Redis"  config-ref="Redis__Configuration" key="key" step="step"/>
+	</flow>
+	<flow name="redisFlow14" >
+		<redis:increment-hash doc:name="Redis"  config-ref="Redis__Configuration" key="field" field="key" step="step"/>
+	</flow>
+	<flow name="redisFlow15"  >
+		<redis:increment-sorted-set doc:name="Redis"  config-ref="Redis__Configuration" key="key" step="step">
+			<redis:value ><![CDATA[#[vars.abc]]]></redis:value>
+		</redis:increment-sorted-set>
+	</flow>
+	<flow name="redisFlow16" >
+		<redis:persist doc:name="Redis"  config-ref="Redis__Configuration" key="key"/>
+	</flow>
+	<flow name="redisFlow17"  >
+		<redis:pop-from-list doc:name="Redis"  config-ref="Redis__Configuration" key="key" popLeft="true"/>
+	</flow>
+	<flow name="redisFlow18"  >
+		<redis:pop-from-set doc:name="Redis"  config-ref="Redis__Configuration" key="key"/>
+	</flow>
+	<flow name="redisFlow19"  >
+		<redis:publish doc:name="Redis"  config-ref="Redis__Configuration" channel="channel" message="hello"/>
+	</flow>
+	<flow name="redisFlow20" >
+		<redis:push-to-list doc:name="Redis"  config-ref="Redis__Configuration" key="key" pushLeft="true" ifExists="true">
+			<redis:value ><![CDATA[#[vars.abc]]]></redis:value>
+		</redis:push-to-list>
+	</flow>
+	<flow name="redisFlow21"  >
+		<redis:random-member-from-set doc:name="Redis"  config-ref="Redis__Configuration" key="key"/>
+	</flow>
+	<flow name="redisFlow22"  >
+		<redis:set doc:name="Redis"  config-ref="Redis__Configuration" key="key" expire="expire" ifNotExists="true">
+			<redis:value ><![CDATA[#[vars.abc]]]></redis:value>
+		</redis:set>
+	</flow>
+	<flow name="redisFlow23" >
+		<redis:set-in-hash doc:name="Redis"  config-ref="Redis__Configuration" key="key" field="field" ifNotExists="true">
+			<redis:value ><![CDATA[#[vars.abc]]]></redis:value>
+		</redis:set-in-hash>
+	</flow>
+</mule>

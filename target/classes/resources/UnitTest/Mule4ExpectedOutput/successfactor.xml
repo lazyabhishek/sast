@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:successfactors="http://www.mulesoft.org/schema/mule/successfactors" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/successfactors http://www.mulesoft.org/schema/mule/successfactors/current/mule-successfactors.xsd">
+	<successfactors:config name="Success_Factors__Configuration" doc:name="Success Factors: Configuration"  >
+		<successfactors:basic-connection companyId="ID" userName="user" password="pass" connectionIdleTimeout="50000" connectionTimeout="50000" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+			<successfactors:proxy-config >
+				<successfactors:default host="host" port="8080" username="user" password="pass" />
+			</successfactors:proxy-config>
+		</successfactors:basic-connection>
+	</successfactors:config>
+	<flow name="successfactorFlow"  >
+		<successfactors:create-entity entitySetName="type" doc:name="Success Factors"  config-ref="Success_Factors__Configuration">
+			<successfactors:properties ><![CDATA[#[vars.abc]]]></successfactors:properties>
+		</successfactors:create-entity>
+	</flow>
+	<flow name="successfactorFlow1"  >
+		<successfactors:delete-entity entitySetName="type" doc:name="Success Factors"  config-ref="Success_Factors__Configuration">
+			<successfactors:key-properties ><![CDATA[#[vars.abc]]]></successfactors:key-properties>
+		</successfactors:delete-entity>
+	</flow>
+	<flow name="successfactorFlow2"  >
+		<successfactors:update entitySetName="name" doc:name="Success Factors"  config-ref="Success_Factors__Configuration">
+			<successfactors:properties ><![CDATA[#[vars.abc]]]></successfactors:properties>
+		</successfactors:update>
+	</flow>
+	<flow name="successfactorFlow3"  >
+		<successfactors:upsert-entity entitySetName="name" doc:name="Success Factors"  config-ref="Success_Factors__Configuration">
+			<successfactors:properties ><![CDATA[#[vars.abc]]]></successfactors:properties>
+		</successfactors:upsert-entity>
+	</flow>
+</mule>

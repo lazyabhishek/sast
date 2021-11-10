@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:edifact="http://www.mulesoft.org/schema/mule/edifact" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/edifact http://www.mulesoft.org/schema/mule/edifact/current/mule-edifact.xsd">
+	<edifact:config name="EDIFACT_EDI" doc:name="EDIFACT EDI"  stringSubstitutionChar="sub" separatorUsage="USE_DEFAULTS" dataSeparator="dc" componentSeparator="ce" repetitionSeparator="rs" segmentTerminator="st" releaseCharacter="rc" interchangeIdSelf="#[vars.abc]" interchangeIdQualifierSelf="#[vars.abc]" interchangeIdPartner="#[vars.id]" interchangeIdQualifierPartner="#[vars.id]" enforceLengthLimits="false" enforceValueRepeats="false" enforceReadCharacters="false" enforceSegmentOrder="false" allowUnusedSegments="false" enforceSegmentRepeats="false"  requireUniqueInterchanges="true" requireUniqueMessages="true" characterEncoding="ASCII_A" sendSyntaxVersion="VERSION2" lineEnding="CR" alwaysSendUNA="true" sendUniqueMessageNumbers="true" initialInterchangeReference="10" initialMessageReference="10"  testIndicator="test" schemas="#[vars.abc]" />
+	<flow name="edifactFlow"  >
+		<edifact:read doc:name="EDIFACT EDI"  config-ref="EDIFACT_EDI">
+			<edifact:read-content ><![CDATA[#[vars.abc]]]></edifact:read-content>
+		</edifact:read>
+	</flow>
+	<flow name="edifactFlow1"  >
+		<edifact:write doc:name="EDIFACT EDI" config-ref="EDIFACT_EDI">
+			<edifact:write-content ><![CDATA[#[vars.abc]]]></edifact:write-content>
+		</edifact:write>
+	</flow>
+</mule>

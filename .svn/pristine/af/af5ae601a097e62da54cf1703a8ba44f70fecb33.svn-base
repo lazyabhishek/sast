@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:oracle-ebs122="http://www.mulesoft.org/schema/mule/oracle-ebs122" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/oracle-ebs122 http://www.mulesoft.org/schema/mule/oracle-ebs122/current/mule-oracle-ebs122.xsd">
+	<oracle-ebs122:config name="OracleEBS_12_2__Configuration" doc:name="OracleEBS 12.2: Configuration" >
+		<oracle-ebs122:plsql-connection host="host" port="8080" sslEnabled="true" username="user" password="pass" restServiceLocatorAlias="alias" fndWebSecAlias="falias" responsibility="rname" respApplication="aname" securityGroup="sname" nlsLanguage="nls" orgId="org" >
+			
+		</oracle-ebs122:plsql-connection>
+	</oracle-ebs122:config>
+	<flow name="ebs12.2Flow"  >
+		<oracle-ebs122:invoke-pl-sql-rest-service doc:name="OracleEBS 12.2"  config-ref="OracleEBS_12_2__Configuration" plSql="pl" operation="op">
+			<oracle-ebs122:input ><![CDATA[#[vars.abc]]]></oracle-ebs122:input>
+		</oracle-ebs122:invoke-pl-sql-rest-service>
+	</flow>
+</mule>

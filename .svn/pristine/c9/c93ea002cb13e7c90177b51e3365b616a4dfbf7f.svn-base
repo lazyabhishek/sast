@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:sns="http://www.mulesoft.org/schema/mule/sns" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/sns http://www.mulesoft.org/schema/mule/sns/current/mule-sns.xsd">
+<sns:config doc:name="Amazon SNS: Configuration" name="Amazon_SNS__Configuration">
+<sns:basic-connection accessKey="key" connectionTimeout="60000" maxConnections="100" proxyDomain="domian" proxyHost="host" proxyPassword="pass" proxyPort="8080" proxyUsername="user" proxyWorkstation="work" region="APNORTHEAST1" secretKey="key" socketTimeout="60000" testTopic="arn" tryDefaultAWSCredentialsProviderChain="true">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</sns:basic-connection>
+</sns:config>
+<sns:config defaultTopicArn="tpic" doc:name="Amazon SNS: Role Configuration" name="Amazon_SNS__Role_Configuration">
+<sns:role-connection accessKey="key" connectionTimeout="60000" maxConnections="100" proxyDomain="domain" proxyHost="host" proxyPassword="pass" proxyPort="8080" proxyUsername="user" proxyWorkstation="work" region="APNORTHEAST1" roleARN="arn" secretKey="key" socketTimeout="60000" tryDefaultAWSCredentialsProviderChain="true">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</sns:role-connection>
+</sns:config>
+<flow name="amazonsnsFlow">
+<sns:add-permission config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS"/>
+</flow>
+<flow name="amazonsnsFlow1">
+<sns:confirm-subscription authenticateOnUnsubscribe="auth" config-ref="Amazon_SNS__Role_Configuration" doc:name="Amazon SNS" token="token" topicArn="topic"/>
+</flow>
+<flow name="amazonsnsFlow2">
+<sns:create-platform-application attributes="#[vars.abc]" config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" name="name" platform="plat"/>
+</flow>
+<flow name="amazonsnsFlow3">
+<sns:create-platform-endpoint attributes="#[vars.abc]" config-ref="Amazon_SNS__Configuration" customUserData="data" doc:name="Amazon SNS" platformApplicationArn="arn" token="token"/>
+</flow>
+<flow name="amazonsnsFlow4">
+<sns:create-topic config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" topicName="tpic"/>
+</flow>
+<flow name="amazonsnsFlow5">
+<sns:delete-endpoint config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" endpointArn="arn"/>
+</flow>
+<flow name="amazonsnsFlow6">
+<sns:delete-platform-application config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" platformApplicationArn="ern"/>
+</flow>
+<flow name="amazonsnsFlow7">
+<sns:delete-topic config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" topicArn="topic"/>
+</flow>
+<flow name="amazonsnsFlow8">
+<sns:get-endpoint-attributes config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" endpointArn="rn"/>
+</flow>
+<flow name="amazonsnsFlow9">
+<sns:get-platform-application-attributes config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" platformApplicationArn="rn"/>
+</flow>
+<flow name="amazonsnsFlow10">
+<sns:get-subscription-attributes config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" subscriptionArn="rn"/>
+</flow>
+<flow name="amazonsnsFlow11">
+<sns:get-topic-attributes config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" topicArn="rn"/>
+</flow>
+<flow name="amazonsnsFlow12">
+<sns:list-endpoints-by-platform-application arn="arn" config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS"/>
+</flow>
+<flow name="amazonsnsFlow13">
+<sns:list-platform-applications config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS"/>
+</flow>
+<flow name="amazonsnsFlow14">
+<sns:list-subscriptions config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS"/>
+</flow>
+<flow name="amazonsnsFlow15">
+<sns:list-subscriptions-by-topic arn="arn" config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS"/>
+</flow>
+<flow name="amazonsnsFlow16">
+<sns:list-topics config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS"/>
+</flow>
+<flow name="amazonsnsFlow17">
+<sns:publish config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" topicArn="arn">
+<sns:message><![CDATA[#[vars.abc]]]></sns:message>
+</sns:publish>
+</flow>
+<flow name="amazonsnsFlow18">
+<sns:remove-permission config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" label="label" topicArn="topic"/>
+</flow>
+<flow name="amazonsnsFlow19">
+<sns:set-endpoint-attributes config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS">
+<sns:endpoint><![CDATA[#[vars.abc]]]></sns:endpoint>
+</sns:set-endpoint-attributes>
+</flow>
+<flow name="amazonsnsFlow20">
+<sns:set-platform-application-attributes config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS">
+<sns:platform-application-attributes><![CDATA[#[vars.abc]]]></sns:platform-application-attributes>
+</sns:set-platform-application-attributes>
+</flow>
+<flow name="amazonsnsFlow21">
+<sns:set-subscription-attributes attributeName="name" attributeValue="value" config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" subscriptionArn="arn"/>
+</flow>
+<flow name="amazonsnsFlow22">
+<sns:set-topic-attributes attributeName="name" attributeValue="value" config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" topicArn="arn"/>
+</flow>
+<flow name="amazonsnsFlow23">
+<sns:subscribe config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" endpoint="end" protocol="EMAIL" topicArn="topic"/>
+</flow>
+<flow name="amazonsnsFlow24">
+<sns:unsubscribe config-ref="Amazon_SNS__Configuration" doc:name="Amazon SNS" subscriptionArn="arn"/>
+</flow>
+
+</mule>

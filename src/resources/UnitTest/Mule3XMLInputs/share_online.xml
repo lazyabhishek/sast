@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sharepoint-online="http://www.mulesoft.org/schema/mule/sharepoint-online" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sharepoint-online http://www.mulesoft.org/schema/mule/sharepoint-online/current/mule-sharepoint-online.xsd">
+    <sharepoint-online:online-connection-config name="Microsoft_SharePoint_Online__Online_Connection" username="user" password="pass" siteUrl="url" disableCnCheck="true" proxyHost="host" proxyPort="port" proxyUsername="user" proxyPassword="pass" doc:name="Microsoft SharePoint Online: Online Connection">
+        <reconnect frequency="3000" count="5"/>
+    </sharepoint-online:online-connection-config>
+    <sharepoint-online:okta-connection-config name="Microsoft_SharePoint_Online__Okta_Connection" oktaDomain="domain" username="user" password="pass" oktaApiToken="api" sharepointEmbededLink="link" disableCnCheck="true" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" doc:name="Microsoft SharePoint Online: Okta Connection">
+        <reconnect frequency="3000" count="5"/>
+    </sharepoint-online:okta-connection-config>
+    <sharepoint-online:sectoken-connection-config name="Microsoft_SharePoint_Online__Security_Token_Connection" siteUrl="url" securityToken="token" disableCnCheck="true" securityTokenProvider-ref="provider" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" doc:name="Microsoft SharePoint Online: Security Token Connection">
+        <reconnect frequency="3000" count="5"/>
+    </sharepoint-online:sectoken-connection-config>
+    <flow name="share_onlineFlow">
+        <sharepoint-online:attach-file config-ref="Microsoft_SharePoint_Online__Online_Connection" doc:name="Microsoft SharePoint Online" listId="title">
+            <sharepoint-online:attachment-info itemId="id" fileContentStream-ref="#[flowVars.abc]" fileName="name"/>
+        </sharepoint-online:attach-file>
+    </flow>
+    <flow name="share_onlineFlow1">
+        <sharepoint-online:file-add config-ref="Microsoft_SharePoint_Online__Okta_Connection" fileServerRelativeUrl="url" doc:name="Microsoft SharePoint Online" fileContentStream-ref="#[flowVars.abc]" overwrite="true"/>
+    </flow>
+    <flow name="share_onlineFlow2">
+        <sharepoint-online:file-approve config-ref="Microsoft_SharePoint_Online__Security_Token_Connection" doc:name="Microsoft SharePoint Online" comment="comm" fileServerRelativeUrl="#[flowVars.abc]"/>
+    </flow>
+    <flow name="share_onlineFlow3">
+        <sharepoint-online:file-check-in config-ref="Microsoft_SharePoint_Online__Okta_Connection" comment="comm" fileServerRelativeUrl="#[flowVars.abc]" checkInType="MAJOR_CHECK_IN" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow4">
+        <sharepoint-online:file-check-out config-ref="Microsoft_SharePoint_Online__Okta_Connection" fileServerRelativeUrl="#[flowVars.abc]" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow5">
+        <sharepoint-online:file-copy-to config-ref="Microsoft_SharePoint_Online__Okta_Connection" fileServerRelativeUrl="#[flowVars.abc]" newFileServerRelativeUrl="#[flowVars.abc]" overwrite="true" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow6">
+        <sharepoint-online:file-delete config-ref="Microsoft_SharePoint_Online__Okta_Connection" fileServerRelativeUrl="#[flowVars.abc]" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow7">
+        <sharepoint-online:file-deny config-ref="Microsoft_SharePoint_Online__Okta_Connection" comment="comm" fileServerRelativeUrl="#[flowVars.url]" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow8">
+        <sharepoint-online:file-get-content config-ref="Microsoft_SharePoint_Online__Okta_Connection" fileServerRelativeUrl="#[flowVars.url]" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow9">
+        <sharepoint-online:file-publish config-ref="Microsoft_SharePoint_Online__Okta_Connection" comment="comm" fileServerRelativeUrl="#[flowVars.abc]" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow10">
+        <sharepoint-online:file-query config-ref="Microsoft_SharePoint_Online__Okta_Connection" query="dsql:#[flowVars.q]" startingFolderPath="/path" recursive="true" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow11">
+        <sharepoint-online:file-recycle config-ref="Microsoft_SharePoint_Online__Okta_Connection" fileServerRelativeUrl="#[flowVars.url]" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow12">
+        <sharepoint-online:file-undo-check-out config-ref="Microsoft_SharePoint_Online__Okta_Connection" fileServerRelativeUrl="#[flowVars.abc]" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow13">
+        <sharepoint-online:file-unpublish config-ref="Microsoft_SharePoint_Online__Okta_Connection" comment="comm" fileServerRelativeUrl="#[flowVars.abc]" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow14">
+        <sharepoint-online:file-update-metadata config-ref="Microsoft_SharePoint_Online__Okta_Connection" fileServerRelativeUrl="#[flowVars.abc]" doc:name="Microsoft SharePoint Online">
+            <sharepoint-online:updated-properties ref="#[flowVars.abc]"/>
+        </sharepoint-online:file-update-metadata>
+    </flow>
+    <flow name="share_onlineFlow15">
+        <sharepoint-online:folder-create config-ref="Microsoft_SharePoint_Online__Okta_Connection" url="#[flowVars.abc]" welcomePage="page" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow16">
+        <sharepoint-online:folder-delete config-ref="Microsoft_SharePoint_Online__Okta_Connection" url="#[flowVars.abc]" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow17">
+        <sharepoint-online:folder-query config-ref="Microsoft_SharePoint_Online__Okta_Connection" query="dsql:#[flowVars.abc]" startingFolderPath="/path" recursive="true" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow18">
+        <sharepoint-online:list-create config-ref="Microsoft_SharePoint_Online__Okta_Connection" doc:name="Microsoft SharePoint Online">
+            <sharepoint-online:list ref="#[flowVars.abc]"/>
+        </sharepoint-online:list-create>
+    </flow>
+    <flow name="share_onlineFlow19">
+        <sharepoint-online:list-delete config-ref="Microsoft_SharePoint_Online__Okta_Connection" listId="id" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow20">
+        <sharepoint-online:list-get config-ref="Microsoft_SharePoint_Online__Okta_Connection" listId="id" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow21">
+        <sharepoint-online:list-get-all config-ref="Microsoft_SharePoint_Online__Okta_Connection" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow22">
+        <sharepoint-online:list-item-create config-ref="Microsoft_SharePoint_Online__Okta_Connection" listId="id" doc:name="Microsoft SharePoint Online">
+            <sharepoint-online:properties ref="#[flowVars.abc]"/>
+        </sharepoint-online:list-item-create>
+    </flow>
+    <flow name="share_onlineFlow23">
+        <sharepoint-online:list-item-delete config-ref="Microsoft_SharePoint_Online__Okta_Connection" itemId="#[flowVars.iid]" listId="lid" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow24">
+        <sharepoint-online:list-item-query config-ref="Microsoft_SharePoint_Online__Okta_Connection" query="dsql:#[flowVars.q]" retrieveReferences="true" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow25">
+        <sharepoint-online:list-item-update config-ref="Microsoft_SharePoint_Online__Okta_Connection" itemId="iid" listId="lid" doc:name="Microsoft SharePoint Online">
+            <sharepoint-online:updated-properties ref="#[flowVars.abc]"/>
+        </sharepoint-online:list-item-update>
+    </flow>
+    <flow name="share_onlineFlow26">
+        <sharepoint-online:list-update config-ref="Microsoft_SharePoint_Online__Okta_Connection" listId="id" doc:name="Microsoft SharePoint Online">
+            <sharepoint-online:list ref="#[flowVars.abc]"/>
+        </sharepoint-online:list-update>
+    </flow>
+    <flow name="share_onlineFlow27">
+        <sharepoint-online:resolve-collection config-ref="Microsoft_SharePoint_Online__Okta_Connection" url="url" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+    <flow name="share_onlineFlow28">
+        <sharepoint-online:resolve-object config-ref="Microsoft_SharePoint_Online__Okta_Connection" url="url" body-ref="#[flowVars.abc]" resolveRequestType="Create" doc:name="Microsoft SharePoint Online"/>
+    </flow>
+</mule>

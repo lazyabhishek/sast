@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sockets http://www.mulesoft.org/schema/mule/sockets/current/mule-sockets.xsd">
+	<sockets:listener-config name="TCP" doc:name="TCP" >
+		<sockets:tcp-listener-connection reuseAddress="false" sendTcpNoDelay="false" linger="open" keepAlive="true" failOnUnresolvedHost="false" sendBufferSize="1000" receiveBufferSize="1000" clientTimeout="20000" serverTimeout="20000" receiveBacklog="500" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+			<sockets:protocol >
+				<sockets:length-protocol maxMessageLength="1000" rethrowExceptionOnRead="true" />
+			</sockets:protocol>
+		</sockets:tcp-listener-connection>
+	</sockets:listener-config>
+	<sockets:request-config name="TCP_Polling" doc:name="TCP Polling"  >
+		<sockets:tcp-requester-connection reuseAddress="false" sendTcpNoDelay="false" linger="open" keepAlive="true" failOnUnresolvedHost="false" sendBufferSize="1000" receiveBufferSize="1000" clientTimeout="60000" connectionTimeout="50000" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+			<sockets:protocol >
+				<sockets:safe-protocol maxMessageLeght="1000" rethrowExceptionOnRead="true" />
+			</sockets:protocol>
+		</sockets:tcp-requester-connection>
+	</sockets:request-config>
+	<flow name="tcpFlow" >
+		<sockets:listener doc:name="TCP"  config-ref="TCP"/>
+		<sockets:send doc:name="TCP"  config-ref="TCP_Polling"/>
+	</flow>
+</mule>

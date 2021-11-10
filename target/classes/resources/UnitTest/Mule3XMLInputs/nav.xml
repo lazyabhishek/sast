@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dynamics-nav="http://www.mulesoft.org/schema/mule/dynamics-nav" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/dynamics-nav http://www.mulesoft.org/schema/mule/dynamics-nav/current/mule-dynamics-nav.xsd">
+    <dynamics-nav:config-ntlm name="Microsoft_Dynamics_NAV_Connector__NTLM_Authentication" domain="domain" username="user" password="pass" soapUrl="url" odataUrl="url" companyName="name" disableCnCheck="true" doc:name="Microsoft Dynamics NAV Connector: NTLM Authentication">
+        <dynamics-nav:connection-pooling-profile maxActive="100" initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect frequency="3000" count="5"/>
+    </dynamics-nav:config-ntlm>
+    <dynamics-nav:config-oauth-token name="Microsoft_Dynamics_NAV_Connector__OAuth_2_0_Access_Token" username="user" accessToken="token" soapUrl="url" odataUrl="url" companyName="name" disableCnCheck="true" doc:name="Microsoft Dynamics NAV Connector: OAuth 2.0 Access Token">
+        <dynamics-nav:connection-pooling-profile maxActive="100" initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect frequency="3000" count="5"/>
+    </dynamics-nav:config-oauth-token>
+    <flow name="navFlow">
+        <dynamics-nav:codeunit-operation config-ref="Microsoft_Dynamics_NAV_Connector__NTLM_Authentication" serviceOperation="ser||op" entity-ref="#[flowVars.abc]" doc:name="Microsoft Dynamics NAV Connector"/>
+    </flow>
+    <flow name="navFlow1">
+        <dynamics-nav:odata-query config-ref="Microsoft_Dynamics_NAV_Connector__OAuth_2_0_Access_Token" query="dsql:#[flowVars.abc]" fetchSize="200" doc:name="Microsoft Dynamics NAV Connector"/>
+    </flow>
+    <flow name="navFlow2">
+        <dynamics-nav:page-operation config-ref="Microsoft_Dynamics_NAV_Connector__NTLM_Authentication" serviceOperation="ser||op" entity-ref="#[flowVars.abc]" doc:name="Microsoft Dynamics NAV Connector"/>
+    </flow>
+</mule>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:https="http://www.mulesoft.org/schema/mule/https" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/https http://www.mulesoft.org/schema/mule/https/current/mule-https.xsd">
+    <https:connector name="HTTP_HTTPS" cookieSpec="netscape" validateConnections="true" sendBufferSize="0" receiveBufferSize="0" receiveBacklog="0" connectionTimeout="50000" clientSoTimeout="10000" serverSoTimeout="10000" socketSoLinger="0" proxyHostname="localhost" proxyPort="port" doc:name="HTTP-HTTPS">
+        <https:tls-key-store path="path" keyPassword="pass" storePassword="pass1" algorithm="alg"/>
+        <https:tls-server path="path" storePassword="pass" class="class" algorithm="alg" explicitOnly="true"/>
+        <reconnect frequency="3000" count="5"/>
+    </https:connector>
+    <https:connector name="HTTP_HTTPS1" cookieSpec="netscape" validateConnections="true" sendBufferSize="0" receiveBufferSize="0" receiveBacklog="0" connectionTimeout="50000" clientSoTimeout="10000" serverSoTimeout="10000" socketSoLinger="0" proxyHostname="localhost" proxyPort="port" doc:name="HTTP-HTTPS">
+        <https:tls-key-store path="path" keyPassword="pass" storePassword="pass1" algorithm="alg"/>
+        <https:tls-server path="path" storePassword="pass" class="class" algorithm="alg" explicitOnly="true"/>
+        <reconnect frequency="3000" count="5"/>
+    </https:connector>
+    <flow name="mule_phase_3Flow">
+        <http:inbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" doc:name="HTTP" connector-ref="HTTP_HTTPS" encoding="UTF-8" mimeType="application/json" path="path">
+            <reconnect frequency="3000" count="5"/>
+        </http:inbound-endpoint>
+        <http:outbound-endpoint exchange-pattern="request-response" host="localhost" port="8081" method="DELETE" doc:name="HTTP" connector-ref="HTTP_HTTPS1" encoding="UTF-8" mimeType="application/json" path="path" responseTimeout="50000">
+            <reconnect frequency="3000" count="5"/>
+        </http:outbound-endpoint>
+    </flow>
+</mule>

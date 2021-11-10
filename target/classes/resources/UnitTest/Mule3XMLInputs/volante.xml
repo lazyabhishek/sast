@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:volante="http://www.mulesoft.org/schema/mule/volante" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/volante http://www.mulesoft.org/schema/mule/volante/current/mule-volante.xsd">
+    <volante:mvn-config name="Volante__Mule_Project_with_Maven" messageFlow="flow" doc:name="Volante: Mule Project with Maven"/>
+    <flow name="volanteFlow">
+        <volante:volante-byte-array-transformer config-ref="Volante__Mule_Project_with_Maven" doc:name="Volante"/>
+    </flow>
+    <flow name="volanteFlow1">
+        <volante:volante-p-o-j-o-transformer config-ref="Volante__Mule_Project_with_Maven" doc:name="Volante"/>
+    </flow>
+    <flow name="volanteFlow2">
+        <volante:volante-string-transformer config-ref="Volante__Mule_Project_with_Maven" doc:name="Volante"/>
+    </flow>
+    <flow name="volanteFlow3">
+        <volante:volante-transformer config-ref="Volante__Mule_Project_with_Maven" doc:name="Volante"/>
+    </flow>
+</mule>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/sockets http://www.mulesoft.org/schema/mule/sockets/current/mule-sockets.xsd">
+	<http:listener-config name="HTTP_Listener_Configuration"
+		doc:name="HTTP Listener Configuration">
+		<http:listener-connection host="0.0.0.0"
+			port="8081" >
+			<tls:context>
+				<tls:trust-store algorithm="test" password="test"
+					path="/test" type="jceks" />
+				<tls:key-store algorithm="test" alias="test"
+					keyPassword="test" password="test" path="/test" type="jceks" />
+			</tls:context>
+		</http:listener-connection>
+	</http:listener-config>
+	<http:request-config name="HTTP_Request_Configuration" doc:name="HTTP Request Configuration" basePath="basePath">
+		<http:request-connection host="host" port="port" protocol="HTTPS">
+			<tls:context enabledProtocols="enabledProtocols" enabledCipherSuites="enabledCipherSuites" >
+				<tls:trust-store path="path" password="pass" type="jceks" algorithm="CBC" insecure="true" />
+				<tls:key-store type="jceks" path="path" alias="alias" keyPassword="key" password="pass" algorithm="algo" />
+			</tls:context>
+			<http:proxy-config >
+				<http:proxy host="pHost" port="8080" username="pUserName" password="pPassword" />
+			</http:proxy-config>
+			<http:client-socket-properties>
+				<sockets:tcp-client-socket-properties connectionTimeout="300000" sendBufferSize="100" receiveBufferSize="100" clientTimeout="100" linger="-1" keepAlive="false" />
+			</http:client-socket-properties>
+		</http:request-connection>
+	</http:request-config>
+	 <flow name="httpRequestor">
+        <http:request config-ref="HTTP_Request_Configuration" path="/test" method="POST" doc:name="HTTP"/>
+    </flow>
+	<flow name="httpFlow">
+		<http:listener doc:name="httpListener" config-ref="HTTP_Listener_Configuration"
+			path="/hello" allowedMethods="GET">
+			<http:response statusCode="#[vars.httpStatus default 200]" reasonPhrase="success">
+				<http:body><![CDATA[#[payload]]]></http:body>
+				<http:headers><![CDATA[#[output applicaton/java		---{ 			"test" :  test	}]]]></http:headers>
+			</http:response>
+			<http:error-response reasonPhrase='failure' statusCode="#[vars.httpStatus default 500]">
+				<http:body ><![CDATA[#[error]]]></http:body>
+				<http:headers><![CDATA[#[output applicaton/java		---{ 			"test" :  test	}]]]></http:headers>
+			</http:error-response>
+		</http:listener>
+	</flow>
+</mule>

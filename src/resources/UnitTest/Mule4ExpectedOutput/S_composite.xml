@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:salesforce-composite="http://www.mulesoft.org/schema/mule/salesforce-composite" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/salesforce-composite http://www.mulesoft.org/schema/mule/salesforce-composite/current/mule-salesforce-composite.xsd">
+	<salesforce-composite:composite-config name="Salesforce_Composite__Configuration" doc:name="Salesforce Composite: Configuration"  >
+		<salesforce-composite:oauth-user-pass-connection consumerKey="key" consumerSecret="sec" username="user" password="pass" securityToken="token" tokenEndpoint="endpoint" proxyHost="host" proxyPort="port" proxyUsername="user" proxyPassword="pass" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</salesforce-composite:oauth-user-pass-connection>
+	</salesforce-composite:composite-config>
+	<flow name="s_compositeFlow">
+		<salesforce-composite:create-sobject-collections doc:name="Salesforce Composite"  config-ref="Salesforce_Composite__Configuration">
+			<salesforce-composite:request-body ><![CDATA[#[vars.abc]]]></salesforce-composite:request-body>
+		</salesforce-composite:create-sobject-collections>
+	</flow>
+	<flow name="s_compositeFlow1"  >
+		<salesforce-composite:create-sobject-tree type="type" doc:name="Salesforce Composite"  config-ref="Salesforce_Composite__Configuration">
+			<salesforce-composite:s-objects >vars.abc</salesforce-composite:s-objects>
+		</salesforce-composite:create-sobject-tree>
+	</flow>
+	<flow name="s_compositeFlow2"  >
+		<salesforce-composite:delete-sobject-collections doc:name="Salesforce Composite"  config-ref="Salesforce_Composite__Configuration" allOrNone="true" ids="#[vars.abc]"/>
+	</flow>
+	<flow name="s_compositeFlow3"  >
+		<salesforce-composite:execute-composite-batch doc:name="Salesforce Composite"  config-ref="Salesforce_Composite__Configuration">
+			<salesforce-composite:sub-requests ><![CDATA[#[vars.abc]]]></salesforce-composite:sub-requests>
+		</salesforce-composite:execute-composite-batch>
+	</flow>
+	<flow name="s_compositeFlow4"  >
+		<salesforce-composite:execute-composite-request doc:name="Salesforce Composite"  config-ref="Salesforce_Composite__Configuration">
+			<salesforce-composite:request-body ><![CDATA[#[vars.abc]]]></salesforce-composite:request-body>
+		</salesforce-composite:execute-composite-request>
+	</flow>
+	<flow name="s_compositeFlow5"  >
+		<salesforce-composite:get-sobject-collections type="type" doc:name="Salesforce Composite"  config-ref="Salesforce_Composite__Configuration" ids="#[vars.abc]" fields="#[vars.abc]"/>
+	</flow>
+	<flow name="s_compositeFlow6"  >
+		<salesforce-composite:post-create doc:name="Salesforce Composite"  config-ref="Salesforce_Composite__Configuration">
+			<salesforce-composite:create-result ><![CDATA[#[vars.abc]]]></salesforce-composite:create-result>
+		</salesforce-composite:post-create>
+	</flow>
+	<flow name="s_compositeFlow7"  >
+		<salesforce-composite:post-delete doc:name="Salesforce Composite"  config-ref="Salesforce_Composite__Configuration">
+			<salesforce-composite:delete-result ><![CDATA[#[vars.abc]]]></salesforce-composite:delete-result>
+		</salesforce-composite:post-delete>
+	</flow>
+	<flow name="s_compositeFlow8"  >
+		<salesforce-composite:post-get-limits doc:name="Salesforce Composite"  config-ref="Salesforce_Composite__Configuration">
+			<salesforce-composite:get-limits-result ><![CDATA[#[vars.abc]]]></salesforce-composite:get-limits-result>
+		</salesforce-composite:post-get-limits>
+	</flow>
+	<flow name="s_compositeFlow9"  >
+		<salesforce-composite:post-query doc:name="Salesforce Composite"  config-ref="Salesforce_Composite__Configuration">
+			<salesforce-composite:query >#[dsql:#[vars.abc]]</salesforce-composite:query>
+			<salesforce-composite:query-result ><![CDATA[#[vars.abc]]]></salesforce-composite:query-result>
+		</salesforce-composite:post-query>
+	</flow>
+</mule>

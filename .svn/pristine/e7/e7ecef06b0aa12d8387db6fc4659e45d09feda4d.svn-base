@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:box="http://www.mulesoft.org/schema/mule/box" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/box http://www.mulesoft.org/schema/mule/box/current/mule-box.xsd">
+    <box:config-with-oauth name="Box__OAuth_2_0" clientId="id" clientSecret="sec" doc:name="Box: OAuth 2.0">
+        <box:oauth-callback-config domain="" localPort="" path=""/>
+    </box:config-with-oauth>
+    <flow name="boxFlow">
+        <box:copy-file config-ref="Box__OAuth_2_0" doc:name="Box" fileId="#[flowVars.id]"/>
+    </flow>
+    <flow name="boxFlow1">
+        <box:copy-folder config-ref="Box__OAuth_2_0" folderId="#[flowVars.id]" doc:name="Box"/>
+    </flow>
+    <flow name="boxFlow2">
+        <box:create-collaboration config-ref="Box__OAuth_2_0" collaboratorId="id" folderId="#[flowVars.id]" collaborationRole="EDITOR" doc:name="Box"/>
+    </flow>
+    <flow name="boxFlow3">
+        <box:add-comment-to-file config-ref="Box__OAuth_2_0" message="#[flowVars.msg]" doc:name="Box"/>
+        <box:create-folder config-ref="Box__OAuth_2_0" doc:name="Box" folderName="#[flowVars.id]" parentId="id"/>
+        <box:create-group config-ref="Box__OAuth_2_0" groupName="#[flowVars.name]" doc:name="Box"/>
+        <box:add-group-membership config-ref="Box__OAuth_2_0" groupId="#[flowVars.id]" userId="id" membershipRole="ADMIN" doc:name="Box"/>
+        <box:add-task-to-file config-ref="Box__OAuth_2_0" fileId="#[flowVars.id]" message="msg" dueAt="due" doc:name="Box"/>
+        <box:add-task-assignment config-ref="Box__OAuth_2_0" assignTo="to" taskId="#[flowVars.id]" doc:name="Box"/>
+        <box:create-app-user config-ref="Box__OAuth_2_0" username="#[flowVars.name]" doc:name="Box"/>
+        <box:delete-collaboration config-ref="Box__OAuth_2_0" collaborationId="#[flowVars.id]" doc:name="Box"/>
+        <box:delete-comment config-ref="Box__OAuth_2_0" commentId="#[flowVars.id]" doc:name="Box"/>
+        <box:delete-file config-ref="Box__OAuth_2_0" fileId="#[flowVars.id]" doc:name="Box"/>
+        <box:delete-old-file-version config-ref="Box__OAuth_2_0" fileId="#[flowVars.id]" versionId="id" doc:name="Box"/>
+        <box:delete-folder config-ref="Box__OAuth_2_0" folderId="#[flowVars.id]" recursive="false" doc:name="Box"/>
+        <box:delete-group config-ref="Box__OAuth_2_0" groupId="#[flowVars.id]" doc:name="Box"/>
+        <box:delete-group-membership config-ref="Box__OAuth_2_0" groupMemberShipId="#[flowVars.id]" doc:name="Box"/>
+        <box:delete-task config-ref="Box__OAuth_2_0" taskId="#[flowVars.id]" doc:name="Box"/>
+        <box:delete-task-assignment config-ref="Box__OAuth_2_0" assignmentId="#[flowVars.id]" doc:name="Box"/>
+        <box:delete-user config-ref="Box__OAuth_2_0" userId="#[flowVars.id]" force="true" notifyUser="false" doc:name="Box"/>
+        <box:get-collaboration-info config-ref="Box__OAuth_2_0" collaborationId="#[flowVars.id]" doc:name="Box"/>
+        <box:get-comment-info config-ref="Box__OAuth_2_0" commentId="#[flowVars.id]" doc:name="Box"/>
+        <box:get-all-groups config-ref="Box__OAuth_2_0" fetchSize="1000" doc:name="Box"/>
+        <box:get-enterprise-users config-ref="Box__OAuth_2_0" fetchSize="1000" doc:name="Box"/>
+        <box:get-file-info config-ref="Box__OAuth_2_0" fileId="#[flowVars.id]" fields-ref="field" doc:name="Box"/>
+        <box:get-file-tasks config-ref="Box__OAuth_2_0" fileId="#[flowVars.id]" doc:name="Box"/>
+        <box:get-thumbnail config-ref="Box__OAuth_2_0" fileId="#[flowVars.id]" maxHeight="mhei" maxWidth="mw" minHeight="hei" minWidth="wi" thumbnailType="JPG" doc:name="Box"/>
+        <box:get-folder-info config-ref="Box__OAuth_2_0" folderId="#[flowVars.id]" doc:name="Box"/>
+        <box:get-folder-collaborations config-ref="Box__OAuth_2_0" folderId="#[flowVars.id]" fetchSize="1000" doc:name="Box"/>
+        <box:get-folder-items config-ref="Box__OAuth_2_0" folderId="#[flowVars.id]" fields-ref="ref" fetchSize="1000" doc:name="Box"/>
+        <box:get-group-info config-ref="Box__OAuth_2_0" groupId="#[flowVars.id]" doc:name="Box"/>
+        <box:get-group-memberships config-ref="Box__OAuth_2_0" groupId="#[flowVars.id]" doc:name="Box"/>
+        <box:get-pending-collaborations config-ref="Box__OAuth_2_0" doc:name="Box"/>
+        <box:get-task-info config-ref="Box__OAuth_2_0" taskId="#[flowVars.id]" doc:name="Box"/>
+        <box:get-task-assignment-info config-ref="Box__OAuth_2_0" assignmentId="#[flowVars.ass]" doc:name="Box"/>
+        <box:get-trashed-file config-ref="Box__OAuth_2_0" fileId="#[flowVars.id]" doc:name="Box"/>
+        <box:get-trashed-folder config-ref="Box__OAuth_2_0" folderId="#[flowVars.id]" fields-ref="ref" doc:name="Box"/>
+        <box:get-trashed-items config-ref="Box__OAuth_2_0" fields-ref="#[flowVars.ref]" fetchSize="1000" doc:name="Box"/>
+        <box:get-user-info config-ref="Box__OAuth_2_0" userId="#[flowVars.id]" fields-ref="ref" doc:name="Box"/>
+        <box:get-user-group-memberships config-ref="Box__OAuth_2_0" userId="#[flowVars.id]" fetchSize="1000" doc:name="Box"/>
+        <box:promote-file-version config-ref="Box__OAuth_2_0" fileId="#[flowVars.id]" versionId="#[flowVars.abc]" doc:name="Box"/>
+        <box:restore-file config-ref="Box__OAuth_2_0" fileId="#[flowVars.id]" doc:name="Box"/>
+        <box:restore-folder config-ref="Box__OAuth_2_0" folderId="#[flowVars.id]" doc:name="Box"/>
+        <box:search config-ref="Box__OAuth_2_0" parentFolderId="id" query="#[flowVars.q]" doc:name="Box"/>
+        <box:update-collaboration config-ref="Box__OAuth_2_0" collaborationId="id" input-ref="#[flowVars.ref]" doc:name="Box"/>
+        <box:update-comment config-ref="Box__OAuth_2_0" commentId="id" message="#[flowVars.msg]" doc:name="Box"/>
+        <box:update-file-info config-ref="Box__OAuth_2_0" fileId="#[flowVars.id]" fileInput-ref="#[flowVars.ref]" doc:name="Box"/>
+        <box:update-folder config-ref="Box__OAuth_2_0" folderId="#[flowVars.id]" input-ref="#[flowVars.ref]" doc:name="Box"/>
+        <box:update-group-membership config-ref="Box__OAuth_2_0" groupMemberShipId="#[flowVars.id]" groupMembership-ref="#[flowVars.abc]" doc:name="Box"/>
+        <box:update-task-info config-ref="Box__OAuth_2_0" taskId="#[flowVars.abc]" taskInfo-ref="#[ref]" doc:name="Box"/>
+        <box:update-task-assignment-info config-ref="Box__OAuth_2_0" assignmentId="#[flowVars.id]" taskAssignmentInfo-ref="#[flowVars.abc]" doc:name="Box"/>
+        <box:update-user-info config-ref="Box__OAuth_2_0" userId="#[flowVars.id]" input-ref="#[flowVars.abc]" doc:name="Box"/>
+    </flow>
+</mule>

@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:netsuite="http://www.mulesoft.org/schema/mule/netsuite" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/netsuite http://www.mulesoft.org/schema/mule/netsuite/current/mule-netsuite.xsd">
+    <netsuite:config-login-authentication name="NetSuite__Login_Authentication" email="email" password="pass" account="acc" roleId="role" applicationId="id" connectionTimeout="20000" receiveTimeout="20000" separator="seperator" endpoint="endpoint" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" doc:name="NetSuite: Login Authentication">
+        <netsuite:connection-pooling-profile maxActive="100" initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect frequency="3000" count="5"/>
+    </netsuite:config-login-authentication>
+    <netsuite:config-request-level-authentication name="NetSuite__Request_Level_Authentication" email="email" password="pass" account="acc" roleId="role" applicationId="id" connectionTimeout="20000" receiveTimeout="20000" separator="seperator" endpoint="end" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" doc:name="NetSuite: Request Level Authentication">
+        <reconnect frequency="3000" count="5"/>
+    </netsuite:config-request-level-authentication>
+    <netsuite:config-request-level-token-based-authentication name="NetSuite__Request_Level_Token_Based_Authentication" consumerKey="key" consumerSecret="secret" tokenId="id" tokenSecret="secret" account="acc" connectionTimeout="20000" receiveTimeout="20000" signatureAlgorithm="HMAC_SHA_256" separator="seperator" endpoint="end" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" doc:name="NetSuite: Request Level Token Based Authentication">
+        <reconnect frequency="3000" count="5"/>
+    </netsuite:config-request-level-token-based-authentication>
+    <netsuite:config-sso-login-authentication name="NetSuite__SSO_Login_Authentication" partnerId="pid" partnerAccount="pacc" companyId="cid" userId="uid" keyFile="key" applicationId="aid" connectionTimeout="20000" receiveTimeout="20000" separator="seperator" endpoint="end" proxyHost="host" proxyPort="8080" proxyUsername="user" proxyPassword="pass" doc:name="NetSuite: SSO Login Authentication">
+        <netsuite:connection-pooling-profile maxActive="100" initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect frequency="3000" count="5"/>
+    </netsuite:config-sso-login-authentication>
+    <flow name="netsuiteFlow">
+        <netsuite:add-file config-ref="NetSuite__Login_Authentication" content-ref="#[flowVars.abc]" fileName="name" doc:name="NetSuite" attributes-ref="#[flowVars.abc]" folderId-ref="#[flowVars.abc]"/>
+    </flow>
+    <flow name="netsuiteFlow1">
+        <netsuite:add-list config-ref="NetSuite__Request_Level_Authentication" recordType="type" records-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow2">
+        <netsuite:add-record config-ref="NetSuite__Request_Level_Token_Based_Authentication" recordType="type" doc:name="NetSuite" attributes-ref="#[flowVars.abc]"/>
+    </flow>
+    <flow name="netsuiteFlow3">
+        <netsuite:add-record-objects config-ref="NetSuite__SSO_Login_Authentication" doc:name="NetSuite" records-ref="#[flowVars.abc]"/>
+    </flow>
+    <flow name="netsuiteFlow4">
+        <netsuite:async-add-list config-ref="NetSuite__Login_Authentication" recordType="type" recordsAttributes-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow5">
+        <netsuite:async-delete-list config-ref="NetSuite__Login_Authentication" records-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow6">
+        <netsuite:async-delete-list-records config-ref="NetSuite__Login_Authentication" records-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow7">
+        <netsuite:async-get-list config-ref="NetSuite__Login_Authentication" records-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow8">
+        <netsuite:async-get-list-records config-ref="NetSuite__Login_Authentication" records-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow9">
+        <netsuite:async-initialize-list config-ref="NetSuite__Login_Authentication" initializeRecord-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow10">
+        <netsuite:async-search config-ref="NetSuite__Login_Authentication" searchRecord="record" criteria-ref="#[flowVars.abc]" bodyFieldsOnly="false" returnSearchColumns="false" pageSize="10" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow11">
+        <netsuite:async-update-list config-ref="NetSuite__Login_Authentication" recordType="type" recordsAttributes-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow12">
+        <netsuite:async-upsert-list config-ref="NetSuite__Login_Authentication" recordType="type" recordsAttributes-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow13">
+        <netsuite:attach-record config-ref="NetSuite__Login_Authentication" source-ref="#[flowVars.abc]" destination-ref="#[flowVars.abc]" contact-ref="#[flowVars.abc]" role-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow18">
+        <netsuite:change-email config-ref="NetSuite__Login_Authentication" newEmail="#[flowVars.abc]" justThisAccount="false" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow19">
+        <netsuite:change-password config-ref="NetSuite__Login_Authentication" newPassword="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow20">
+        <netsuite:check-async-status config-ref="NetSuite__Login_Authentication" jobId="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow21">
+        <netsuite:delete config-ref="NetSuite__Login_Authentication" baseRef-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow22">
+        <netsuite:delete-list config-ref="NetSuite__Login_Authentication" records-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow23">
+        <netsuite:delete-record config-ref="NetSuite__Login_Authentication" recordRef-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow24">
+        <netsuite:delete-records-list config-ref="NetSuite__Login_Authentication" records-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow25">
+        <netsuite:detach-record config-ref="NetSuite__Login_Authentication" source-ref="#[flowVars.abc]" destination-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow26">
+        <netsuite:get config-ref="NetSuite__Login_Authentication" baseRef-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow27">
+        <netsuite:get-data-center-urls config-ref="NetSuite__Login_Authentication" accountId="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow28">
+        <netsuite:get-async-result config-ref="NetSuite__Login_Authentication" jobId="#[flowVars.abc]" pageIndex="5" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow29">
+        <netsuite:get-budget-exchange-rates config-ref="NetSuite__Login_Authentication" period-ref="#[flowVars.abc]" fromSubsidiary-ref="#[flowVars.abc]" toSubsidiary-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow30">
+        <netsuite:get-current-rate config-ref="NetSuite__Login_Authentication" rateFilter-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow31">
+        <netsuite:get-custom-record config-ref="NetSuite__Login_Authentication" externalId="1" internalId="#[flowVars.abc]" type="type" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow32">
+        <netsuite:get-customization-ids config-ref="NetSuite__Login_Authentication" type="CRM_CUSTOM_FIELD" includeInactives="true" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow33">
+        <netsuite:get-deleted-records config-ref="NetSuite__Login_Authentication" pageIndex="5" deletedDate-ref="#[flowVars.abc]" type="ACCOUNT" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow34">
+        <netsuite:get-item-availability config-ref="NetSuite__Login_Authentication" record-ref="#[flowVars.abc]" ifModifiedSince="yes" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow35">
+        <netsuite:get-list config-ref="NetSuite__Login_Authentication" references-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow36">
+        <netsuite:get-posting-transaction-summary config-ref="NetSuite__Login_Authentication" fields-ref="#[flowVars.abc]" filters-ref="#[flowVars.abc]" pageIndex="5" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow37">
+        <netsuite:get-record config-ref="NetSuite__Login_Authentication" externalId="5" internalId="#[flowVars.abc]" type="type" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow38">
+        <netsuite:get-records config-ref="NetSuite__Login_Authentication" type="BUDGET_CATEGORY" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow39">
+        <netsuite:get-saved-search config-ref="NetSuite__Login_Authentication" type="ACCOUNT" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow40">
+        <netsuite:get-select-value config-ref="NetSuite__Login_Authentication" page="page" fieldDescriptor-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow41">
+        <netsuite:get-server-time config-ref="NetSuite__Login_Authentication" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow42">
+        <netsuite:initialize config-ref="NetSuite__Login_Authentication" record-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow43">
+        <netsuite:initialize-list config-ref="NetSuite__Login_Authentication" initializeRecord-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow44">
+        <netsuite:map-sso config-ref="NetSuite__Request_Level_Authentication" authenticationToken="token" userAccount="acc" userEmail="email" userPartnerId="id" userPassword="pass" userRole-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow45">
+        <netsuite:search config-ref="NetSuite__Login_Authentication" searchRecord="anji" criteria-ref="#[flowVars.abc]" bodyFieldsOnly="false" returnSearchColumns="false" fetchSize="200" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow46">
+        <netsuite:update-invitee-status config-ref="NetSuite__Login_Authentication" eventId-ref="#[flowVars.abc]" status="ACCEPTED" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow47">
+        <netsuite:update-invitee-status-list config-ref="NetSuite__Login_Authentication" inviteeStatusList-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow48">
+        <netsuite:update-list config-ref="NetSuite__Login_Authentication" recordType="type" records-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow49">
+        <netsuite:update-record config-ref="NetSuite__Login_Authentication" recordType="type" attributes-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow50">
+        <netsuite:update-records-list config-ref="NetSuite__Login_Authentication" records-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow51">
+        <netsuite:upsert-list config-ref="NetSuite__Login_Authentication" recordType="type" records-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+    <flow name="netsuiteFlow52">
+        <netsuite:upsert-record config-ref="NetSuite__Request_Level_Authentication" recordType="type" attributes-ref="#[flowVars.abc]" doc:name="NetSuite"/>
+    </flow>
+</mule>

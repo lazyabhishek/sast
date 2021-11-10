@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:twilio-connector="http://www.mulesoft.org/schema/mule/twilio-connector" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/twilio-connector http://www.mulesoft.org/schema/mule/twilio-connector/current/mule-twilio-connector.xsd">
+	<twilio-connector:config name="Twilio__Basic_Authentication" doc:name="Twilio: Basic Authentication"  property_username="user" property_password="pass" />
+	<flow name="twilioFlow" >
+		<twilio-connector:delete-media doc:name="Twilio" config-ref="Twilio__Basic_Authentication" account-sid="id" message-sid="msid" media-sid="sid" date-created="create"/>
+	</flow>
+	<flow name="twilioFlow1"  >
+		<twilio-connector:delete-message doc:name="Twilio" config-ref="Twilio__Basic_Authentication" account-sid="id" message-sid="msid"/>
+	</flow>
+	<flow name="twilioFlow2"  >
+		<twilio-connector:get-media doc:name="Twilio"  config-ref="Twilio__Basic_Authentication" account-sid="id" message-sid="msid" media-sid="sid" date-created="create"/>
+	</flow>
+	<flow name="twilioFlow3" >
+		<twilio-connector:get-media-list doc:name="Twilio"  config-ref="Twilio__Basic_Authentication" account-sid="id" message-sid="msid" date-created="create"/>
+	</flow>
+	<flow name="twilioFlow4"  >
+		<twilio-connector:get-message doc:name="Twilio" config-ref="Twilio__Basic_Authentication" account-sid="id" message-sid="msid"/>
+	</flow>
+	<flow name="twilioFlow5"  >
+		<twilio-connector:get-message-list doc:name="Twilio"  config-ref="Twilio__Basic_Authentication" account-sid="id" to="to" from="from" date-sent="sent"/>
+	</flow>
+	<flow name="twilioFlow6"  >
+		<twilio-connector:redact-message doc:name="Twilio"  config-ref="Twilio__Basic_Authentication" account-sid="id" message-sid="msid">
+			<twilio-connector:redact-message-request-data ><![CDATA[#[vars.abc]]]></twilio-connector:redact-message-request-data>
+		</twilio-connector:redact-message>
+	</flow>
+	<flow name="twilioFlow7"  >
+		<twilio-connector:send-message doc:name="Twilio" config-ref="Twilio__Basic_Authentication" account-sid="id">
+			<twilio-connector:send-message-request-data ><![CDATA[#[vars.abc]]]></twilio-connector:send-message-request-data>
+		</twilio-connector:send-message>
+	</flow>
+</mule>

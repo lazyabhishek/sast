@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mongo="http://www.mulesoft.org/schema/mule/mongo" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/mongo http://www.mulesoft.org/schema/mule/mongo/current/mule-mongo.xsd">
+<mongo:config doc:name="Mongo DB" name="Mongo_DB">
+<mongo:connection connectTimeout="50000" connectionsPerHost="200" database="data" maxWaitTime="200" password="pass" socketTimeout="200" threadsAllowedToBlockForConnectionMultiplier="100" username="user">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</mongo:connection>
+</mongo:config>
+<flow name="mongodbFlow1">
+<mongo:add-user config-ref="Mongo_DB" doc:name="Mongo DB" password="pass" username="user"/>
+</flow>
+<flow name="mongodbFlow">
+<mongo:count-documents collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB">
+<mongo:condition-query><![CDATA[#[vars.abc]]]></mongo:condition-query>
+</mongo:count-documents>
+</flow>
+<flow name="mongodbFlow2">
+<mongo:create-collection capped="true" collectionName="name" collectionSize="10" config-ref="Mongo_DB" doc:name="Mongo DB" maxObjects="10"/>
+</flow>
+<flow name="mongodbFlow3">
+<mongo:create-file-from-payload config-ref="Mongo_DB" doc:name="Mongo DB" filename="name" metadata="ref">
+<mongo:content><![CDATA[#[vars.abc]]]></mongo:content>
+</mongo:create-file-from-payload>
+</flow>
+<flow name="mongodbFlow4">
+<mongo:create-index collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB" fieldName="field" order="DESC"/>
+</flow>
+<flow name="mongodbFlow5">
+<mongo:drop-collection collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB"/>
+</flow>
+<flow name="mongodbFlow6">
+<mongo:drop-database config-ref="Mongo_DB" doc:name="Mongo DB"/>
+</flow>
+<flow name="mongodbFlow7">
+<mongo:drop-index collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB" indexName="name1"/>
+</flow>
+<flow name="mongodbFlow8">
+<mongo:dump config-ref="Mongo_DB" doc:name="Mongo DB" oplog="true" outputDirectory="dumpname" outputName="outname" threads="10" zip="true"/>
+</flow>
+<flow name="mongodbFlow9">
+<mongo:execute-command commandName="name" commandValue="value" config-ref="Mongo_DB" doc:name="Mongo DB"/>
+</flow>
+<flow name="mongodbFlow10">
+<mongo:exists-collection config-ref="Mongo_DB" doc:name="Mongo DB">
+<mongo:collection-name><![CDATA[#[vars.abc]]]></mongo:collection-name>
+</mongo:exists-collection>
+</flow>
+<flow name="mongodbFlow11">
+<mongo:find-files config-ref="Mongo_DB" doc:name="Mongo DB" findQuery="#[vars.abc]"/>
+</flow>
+<flow name="mongodbFlow12">
+<mongo:find-documents collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB" fields="#[vars.abc]" numToSkip="10" resultLimit="10">
+<mongo:condition-query><![CDATA[#[vars.abc]]]></mongo:condition-query>
+<mongo:sort-by><![CDATA[#[vars.ref]]]></mongo:sort-by>
+</mongo:find-documents>
+</flow>
+<flow name="mongodbFlow13">
+<mongo:find-one-file config-ref="Mongo_DB" doc:name="Mongo DB" findQuery="#[vars.abc]"/>
+</flow>
+<flow name="mongodbFlow14">
+<mongo:find-one-document collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB" failOnNotFound="false" fields="#[vars.abc]">
+<mongo:find-query><![CDATA[#[vars.abc]]]></mongo:find-query>
+</mongo:find-one-document>
+</flow>
+<flow name="mongodbFlow15">
+<mongo:get-file-content config-ref="Mongo_DB" doc:name="Mongo DB">
+<mongo:file-id><![CDATA[#[vars.abc]]]></mongo:file-id>
+</mongo:get-file-content>
+</flow>
+<flow name="mongodbFlow16">
+<mongo:incremental-dump config-ref="Mongo_DB" doc:name="Mongo DB" incrementalTimestampFile="file" outputDirectory="dumpdir"/>
+</flow>
+<flow name="mongodbFlow17">
+<mongo:insert-document collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB"/>
+</flow>
+<flow name="mongodbFlow18">
+<mongo:list-collections config-ref="Mongo_DB" doc:name="Mongo DB"/>
+</flow>
+<flow name="mongodbFlow19">
+<mongo:list-files config-ref="Mongo_DB" doc:name="Mongo DB" findQuery="#[vars.abc]"/>
+</flow>
+<flow name="mongodbFlow20">
+<mongo:list-indices collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB"/>
+</flow>
+<flow name="mongodbFlow21">
+<mongo:map-reduce-objects collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB" mappingFunction="fun" outputCollection="out" reduceFunction="red"/>
+</flow>
+<flow name="mongodbFlow22">
+<mongo:remove-files config-ref="Mongo_DB" doc:name="Mongo DB"/>
+</flow>
+<flow name="mongodbFlow23">
+<mongo:remove-documents collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB">
+<mongo:find-query><![CDATA[#[vars.abc]]]></mongo:find-query>
+</mongo:remove-documents>
+</flow>
+<flow name="mongodbFlow24">
+<mongo:restore config-ref="Mongo_DB" doc:name="Mongo DB" dropCollection="true" inputPath="dumppath" oplogReplay="true"/>
+</flow>
+<flow name="mongodbFlow25">
+<mongo:save-document collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB"/>
+</flow>
+<flow name="mongodbFlow26">
+<mongo:update-documents collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB" multipleUpdate="false"/>
+</flow>
+<flow name="mongodbFlow27">
+<mongo:update-documents-by-function collectionName="name" config-ref="Mongo_DB" doc:name="Mongo DB" function="fun" multipleUpdate="false" upsert="true"/>
+</flow>
+
+</mule>

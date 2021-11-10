@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:peoplesoft="http://www.mulesoft.org/schema/mule/peoplesoft" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/peoplesoft http://www.mulesoft.org/schema/mule/peoplesoft/current/mule-peoplesoft.xsd">
+    <peoplesoft:config name="PeopleSoft__Configuration" server="server" username="user" password="pass" domainConnectionPwd="pass1" doc:name="PeopleSoft: Configuration">
+        <reconnect frequency="3000" count="5"/>
+    </peoplesoft:config>
+    <flow name="peoplesoftFlow">
+        <peoplesoft:invoke-operation config-ref="PeopleSoft__Configuration" key="name||op" payload-ref="#[flowVars.abc]" doc:name="PeopleSoft"/>
+    </flow>
+</mule>

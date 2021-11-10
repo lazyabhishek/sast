@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+
+<sharedLibraries>
+		<sharedLibrary>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+		</sharedLibrary>
+		<sharedLibrary>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+		</sharedLibrary>
+		<sharedLibrary>
+			<groupId>org.springframework.security</groupId>
+			<artifactId>spring-security-core</artifactId>
+		</sharedLibrary>
+	</sharedLibraries>

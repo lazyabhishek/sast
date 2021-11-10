@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:microsoft-dynamics-ax="http://www.mulesoft.org/schema/mule/microsoft-dynamics-ax" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/microsoft-dynamics-ax http://www.mulesoft.org/schema/mule/microsoft-dynamics-ax/current/mule-microsoft-dynamics-ax.xsd">
+	<microsoft-dynamics-ax:dynamics-ax-config name="Microsoft_Dynamics_AX_2012__Gateway_Connection" doc:name="Microsoft Dynamics AX 2012: Gateway Connection" >
+		<microsoft-dynamics-ax:gateway-connection company="company" language="lang" logonAsUser="logon" messageId="id" partitionKey="key" username="user" password="pass" aosServerName="aos" aosWsdlPort="8080" disableCnCheck="true" gatewayRouterServiceAddress="addr" aosEndpointPort="8080" connectionTimeout="10000" receiveTimeout="10000" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</microsoft-dynamics-ax:gateway-connection>
+	</microsoft-dynamics-ax:dynamics-ax-config>
+	<flow name="ms_2012Flow" >
+		<microsoft-dynamics-ax:invoke-document-service-operation doc:name="Microsoft Dynamics AX 2012"  config-ref="Microsoft_Dynamics_AX_2012__Gateway_Connection" service="service" action="operation"/>
+	</flow>
+	<flow name="ms_2012Flow1" >
+		<microsoft-dynamics-ax:query-table doc:name="Microsoft Dynamics AX 2012"  config-ref="Microsoft_Dynamics_AX_2012__Gateway_Connection" itemsPerPage="10000">
+			<microsoft-dynamics-ax:query >#[vars.abc]</microsoft-dynamics-ax:query>
+		</microsoft-dynamics-ax:query-table>
+	</flow>
+	<flow name="ms_2012Flow2"  >
+		<microsoft-dynamics-ax:static-query staticQueryName="name" doc:name="Microsoft Dynamics AX 2012"  config-ref="Microsoft_Dynamics_AX_2012__Gateway_Connection" itemsPerPage="10000"/>
+	</flow>
+</mule>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+
+	<flow name="Flow" >
+		<scheduler doc:name="scheduler" >
+			<scheduling-strategy >
+				<fixed-frequency frequency="1000" startDelay="10" timeUnit="HOURS"/>
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger"/>
+	</flow>
+	<flow name="Flow1"  >
+		<scheduler doc:name="scheduler" >
+			<scheduling-strategy >
+				<cron expression="0 0 12 * * ?" timeZone="IST" />
+			</scheduling-strategy>
+		</scheduler>
+		<logger level="INFO" doc:name="Logger"/>
+	</flow>
+</mule>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:coupa="http://www.mulesoft.org/schema/mule/coupa" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/coupa http://www.mulesoft.org/schema/mule/coupa/current/mule-coupa.xsd">
+    <coupa:config name="Coupa__Configuration" coupaInstance="instance" apiKey="key" doc:name="Coupa: Configuration">
+        <reconnect frequency="3000" count="5"/>
+    </coupa:config>
+    <flow name="coupaFlow">
+        <coupa:approvals-api config-ref="Coupa__Configuration" action="action" id="id" doc:name="Coupa"/>
+    </flow>
+    <flow name="coupaFlow1">
+        <coupa:expense-reports-api config-ref="Coupa__Configuration" action="" id="id" doc:name="Coupa"/>
+    </flow>
+    <flow name="coupaFlow2">
+        <coupa:inventory-transactions-api config-ref="Coupa__Configuration" action="" id="id" doc:name="Coupa"/>
+    </flow>
+    <flow name="coupaFlow3">
+        <coupa:invoices-api config-ref="Coupa__Configuration" action="" id="id" doc:name="Coupa"/>
+    </flow>
+    <flow name="coupaFlow4">
+        <coupa:purchase-orders-api config-ref="Coupa__Configuration" action="action" id="id" doc:name="Coupa"/>
+    </flow>
+    <flow name="coupaFlow5">
+        <coupa:requisitions-api config-ref="Coupa__Configuration" action="action" payload-ref="#[flowVars.abc]" doc:name="Coupa"/>
+    </flow>
+    <flow name="coupaFlow6">
+        <coupa:suppliers-api config-ref="Coupa__Configuration" action="" id="id" payload-ref="#[flowVars.abc]" doc:name="Coupa"/>
+    </flow>
+</mule>

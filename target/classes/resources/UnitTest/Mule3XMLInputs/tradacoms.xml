@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:tradacoms="http://www.mulesoft.org/schema/mule/tradacoms" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/tradacoms http://www.mulesoft.org/schema/mule/tradacoms/current/mule-tradacoms.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd">
+    <tradacoms:config name="TRADACOMS_EDI__Configuration" partnerCode="pcode" partnerName="pname" selfCode="mcode" selfName="mname" sendSenderReference="ref" sendRecipientReference="rref" sendApplicationReference="aref" sendPriorityCode="pc" lengthFail="true" unknownFail="false" unusedFail="true" orderFail="false" doc:name="TRADACOMS EDI: Configuration"/>
+    <flow name="tradacomsFlow">
+        <tradacoms:read config-ref="TRADACOMS_EDI__Configuration" doc:name="TRADACOMS EDI" ediContent-ref="#[flowVars.abc]"/>
+    </flow>
+    <flow name="tradacomsFlow1">
+        <tradacoms:write config-ref="TRADACOMS_EDI__Configuration" doc:name="TRADACOMS EDI" fields-ref="#[flowVars.abc]"/>
+    </flow>
+</mule>

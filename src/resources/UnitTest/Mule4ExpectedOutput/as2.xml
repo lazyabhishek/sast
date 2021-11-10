@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:as2="http://www.mulesoft.org/schema/mule/as2" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/as2 http://www.mulesoft.org/schema/mule/as2/current/mule-as2.xsd">
+	<as2:config name="AS2__Configuration" doc:name="AS2: Configuration"  >
+		<as2:connection namePartnerFrom="name" as2IdPartnerFrom="as2" x509aliasPartnerFrom="alias" emailPartnerFrom="email" namePartnerTo="name1" as2IdPartnerTo="as21" x509aliasPartnerTo="alias1" emailPartnerTo="email1" subject="subject" as2Url="url" as2ReceiptOption="option" encrypt="AES128" sign="SHA224" contentTransferEncoding="_7BIT" compressionType="true" removeCmsAlgorithmProtectionAttrib="true" keyStorePath="path" keyPassword="pass" receiverPort="rport" secureReceiverPort="sport" secureReceiverKeystorePath="spath" secureReceiverKeystorePassword="spass" mdnReceiverPort="8080" mdnSecureReceiverPort="8080" mdnSecureReceiverKeystorePath="path1" mdnSecureReceiverKeystorePassword="pass1" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</as2:connection>
+	</as2:config>
+	<flow name="as2Flow"  >
+		<as2:receive doc:name="AS2 (Streaming)"  config-ref="AS2__Configuration"/>
+		<as2:send timeout="100" doc:name="AS2"  config-ref="AS2__Configuration" input="#[vars.abc]" fileName="name"/>
+	</flow>
+</mule>

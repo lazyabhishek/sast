@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sharepoint="http://www.mulesoft.org/schema/mule/sharepoint" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sharepoint http://www.mulesoft.org/schema/mule/sharepoint/current/mule-sharepoint.xsd">
+	<sharepoint:sharepoint-onpremise-config name="Microsoft_SharePoint_2010__Claims" doc:name="Microsoft SharePoint 2010: Claims" >
+		<sharepoint:claims-connection claimsUsername="user" claimsPassword="pass" siteUrl="url" stsUrl="token" scope="app" disableCnCheck="true" ntlmDomain="domain">
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sharepoint:claims-connection>
+	</sharepoint:sharepoint-onpremise-config>
+	<sharepoint:sharepoint-onpremise-config name="Microsoft_SharePoint_2010__Kerberos_Connection" doc:name="Microsoft SharePoint 2010: Kerberos Connection" >
+		<sharepoint:kerberos-connection kerberosUsername="user" kerberosPassword="pass" siteUrl="url" spn="spn" realm="realm" kdc="kdc" loginPropertiesFilePath="file" kerberosPropertiesFilePath="path" disableCnCheck="true" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sharepoint:kerberos-connection>
+	</sharepoint:sharepoint-onpremise-config>
+	<sharepoint:sharepoint-onpremise-config name="Microsoft_SharePoint_2010__NTLM" doc:name="Microsoft SharePoint 2010: NTLM"  >
+		<sharepoint:ntlm-connection domain="domain" ntlmUsername="user" ntlmPassword="pass" siteUrl="url" disableCnCheck="true" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sharepoint:ntlm-connection>
+	</sharepoint:sharepoint-onpremise-config>
+</mule>

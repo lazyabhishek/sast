@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tradacoms="http://www.mulesoft.org/schema/mule/tradacoms" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/tradacoms http://www.mulesoft.org/schema/mule/tradacoms/current/mule-tradacoms.xsd">
+	<tradacoms:config name="TRADACOMS_EDI__Configuration" doc:name="TRADACOMS EDI: Configuration"  partnerCode="pcode" partnerName="pname" selfCode="mcode" selfName="mname" enforceLengthLimits="false" allowUnknownSegments="true" enforceSegmentOrder="false" allowUnusedSegments="false" sendSenderReference="ref" sendRecipientReference="rref" sendApplicationReference="aref" sendPriorityCode="pc" />
+	<flow name="tradacomsFlow" >
+		<tradacoms:read doc:name="TRADACOMS EDI" config-ref="TRADACOMS_EDI__Configuration">
+			<tradacoms:read-content ><![CDATA[#[vars.abc]]]></tradacoms:read-content>
+		</tradacoms:read>
+	</flow>
+	<flow name="tradacomsFlow1"  >
+		<tradacoms:write doc:name="TRADACOMS EDI"  config-ref="TRADACOMS_EDI__Configuration">
+			<tradacoms:write-content ><![CDATA[#[vars.abc]]]></tradacoms:write-content>
+		</tradacoms:write>
+	</flow>
+</mule>

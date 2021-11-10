@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sfdc-marketing-cloud="http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud/current/mule-sfdc-marketing-cloud.xsd">
+    <sfdc-marketing-cloud:config name="Salesforce_Marketing_Cloud__Configuration" username="user" password="pass" endpoint="end" readTimeout="2000" connectionTimeout="2000" doc:name="Salesforce Marketing Cloud: Configuration">
+        <reconnect frequency="3000" count="5"/>
+    </sfdc-marketing-cloud:config>
+    <sfdc-marketing-cloud:config-with-oauth name="Salesforce_Marketing_Cloud__OAuth_Configuration" clientId="id" clientSecret="sec" authEndpoint="end" soapEndpoint="send" readTimeout="2000" connectionTimeout="2000" doc:name="Salesforce Marketing Cloud: OAuth Configuration">
+        <reconnect frequency="3000" count="5"/>
+    </sfdc-marketing-cloud:config-with-oauth>
+    <flow name="s_marketingFlow">
+        <sfdc-marketing-cloud:configure-create config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" doc:name="Salesforce Marketing Cloud" configurations-ref="#[flowVars.abc]" configureOptions-ref="opt"/>
+    </flow>
+    <flow name="s_marketingFlow1">
+        <sfdc-marketing-cloud:configure-delete config-ref="Salesforce_Marketing_Cloud__OAuth_Configuration" objectType="type" doc:name="Salesforce Marketing Cloud" configurations-ref="#[flowVars.abc]" configureOptions-ref="#[flowVars.opt]"/>
+    </flow>
+    <flow name="s_marketingFlow2">
+        <sfdc-marketing-cloud:configure-update config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" configureOptions-ref="#[flowVars.opt]" configurations-ref="#[flowVars.abc]" doc:name="Salesforce Marketing Cloud"/>
+    </flow>
+    <flow name="s_marketingFlow3">
+        <sfdc-marketing-cloud:create config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" createOptions-ref="#[flowVars.opt]" apiObjects-ref="#[flowVars.abc]" doc:name="Salesforce Marketing Cloud"/>
+    </flow>
+    <flow name="s_marketingFlow4">
+        <sfdc-marketing-cloud:delete config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" deleteOptions-ref="#[flowVars.opt]" apiObjects-ref="#[flowVars.api]" doc:name="Salesforce Marketing Cloud"/>
+    </flow>
+    <flow name="s_marketingFlow5">
+        <sfdc-marketing-cloud:perform-get-max-count config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" performOptions-ref="#[flowVars.opt]" definitions-ref="#[flowVars.abc]" doc:name="Salesforce Marketing Cloud"/>
+    </flow>
+    <flow name="s_marketingFlow6">
+        <sfdc-marketing-cloud:perform-start config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" performOptions-ref="#[flowVars.opt]" definitions-ref="#[flowVars.abc]" doc:name="Salesforce Marketing Cloud"/>
+    </flow>
+    <flow name="s_marketingFlow7">
+        <sfdc-marketing-cloud:perform-stop config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" performOptions-ref="#[flowVars.abc]" definitions-ref="#[flowVars.opt]" doc:name="Salesforce Marketing Cloud"/>
+    </flow>
+    <flow name="s_marketingFlow8">
+        <sfdc-marketing-cloud:retrieve config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="" retrieveOptions-ref="#[flowVars.opt]" query="dsql:#[flowVars.q]" doc:name="Salesforce Marketing Cloud"/>
+    </flow>
+    <flow name="s_marketingFlow9">
+        <sfdc-marketing-cloud:schedule-start config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" scheduleOptions-ref="#[flowVars.abc]" interactions-ref="#[flowVars.abc]" schedule-ref="#[flowVars.def]" doc:name="Salesforce Marketing Cloud"/>
+    </flow>
+    <flow name="s_marketingFlow10">
+        <sfdc-marketing-cloud:update config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" updateOptions-ref="#[flowVars.opt]" apiObjects-ref="#[flowVars.obj]" doc:name="Salesforce Marketing Cloud"/>
+    </flow>
+    <flow name="s_marketingFlow11">
+        <sfdc-marketing-cloud:upsert config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" upsertOptions-ref="#[flowVars.opt]" apiObjects-ref="#[flowVars.obj]" doc:name="Salesforce Marketing Cloud"/>
+    </flow>
+</mule>

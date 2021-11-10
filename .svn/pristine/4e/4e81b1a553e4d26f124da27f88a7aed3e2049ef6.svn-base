@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sfdc-composite="http://www.mulesoft.org/schema/mule/sfdc-composite" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sfdc-composite http://www.mulesoft.org/schema/mule/sfdc-composite/current/mule-sfdc-composite.xsd">
+    <sfdc-composite:config name="Salesforce_Composite__Configuration" username="user" password="pass" consumerKey="key" consumerSecret="sec" securityToken="token" tokenEndpoint="endpoint" proxyHost="host" proxyPort="port" proxyUsername="user" proxyPassword="pass" doc:name="Salesforce Composite: Configuration">
+        <reconnect frequency="3000" count="5"/>
+    </sfdc-composite:config>
+    <flow name="s_compositeFlow">
+        <sfdc-composite:create-sobject-collections config-ref="Salesforce_Composite__Configuration" doc:name="Salesforce Composite" requestBody-ref="#[flowVars.abc]"/>
+    </flow>
+    <flow name="s_compositeFlow1">
+        <sfdc-composite:create-sobject-tree config-ref="Salesforce_Composite__Configuration" type="type" sObjects-ref="#[flowVars.abc]" doc:name="Salesforce Composite"/>
+    </flow>
+    <flow name="s_compositeFlow2">
+        <sfdc-composite:delete-sobject-collections config-ref="Salesforce_Composite__Configuration" allOrNone="true" doc:name="Salesforce Composite">
+            <sfdc-composite:ids ref="#[flowVars.abc]"/>
+        </sfdc-composite:delete-sobject-collections>
+    </flow>
+    <flow name="s_compositeFlow3">
+        <sfdc-composite:execute-composite-batch config-ref="Salesforce_Composite__Configuration" subRequests-ref="#[flowVars.abc]" doc:name="Salesforce Composite"/>
+    </flow>
+    <flow name="s_compositeFlow4">
+        <sfdc-composite:execute-composite-request config-ref="Salesforce_Composite__Configuration" requests-ref="#[flowVars.abc]" doc:name="Salesforce Composite"/>
+    </flow>
+    <flow name="s_compositeFlow5">
+        <sfdc-composite:get-sobject-collections config-ref="Salesforce_Composite__Configuration" type="type" doc:name="Salesforce Composite">
+            <sfdc-composite:fields ref="#[flowVars.abc]"/>
+            <sfdc-composite:ids ref="#[flowVars.abc]"/>
+        </sfdc-composite:get-sobject-collections>
+    </flow>
+    <flow name="s_compositeFlow6">
+        <sfdc-composite:post-create config-ref="Salesforce_Composite__Configuration" subRequestCorrelationId="" createResult-ref="#[flowVars.abc]" doc:name="Salesforce Composite"/>
+    </flow>
+    <flow name="s_compositeFlow7">
+        <sfdc-composite:post-delete config-ref="Salesforce_Composite__Configuration" subRequestCorrelationId="" deleteResult-ref="#[flowVars.abc]" doc:name="Salesforce Composite"/>
+    </flow>
+    <flow name="s_compositeFlow8">
+        <sfdc-composite:post-get-limits config-ref="Salesforce_Composite__Configuration" subRequestCorrelationId="" getLimitsResult-ref="#[flowVars.abc]" doc:name="Salesforce Composite"/>
+    </flow>
+    <flow name="s_compositeFlow9">
+        <sfdc-composite:post-query config-ref="Salesforce_Composite__Configuration" query="dsql:#[flowVars.abc]" subRequestCorrelationId="" queryResult-ref="#[flowVars.abc]" doc:name="Salesforce Composite"/>
+    </flow>
+</mule>

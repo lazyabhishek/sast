@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:apikit-soap="http://www.mulesoft.org/schema/mule/apikit-soap" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/apikit-soap http://www.mulesoft.org/schema/mule/apikit-soap/current/mule-apikit-soap.xsd">
+    <apikit-soap:config name="APIkit_SOAP__Configuration" wsdlUrl="HelloService.wsdl" serviceName="Hello_Service" portName="Hello_Port" doc:name="APIkit SOAP: Configuration"/>
+    <flow name="soap-router-kitFlow">
+        <apikit-soap:router config-ref="APIkit_SOAP__Configuration" doc:name="SOAP Router"/>
+    </flow>
+</mule>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:thru-transport="http://www.mulesoft.org/schema/mule/thru-transport" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/thru-transport http://www.mulesoft.org/schema/mule/thru-transport/current/mule-thru-transport.xsd">
+    <thru-transport:config name="MFT__Configuration" server="url" site="storage" accessKey="key" secretKey="sec" doc:name="MFT: Configuration"/>
+    <thru-transport:sandbox-config name="MFT__Sandbox_Configuration" server="url" site="storage" accessKey="key" secretKey="secret" doc:name="MFT: Sandbox Configuration"/>
+    <flow name="mftFlow">
+        <thru-transport:pickup-file-stream-source config-ref="MFT__Configuration" transportCode="" pollingPeriod="20000" doc:name="MFT (Streaming)"/>
+        <thru-transport:batch-exception-handler config-ref="MFT__Sandbox_Configuration" exceptionData-ref="#[flowVars.abc]" fileCode="code" transportCode="" doc:name="MFT"/>
+    </flow>
+    <flow name="mftFlow1">
+        <thru-transport:file-dropoff config-ref="MFT__Configuration" fileData-ref="#[flowVars.abc]" fileCode="pic" filename="name" transportCode="" fileSize="size" doc:name="MFT"/>
+    </flow>
+    <flow name="mftFlow2">
+        <thru-transport:file-metadata config-ref="MFT__Configuration" fileCode="code" doc:name="MFT"/>
+    </flow>
+    <flow name="mftFlow3">
+        <thru-transport:pickup-file-stream config-ref="MFT__Configuration" transportCode="" doc:name="MFT"/>
+    </flow>
+    <flow name="mftFlow4">
+        <thru-transport:flow-outcome config-ref="MFT__Configuration" fileCode="code" flowInstanceCode="icode" selectiveDropOffRecipients="off" batchTotalRecordCount="100" batchFailedRecordCount="100" activityDetail="actived" activityMessage="activem" status="FAILED" doc:name="MFT"/>
+    </flow>
+</mule>

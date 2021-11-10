@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:powershell="http://www.mulesoft.org/schema/mule/powershell" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/powershell http://www.mulesoft.org/schema/mule/powershell/current/mule-powershell.xsd">
+	<powershell:config name="PowerShell__Gateway_Connection" doc:name="PowerShell: Gateway_Connection" >
+		<powershell:powershell-connection host="ip" username="user" password="pass" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</powershell:powershell-connection>
+	</powershell:config>
+	<flow name="powershellFlow" >
+		<powershell:execute-script-file doc:name="PowerShell" config-ref="PowerShell__Gateway_Connection" parameters="#[vars.abc]">
+			<powershell:file-content ><![CDATA[#[vars.abc]]]></powershell:file-content>
+		</powershell:execute-script-file>
+	</flow>
+</mule>

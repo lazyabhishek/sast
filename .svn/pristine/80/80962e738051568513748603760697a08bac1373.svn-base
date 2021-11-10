@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sqs="http://www.mulesoft.org/schema/mule/sqs" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sqs http://www.mulesoft.org/schema/mule/sqs/current/mule-sqs.xsd">
+	<sqs:config name="Amazon_SQS__Configuration" doc:name="Amazon SQS: Configuration"  >
+		<sqs:basic-connection testQueueArn="name" accessKey="key" secretKey="key" region="APNORTHEAST1" proxyHost="host" 
+		proxyPort="8080" proxyUsername="user" proxyPassword="pass" proxyDomain="domain" proxyWorkstation="work" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sqs:basic-connection>
+	</sqs:config>
+	<sqs:config name="Amazon_SQS__Configuration1" doc:name="Amazon SQS: Configuration"  >
+		<sqs:role-connection roleARN="arn" testQueueArn="name" accessKey="key" secretKey="key" region="APNORTHEAST1" proxyHost="host" 
+		proxyPort="8080" proxyUsername="user" proxyPassword="pass" proxyDomain="domain" proxyWorkstation="work" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sqs:role-connection>
+	</sqs:config>
+	<flow name="sqsFlow"  >
+		<sqs:add-permission doc:name="Amazon SQS"  accountIds="vars.abc" actions="vars.abc" config-ref="Amazon_SQS__Configuration" 
+		label="label" queueUrl="url"/>
+	</flow>
+	<flow name="sqsFlow1"  >
+		<sqs:send-message doc:name="Amazon SQS"  config-ref="Amazon_SQS__Configuration1" queueUrl="url">
+			<sqs:message ><![CDATA[#[output applicaton/java
+				---{ 
+				"messageBody" : vars.abc}]]]></sqs:message>
+		</sqs:send-message>
+	</flow>
+</mule>

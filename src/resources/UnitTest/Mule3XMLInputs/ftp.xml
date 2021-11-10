@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:cloudhub="http://www.mulesoft.org/schema/mule/cloudhub" xmlns:ftp="http://www.mulesoft.org/schema/mule/ee/ftp" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/ftp http://www.mulesoft.org/schema/mule/ee/ftp/current/mule-ftp-ee.xsd
+http://www.mulesoft.org/schema/mule/cloudhub http://www.mulesoft.org/schema/mule/cloudhub/current/mule-cloudhub.xsd">
+    <ftp:connector name="FTP" connectionTimeout="1000" pollingFrequency="2000" validateConnections="true" doc:name="FTP" 
+    doc:description="notes" moveToDirectory="move">
+        <reconnect frequency="3000" count="5"/>
+    </ftp:connector>
+    <spring:beans>
+        <spring:bean id="Bean" name="Bean"/>
+        <spring:bean id="Bean1" name="Bean1"/>
+    </spring:beans>
+    <flow name="ftpFlow">
+        <ftp:inbound-endpoint host="host" port="8080" passive="true" connector-ref="FTP" responseTimeout="10000" doc:name="FTP" password="password" path="path" user="user" pollingFrequency="3000" encoding="UTF-8" mimeType="application/json">
+            <idempotent-redelivery-policy maxRedeliveryCount="100" messageDigestAlgorithm="SHA" idExpression="#[payload]" useSecureHash="false" object-store-ref="Bean"/>
+        </ftp:inbound-endpoint>
+        <ftp:outbound-endpoint host="host" port="8080" passive="true" responseTimeout="10000" doc:name="FTP" password="password" path="path" user="user" encoding="UTF-8" mimeType="application/json" connector-ref="FTP">
+            <idempotent-redelivery-policy maxRedeliveryCount="100" messageDigestAlgorithm="SHA" idExpression="#[payload]" useSecureHash="false" object-store-ref="Bean1"/>
+        </ftp:outbound-endpoint>
+    </flow>
+    
+   
+</mule>

@@ -1,0 +1,313 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ec2="http://www.mulesoft.org/schema/mule/ec2" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/ec2 http://www.mulesoft.org/schema/mule/ec2/current/mule-ec2.xsd">
+<ec2:config doc:name="Amazon EC2: Configuration" name="Amazon_EC2__Configuration">
+<ec2:basic-connection accessKey="key" connectionTimeout="60000" maxConnections="1000" proxyDomain="domain" proxyHost="host" proxyPassword="pass" proxyPort="8080" proxyUsername="user" proxyWorkstation="work" region="end" secretKey="sec" socketTimeout="60000" tryDefaultAWSCredentialsProviderChain="true">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</ec2:basic-connection>
+</ec2:config>
+<flow name="amazon_ec2Flow">
+<ec2:allocate-address config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" domain="domain"/>
+</flow>
+<flow name="amazon_ec2Flow1">
+<ec2:assign-ipv6-addresses config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" ipv6AddressCount="count" ipv6Addresses="#[vars.abc]" networkInterfaceId="id"/>
+</flow>
+<flow name="amazon_ec2Flow2">
+<ec2:assign-private-ip-addresses allowReassignment="true" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" networkInterfaceId="id" privateIpAddresses="#[vars.abc]" secondaryPrivateIpAddressCount="count"/>
+</flow>
+<flow name="amazon_ec2Flow3">
+<ec2:associate-address allocationId="aid" allowReassociation="true" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceId="iid" networkInterfaceId="nid" privateIpAddress="pa" publicIp="pi"/>
+</flow>
+<flow name="amazon_ec2Flow4">
+<ec2:associate-iam-instance-profile config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceId="id" profileName="name"/>
+</flow>
+<flow name="amazon_ec2Flow5">
+<ec2:attach-network-interface config-ref="Amazon_EC2__Configuration" deviceIndex="index" doc:name="Amazon EC2" instanceId="id" networkInterfaceId="iid"/>
+</flow>
+<flow name="amazon_ec2Flow6">
+<ec2:attach-volume config-ref="Amazon_EC2__Configuration" device="device" doc:name="Amazon EC2" instanceId="iid" volumeId="id"/>
+</flow>
+<flow name="amazon_ec2Flow7">
+<ec2:authorize-security-group-egress cidrIp="ip" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" fromPort="fport" groupId="id" ipProtocol="proto" sourceSecurityGroupName="name" sourceSecurityGroupOwnerId="oid" toPort="tport"/>
+</flow>
+<flow name="amazon_ec2Flow8">
+<ec2:authorize-security-group-ingress cidrIp="ip" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" fromPort="8080" groupId="id" groupName="name" ipProtocol="proto" sourceSecurityGroupName="name" sourceSecurityGroupOwnerId="id" toPort="8081"/>
+</flow>
+<flow name="amazon_ec2Flow9">
+<ec2:copy-snapshot config-ref="Amazon_EC2__Configuration" description="desc" destinationRegion="APNORTHEAST1" doc:name="Amazon EC2" encrypted="true" kmsKeyId="id" presignedUrl="url" sourceRegion="APNORTHEAST1" sourceSnapshotId="id"/>
+</flow>
+<flow name="amazon_ec2Flow10">
+<ec2:create-image config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" iName="name" instanceId="id"/>
+</flow>
+<flow name="amazon_ec2Flow11">
+<ec2:create-key-pair config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" keyName="key"/>
+</flow>
+<flow name="amazon_ec2Flow12">
+<ec2:create-network-interface config-ref="Amazon_EC2__Configuration" description="desc" doc:name="Amazon EC2" ipv6AddressCount="coun" privateIpAddress="addr" secondaryPrivateIpAddressCount="ip" subnetId="id"/>
+</flow>
+<flow name="amazon_ec2Flow13">
+<ec2:create-security-group config-ref="Amazon_EC2__Configuration" description="desc" doc:name="Amazon EC2" groupName="name" vpcId="id"/>
+</flow>
+<flow name="amazon_ec2Flow14">
+<ec2:create-snapshot config-ref="Amazon_EC2__Configuration" description="desc" doc:name="Amazon EC2" volumeId="id"/>
+</flow>
+<flow name="amazon_ec2Flow15">
+<ec2:create-tags config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" resources="#[vars.abc]">
+<ec2:tags>
+<ec2:tag key="abc" value="xyz"/>
+</ec2:tags>
+</ec2:create-tags>
+</flow>
+<flow name="amazon_ec2Flow16">
+<ec2:create-volume availabilityZone="zone" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" encrypted="true" iops="iops" kmsKeyId="key" size="size" snapshotId="id" volumeType="Gp2"/>
+</flow>
+<flow name="amazon_ec2Flow17">
+<ec2:delete-key-pair config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" keyName="key"/>
+</flow>
+<flow name="amazon_ec2Flow18">
+<ec2:delete-network-interface config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" networkInterfaceId="id"/>
+</flow>
+<flow name="amazon_ec2Flow19">
+<ec2:delete-security-group config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" groupId="id" groupName="name"/>
+</flow>
+<flow name="amazon_ec2Flow20">
+<ec2:delete-snapshot config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" snapshotId="id"/>
+</flow>
+<flow name="amazon_ec2Flow21">
+<ec2:delete-tags config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" resources="#[vars.abc]">
+<ec2:tags>
+<ec2:tag key="abc" value="xyz"/>
+</ec2:tags>
+</ec2:delete-tags>
+</flow>
+<flow name="amazon_ec2Flow22">
+<ec2:delete-volume config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" volumeId="id"/>
+</flow>
+<flow name="amazon_ec2Flow23">
+<ec2:deregister-image config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" imageId="id"/>
+</flow>
+<flow name="amazon_ec2Flow24">
+<ec2:describe-addresses allocationIds="#[vars.abc]" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" publicIps="#[vars.abc]"/>
+</flow>
+<flow name="amazon_ec2Flow25">
+<ec2:describe-availability-zones config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" zoneNames="#[vars.abc]"/>
+</flow>
+<flow name="amazon_ec2Flow26">
+<ec2:describe-iam-instance-profile-associations associationIds="#[vars.abc]" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2"/>
+</flow>
+<flow name="amazon_ec2Flow27">
+<ec2:describe-image-attribute attribute="att" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" imageId="id"/>
+</flow>
+<flow name="amazon_ec2Flow28">
+<ec2:describe-images config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2"/>
+</flow>
+<flow name="amazon_ec2Flow29">
+<ec2:describe-instance-attribute attribute="att" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceId="id"/>
+</flow>
+<flow name="amazon_ec2Flow30">
+<ec2:describe-instance-status>
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-instance-status>
+</flow>
+<flow name="amazon_ec2Flow31">
+<ec2:describe-instances config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceIds="#[vars.abc]">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-instances>
+</flow>
+<flow name="amazon_ec2Flow32">
+<ec2:describe-key-pairs config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" keyNames="#[vars.name]">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-key-pairs>
+</flow>
+<flow name="amazon_ec2Flow33">
+<ec2:describe-moving-addresses config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" publicIps="#[vars.abc]">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-moving-addresses>
+</flow>
+<flow name="amazon_ec2Flow34">
+<ec2:describe-network-interface-attribute attribute="att" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" networkInterfaceId="id"/>
+</flow>
+<flow name="amazon_ec2Flow35">
+<ec2:describe-network-interfaces config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" networkInterfaceIds="#[vars.id]">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-network-interfaces>
+</flow>
+<flow name="amazon_ec2Flow36">
+<ec2:describe-regions config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" regionNames="#[vars.abc]">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-regions>
+</flow>
+<flow name="amazon_ec2Flow37">
+<ec2:describe-security-group-references config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" groupIds="#[vars.abc]"/>
+</flow>
+<flow name="amazon_ec2Flow38">
+<ec2:describe-security-groups config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" groupIds="#[vars.id]" groupNames="#[vars.name]">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-security-groups>
+</flow>
+<flow name="amazon_ec2Flow39">
+<ec2:describe-snapshot-attribute attribute="ProductCodes" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" snapshotId="id"/>
+</flow>
+<flow name="amazon_ec2Flow40">
+<ec2:describe-snapshots config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" ownerIds="#[vars.oid]" restorableByUserIds="#[vars.uid]" snapshotIds="#[vars.id]">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-snapshots>
+</flow>
+<flow name="amazon_ec2Flow41">
+<ec2:describe-stale-security-groups config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" vpcId="id"/>
+</flow>
+<flow name="amazon_ec2Flow42">
+<ec2:describe-tags config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-tags>
+</flow>
+<flow name="amazon_ec2Flow43">
+<ec2:describe-volume-attribute attributeName="ProductCodes" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" volumeId="id"/>
+</flow>
+<flow name="amazon_ec2Flow44">
+<ec2:describe-volume-status config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" volumeIds="#[vars.id]">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-volume-status>
+</flow>
+<flow name="amazon_ec2Flow45">
+<ec2:describe-volumes config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" volumeIds="#[vars.id]">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-volumes>
+</flow>
+<flow name="amazon_ec2Flow46">
+<ec2:describe-volumes-modifications config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" volumeIds="#[vars.abc]">
+<ec2:filters>
+<ec2:filter name="abc" values="#[vars.abc]"/>
+</ec2:filters>
+</ec2:describe-volumes-modifications>
+</flow>
+<flow name="amazon_ec2Flow47">
+<ec2:detach-network-interface attachmentId="id" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" force="true"/>
+</flow>
+<flow name="amazon_ec2Flow48">
+<ec2:detach-volume config-ref="Amazon_EC2__Configuration" device="device" doc:name="Amazon EC2" force="true" instanceId="iid" volumeId="id"/>
+</flow>
+<flow name="amazon_ec2Flow49">
+<ec2:disassociate-address associationId="id" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" publicIp="ip"/>
+</flow>
+<flow name="amazon_ec2Flow50">
+<ec2:disassociate-iam-instance-profile associationId="id" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2"/>
+</flow>
+<flow name="amazon_ec2Flow51">
+<ec2:enable-volume-io config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" volumeId="id"/>
+</flow>
+<flow name="amazon_ec2Flow52">
+<ec2:get-console-output config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceId="id"/>
+</flow>
+<flow name="amazon_ec2Flow53">
+<ec2:get-console-screenshot config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceId="id"/>
+</flow>
+<flow name="amazon_ec2Flow54">
+<ec2:get-password-data config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceId="id"/>
+</flow>
+<flow name="amazon_ec2Flow55">
+<ec2:import-key-pair config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" keyName="key" publicKeyMaterial="public"/>
+</flow>
+<flow name="amazon_ec2Flow56">
+<ec2:modify-image-attribute attribute="att" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" imageId="id" operationType="type" value="value"/>
+</flow>
+<flow name="amazon_ec2Flow57">
+<ec2:modify-instance-attribute attribute="att" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceId="id" value="value"/>
+</flow>
+<flow name="amazon_ec2Flow58">
+<ec2:modify-network-interface-attribute attachmentId="aid" config-ref="Amazon_EC2__Configuration" deleteOnTermination="true" description="desc" doc:name="Amazon EC2" groups="#[vars.abc]" networkInterfaceId="nid" sourceDestCheck="true"/>
+</flow>
+<flow name="amazon_ec2Flow59">
+<ec2:modify-snapshot-attribute attribute="ProductCodes" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" groupNames="#[vars.name]" operationType="Remove" snapshotId="id" userIds="#[vars.id]"/>
+</flow>
+<flow name="amazon_ec2Flow60">
+<ec2:modify-volume config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" iops="iops" size="size" volumeId="id" volumeType="Gp2"/>
+</flow>
+<flow name="amazon_ec2Flow61">
+<ec2:modify-volume-attribute autoEnableIO="false" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" volumeId="id"/>
+</flow>
+<flow name="amazon_ec2Flow62">
+<ec2:monitor-instances config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceIds="#[vars.id]"/>
+</flow>
+<flow name="amazon_ec2Flow63">
+<ec2:move-address-to-vpc config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" publicIp="ip"/>
+</flow>
+<flow name="amazon_ec2Flow64">
+<ec2:reboot-instances config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceIds="#[vars.id]"/>
+</flow>
+<flow name="amazon_ec2Flow65">
+<ec2:release-address allocationId="id" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" publicIp="ip"/>
+</flow>
+<flow name="amazon_ec2Flow66">
+<ec2:replace-iam-instance-profile-association associationId="id" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" profileName="name"/>
+</flow>
+<flow name="amazon_ec2Flow67">
+<ec2:report-instance-status config-ref="Amazon_EC2__Configuration" description="desc" doc:name="Amazon EC2" instanceIds="#[vars.id]" reasonCodes="#[vars.code]" status="status"/>
+</flow>
+<flow name="amazon_ec2Flow68">
+<ec2:reset-image-attribute attribute="att" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" imageId="id"/>
+</flow>
+<flow name="amazon_ec2Flow69">
+<ec2:reset-instance-attribute attribute="att" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceId="id"/>
+</flow>
+<flow name="amazon_ec2Flow70">
+<ec2:reset-network-interface-attribute config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" networkInterfaceId="id" sourceDestCheck="check"/>
+</flow>
+<flow name="amazon_ec2Flow71">
+<ec2:reset-snapshot-attribute attribute="ProductCodes" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" snapshotId="id"/>
+</flow>
+<flow name="amazon_ec2Flow72">
+<ec2:restore-address-to-classic config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" publicIp="ip"/>
+</flow>
+<flow name="amazon_ec2Flow73">
+<ec2:revoke-security-group-egress cidrIp="ip" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" fromPort="fport" groupId="id" ipProtocol="protocol" sourceSecurityGroupName="name" sourceSecurityGroupOwnerId="oid" toPort="tport"/>
+</flow>
+<flow name="amazon_ec2Flow74">
+<ec2:revoke-security-group-ingress cidrIp="ip" config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" fromPort="fport" groupId="id" groupName="name" ipProtocol="protocol" sourceSecurityGroupName="name" sourceSecurityGroupOwnerId="oid" toPort="tport"/>
+</flow>
+<flow name="amazon_ec2Flow75">
+<ec2:run-instances config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" imageId="id" instanceType="type" keyname="key" maxCount="10" minCount="10" securityGroupIds="#[vars.id]" securityGroups="#[vars.group]" subnetId="id"/>
+</flow>
+<flow name="amazon_ec2Flow76">
+<ec2:start-instances config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceIds="#[vars.id]"/>
+</flow>
+<flow name="amazon_ec2Flow77">
+<ec2:stop-instances config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceIds="#[vars.id]"/>
+</flow>
+<flow name="amazon_ec2Flow78">
+<ec2:terminate-instances config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceIds="#[vars.id]"/>
+</flow>
+<flow name="amazon_ec2Flow79">
+<ec2:unassign-private-ip-addresses config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" networkInterfaceId="id" privateIpAddresses="#[vars.ip]"/>
+</flow>
+<flow name="amazon_ec2Flow80">
+<ec2:unassign-ipv6-addresses config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" ipv6Addresses="#[vars.ip]" networkInterfaceId="id"/>
+</flow>
+<flow name="amazon_ec2Flow81">
+<ec2:unmonitor-instances config-ref="Amazon_EC2__Configuration" doc:name="Amazon EC2" instanceIds="#[vars.id]"/>
+</flow>
+
+</mule>

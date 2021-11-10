@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:ibm-mq="http://www.mulesoft.org/schema/mule/ibm-mq"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ibm-mq http://www.mulesoft.org/schema/mule/ibm-mq/current/mule-ibm-mq.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<ibm-mq:config name="WMQ" doc:name="WMQ"  >
+		<ibm-mq:connection username="user" password="pass" clientId="client" cssId="id" specification="1.1" temporaryModel="model" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+			<ibm-mq:connection-mode >
+				<ibm-mq:client host="host" port="8080" queueManager="manager" channel="channel" />
+			</ibm-mq:connection-mode>
+			<ibm-mq:handlers-config receiveExitHandler="exit" receiveExitHandlerInit="init" sendExitHandler="send" sendExitHandlerInit="init" securityExitHandler="secure" securityExitHandlerInit="init" />
+		</ibm-mq:connection>
+		<ibm-mq:consumer-config ackMode="DUPS_OK_ACKNOWLEDGE" />
+		<ibm-mq:producer-config persistentDelivery="true" deliveryDelay="100" />
+	</ibm-mq:config>
+	<flow name="wmqFlow"  >
+		<ibm-mq:listener doc:name="WMQ"  config-ref="WMQ" transactionalAction="ALWAYS_BEGIN" transactionType="XA" destination="name"/>
+		<ibm-mq:publish doc:name="WMQ" config-ref="WMQ" destination="name" transactionalAction="ALWAYS_JOIN"/>
+	</flow>
+</mule>

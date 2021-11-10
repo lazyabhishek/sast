@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:edifact-edi="http://www.mulesoft.org/schema/mule/edifact-edi" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/edifact-edi http://www.mulesoft.org/schema/mule/edifact-edi/current/mule-edifact-edi.xsd">
+    <edifact-edi:config name="EDIFACT_EDI" stringSubstitutionChar="sub" interchangeIdSelf="#[flowVars.abc]"
+     interchangeIdQualifierSelf="#[flowVars.abc]" interchangeIdPartner="#[flowVars.id]"
+      interchangeIdQualifierPartner="#[flowVars.id]" delimiterUsage="USE_DEFAULTS" dataSeparator="dc" componentSeparator="ce" repetitionSeparator="rs" segmentTerminator="st" releaseCharacter="rc" valueLengthErrorFail="false" wrongValuesRepeatsFail="false" unknownSegmentFail="false" segmentOutOfOrderFail="false" unusedSegmentPresentFail="false" wrongSegmentsRepeatsFail="false" requireUniqueInterchangeReferences="true" requireUniqueMessageNumbers="true" characterEncoding="ASCII_A" sendSyntaxVersion="VERSION2" lineEnding="CR" alwaysSendUNA="true" sendUniqueMessageNumbers="true" initialInterchangeNumber="10" initialMessageNumber="10" defaultTestIndicator="test" doc:name="EDIFACT EDI">
+        <edifact-edi:schemas ref="#[flowVars.abc]"/>
+    </edifact-edi:config>
+    <flow name="edifactFlow">
+        <edifact-edi:read config-ref="EDIFACT_EDI" ediContent-ref="#[flowVars.abc]" doc:name="EDIFACT EDI"/>
+    </flow>
+    <flow name="edifactFlow1">
+        <edifact-edi:write config-ref="EDIFACT_EDI" doc:name="EDIFACT EDI">
+            <edifact-edi:map ref="#[flowVars.abc]"/>
+        </edifact-edi:write>
+    </flow>
+</mule>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sap="http://www.mulesoft.org/schema/mule/sap" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd">
+	
+	<flow name="sapFlow"  >
+		<sap:document-source doc:name="SAP"  config-ref="SAP" gatewayHost="host" gatewayService="service" programID="id" connectionCount="10"/>
+		<sap:execute-queued-remote-function-call doc:name="SAP"  config-ref="SAP1" queueName="name" transactionalAction=""/>
+		<sap:execute-synchronous-remote-function-call doc:name="SAP"  config-ref="SAP1" transactionalAction=""/>
+		<sap:execute-transactional-remote-function-call doc:name="SAP"  config-ref="SAP1" transactionalAction=""/>
+	</flow>
+	<sap:inbound-config name="SAP" doc:name="SAP"  >
+		<sap:simple-connection-provider-connection applicationServerHost="host" username="user" password="pass" systemNumber="num" client="client" language="login" />
+	</sap:inbound-config>
+	<sap:outbound-config name="SAP1" doc:name="SAP"  >
+		<sap:simple-connection-provider-connection applicationServerHost="host" username="user" password="pass" systemNumber="num" client="client" language="log" />
+	</sap:outbound-config>
+	<flow name="sapFlow1"  >
+		<sap:function-source doc:name="SAP"  config-ref="SAP" gatewayHost="host" gatewayService="service" programID="id" connectionCount="10"/>
+	</flow>
+</mule>

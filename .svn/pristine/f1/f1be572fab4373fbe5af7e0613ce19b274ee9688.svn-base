@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:pop3="http://www.mulesoft.org/schema/mule/pop3" xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/pop3 http://www.mulesoft.org/schema/mule/pop3/current/mule-pop3.xsd http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+<flow name="smtp-connectorFlow">
+<email:send config-ref="SMTP1" doc:name="SMTP" fromAddress="from" subject="subject">
+<email:to-addresses>
+<email:to-address value="to"/>
+</email:to-addresses>
+<email:cc-addresses>
+<email:cc-address value="cc"/>
+</email:cc-addresses>
+<email:bcc-addresses>
+<email:bcc-address value="bcc"/>
+</email:bcc-addresses>
+<email:reply-to-addresses>
+<email:reply-to-address value="replyTo"/>
+</email:reply-to-addresses>
+<email:body contentType="application/json" encoding="UTF-8"/>
+</email:send>
+</flow>
+<email:smtp-config doc:name="SMTP" name="SMTP1">
+<email:smtps-connection host="localhost" password="password" user="user">
+<tls:context>
+<tls:trust-store password="password" path="path"/>
+</tls:context>
+</email:smtps-connection>
+</email:smtp-config>
+<flow name="smtp-connectorFlow1">
+<email:send config-ref="SMTP_1" doc:name="SMTP" fromAddress="from" subject="subject">
+<reconnect count="5" frequency="3000"/>
+<email:to-addresses>
+<email:to-address value="to"/>
+</email:to-addresses>
+<email:cc-addresses>
+<email:cc-address value="cc"/>
+</email:cc-addresses>
+<email:bcc-addresses>
+<email:bcc-address value="bcc"/>
+</email:bcc-addresses>
+<email:reply-to-addresses>
+<email:reply-to-address value="replyto"/>
+</email:reply-to-addresses>
+<email:body contentType="application/json" encoding="UTF-8"/>
+</email:send>
+</flow>
+<email:smtp-config doc:name="SMTP" name="SMTP_1">
+<email:smtp-connection host="localhost" password="password" port="8080" user="user"/>
+</email:smtp-config>
+
+</mule>

@@ -1,0 +1,35 @@
+<ee:transform>
+	<xsl:attribute name="doc:name">
+		<xsl:value-of select="@doc:name" />
+	</xsl:attribute>
+	
+	<xsl:choose>
+		<xsl:when test="starts-with(@propertyName,'http.status')">
+			<ee:variables>
+				<ee:set-variable variableName="httpStatus">
+					<xsl:value-of select="@value" />
+				</ee:set-variable>
+			</ee:variables>
+		</xsl:when>
+		<xsl:otherwise>
+			<ee:message>
+				<ee:set-attributes>
+					<xsl:text>attributes ++ {</xsl:text>
+					'
+					<xsl:value-of select="@propertyName" />
+					' :
+					<xsl:choose>
+						<xsl:when test="starts-with(@value,'#[')">
+							<xsl:value-of
+								select="substring(@value,3,string-length(@value) - 3)" />
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:value-of select="@value" />
+						</xsl:otherwise>
+					</xsl:choose>
+					<xsl:text>}</xsl:text>
+				</ee:set-attributes>
+			</ee:message>
+		</xsl:otherwise>
+	</xsl:choose>
+</ee:transform>

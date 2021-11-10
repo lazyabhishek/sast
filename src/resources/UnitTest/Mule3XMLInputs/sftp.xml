@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd">
+    <sftp:connector name="SFTP" identityFile="identify" passphrase="pass" validateConnections="true" sizeCheckWaitTime="1000" doc:name="SFTP" pollingFrequency="10000">
+        <reconnect frequency="3000" count="5"/>
+    </sftp:connector>
+    <flow name="sftpFlow">
+        <sftp:inbound-endpoint connector-ref="SFTP" host="host" port="8080" path="path" user="user" password="password" responseTimeout="10000" encoding="UTF-8" mimeType="application/json" identityFile="identify" passphrase="pass" doc:name="SFTP" pollingFrequency="3000"/>
+    </flow>
+    <flow name="sftpFlow1">
+        <sftp:outbound-endpoint exchange-pattern="one-way" connector-ref="SFTP" host="host" port="8080" path="path" user="user" password="password" responseTimeout="10000" encoding="UTF-8" mimeType="application/json" identityFile="identify" passphrase="pass" doc:name="SFTP"/>
+    </flow>
+</mule>

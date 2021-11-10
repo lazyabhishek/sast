@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:redis="http://www.mulesoft.org/schema/mule/redis" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/redis http://www.mulesoft.org/schema/mule/redis/current/mule-redis.xsd">
+    <redis:config name="Redis__Configuration"  connectionTimeout="3000" entryTTL="10" doc:name="Redis: Configuration" host="host" password="pass" port="8080"/>
+    <flow name="redisFlow">
+        <redis:subscribe config-ref="Redis__Configuration" doc:name="Redis (Streaming)">
+            <redis:channels ref="10"/>
+        </redis:subscribe>
+        <redis:set-add config-ref="Redis__Configuration" key="key" doc:name="Redis" mustSucceed="true" value="#[flowVars.abc]"/>
+    </flow>
+    <flow name="redisFlow1">
+        <redis:sorted-set-add config-ref="Redis__Configuration" key="key" value="#[flowVars.abc]" score="score" mustSucceed="true" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow2">
+        <redis:decrement config-ref="Redis__Configuration" key="key" step="step" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow3">
+        <redis:del config-ref="Redis__Configuration" key="key" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow4">
+        <redis:exists config-ref="Redis__Configuration" key="key" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow5">
+        <redis:expire config-ref="Redis__Configuration" key="key" seconds="sec" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow6">
+        <redis:expire-at config-ref="Redis__Configuration" key="key" unixTime="time" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow7">
+        <redis:get config-ref="Redis__Configuration" key="key" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow8">
+        <redis:hash-get-all config-ref="Redis__Configuration" key="key" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow9">
+        <redis:hash-get config-ref="Redis__Configuration" field="feild" key="key" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow10">
+        <redis:sorted-set-select-range-by-index config-ref="Redis__Configuration" key="key" end="end" start="start"  doc:name="Redis" order="DESCENDING"/>
+    </flow>
+    <flow name="redisFlow11">
+        <redis:sorted-set-select-range-by-score config-ref="Redis__Configuration" key="key" min="min" max="max" order="DESCENDING" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow12">
+        <redis:get-ttl config-ref="Redis__Configuration" key="key" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow13">
+        <redis:increment config-ref="Redis__Configuration" key="key" step="step" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow14">
+        <redis:hash-increment config-ref="Redis__Configuration" field="key" key="field" step="step" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow15">
+        <redis:sorted-set-increment config-ref="Redis__Configuration" key="key" value="#[flowVars.abc]" step="step" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow16">
+        <redis:persist config-ref="Redis__Configuration" key="key" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow17">
+        <redis:list-pop config-ref="Redis__Configuration" key="key" side="LEFT" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow18">
+        <redis:set-pop config-ref="Redis__Configuration" key="key" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow19">
+        <redis:publish config-ref="Redis__Configuration" channel="channel" message="hello" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow20">
+        <redis:list-push config-ref="Redis__Configuration" key="key" value="#[flowVars.abc]" side="LEFT" ifExists="true" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow21">
+        <redis:set-fetch-random-member config-ref="Redis__Configuration" key="key" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow22">
+        <redis:set config-ref="Redis__Configuration" key="key" value="#[flowVars.abc]" expire="expire" ifNotExists="true" doc:name="Redis"/>
+    </flow>
+    <flow name="redisFlow23">
+        <redis:hash-set config-ref="Redis__Configuration" field="field" key="key" value="#[flowVars.abc]" ifNotExists="true" doc:name="Redis"/>
+    </flow>
+</mule>

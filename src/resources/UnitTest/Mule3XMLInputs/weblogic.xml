@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
+    <jms:weblogic-connector name="Web_logic_JMS" specification="1.1" username="user" acknowledgementMode="CLIENT_ACKNOWLEDGE" password="pass" validateConnections="true" jndiInitialFactory="fact" jndiProviderUrl="url" connectionFactoryJndiName="name" jndiProviderProperties-ref="#[flowVars.abc]"  clientId="id" maxRedelivery="100" numberOfConsumers="10" persistentDelivery="true" doc:name="Web logic JMS" >
+        <reconnect frequency="3000" count="5"/>
+    </jms:weblogic-connector>
+</mule>

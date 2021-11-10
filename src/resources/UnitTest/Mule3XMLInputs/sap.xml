@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sap="http://www.mulesoft.org/schema/mule/sap" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sap http://www.mulesoft.org/schema/mule/sap/current/mule-sap.xsd">
+    <sap:connector name="SAP" jcoAsHost="host" jcoUser="user" jcoPasswd="pass" jcoSysnr="num" jcoClient="client" jcoLang="login" validateConnections="true" doc:name="SAP"/>
+    <sap:connector name="SAP1" jcoAsHost="host" jcoUser="user" jcoPasswd="pass" jcoSysnr="num" jcoClient="client" jcoLang="log" validateConnections="true" doc:name="SAP"/>
+    <flow name="sapFlow">
+        <sap:inbound-endpoint connector-ref="SAP" outputXml="true" jcoGwHost="host" jcoGwService="service" jcoProgramId="id" jcoConnectionCount="10" responseTimeout="10000" doc:name="SAP" type="idoc"/>
+        <sap:outbound-endpoint outputXml="true" responseTimeout="10000" doc:name="SAP" connector-ref="SAP1" type="function" queueName="name" rfcType="qrfc">
+            <sap:transaction action="ALWAYS_JOIN"/>
+        </sap:outbound-endpoint>
+        <sap:outbound-endpoint connector-ref="SAP1" type="function" outputXml="true" responseTimeout="10000" doc:name="SAP">
+            <sap:transaction action="ALWAYS_JOIN"/>
+        </sap:outbound-endpoint>
+        <sap:outbound-endpoint type="function" rfcType="trfc" outputXml="true" responseTimeout="10000" doc:name="SAP" connector-ref="SAP1">
+            <sap:transaction action="ALWAYS_JOIN"/>
+        </sap:outbound-endpoint>
+    </flow>
+    <flow name="sapFlow1">
+        <sap:inbound-endpoint outputXml="true" responseTimeout="10000" doc:name="SAP" connector-ref="SAP" jcoConnectionCount="10" jcoGwHost="host" jcoGwService="service" jcoProgramId="id" type="function"/>
+    </flow>
+</mule>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tcp="http://www.mulesoft.org/schema/mule/tcp" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/current/mule-tcp.xsd">
+    <tcp:connector name="TCP" validateConnections="true" sendBufferSize="1000" receiveBufferSize="1000" receiveBacklog="500" sendTcpNoDelay="true" reuseAddress="true" keepSendSocketOpen="open" keepAlive="true" failOnUnresolvedHost="true" clientSoTimeout="20000" serverSoTimeout="20000" socketSoLinger="0" doc:name="TCP">
+        <reconnect frequency="3000" count="5"/>
+        <tcp:length-protocol rethrowExceptionOnRead="true" payloadOnly="false" maxMessageLength="1000"/>
+    </tcp:connector>
+    <tcp:polling-connector name="TCP_Polling" pollingFrequency="60000" validateConnections="true" sendBufferSize="1000" receiveBufferSize="1000" sendTcpNoDelay="true" reuseAddress="true" keepSendSocketOpen="open" keepAlive="true" failOnUnresolvedHost="true" connectionTimeout="50000" clientSoTimeout="10000" serverSoTimeout="10000" socketSoLinger="0" doc:name="TCP Polling">
+        <reconnect frequency="3000" count="5"/>
+        <tcp:safe-protocol rethrowExceptionOnRead="true" payloadOnly="false" maxMessageLength="1000"/>
+    </tcp:polling-connector>
+    <flow name="tcpFlow">
+        <tcp:inbound-endpoint exchange-pattern="request-response" host="localhost" port="80" responseTimeout="10000" doc:name="TCP" connector-ref="TCP"/>
+        <tcp:outbound-endpoint exchange-pattern="request-response" host="localhost" port="80" responseTimeout="10000" doc:name="TCP" connector-ref="TCP_Polling"/>
+    </flow>
+</mule>

@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	
+	<flow name="smtp-connectorFlow"  >
+		<email:send doc:name="SMTP"  config-ref="SMTP1" fromAddress="from" subject="subject">
+		
+			<email:to-addresses >
+				<email:to-address value="to" />
+			</email:to-addresses>
+			<email:cc-addresses >
+				<email:cc-address value="cc" />
+			</email:cc-addresses>
+			<email:bcc-addresses >
+				<email:bcc-address value="bcc" />
+			</email:bcc-addresses>
+			<email:reply-to-addresses >
+				<email:reply-to-address value="replyTo" />
+			</email:reply-to-addresses>
+			<email:body contentType="application/json" encoding="UTF-8" />
+		</email:send>
+	</flow>
+	<email:smtp-config name="SMTP1" doc:name="SMTP"  >
+		<email:smtps-connection host="localhost" user="user" password="password" >
+			<tls:context >
+				<tls:trust-store path="path" password="password"/>
+			</tls:context>
+		</email:smtps-connection>
+	</email:smtp-config>
+	<flow name="smtp-connectorFlow1"  >
+		<email:send doc:name="SMTP"  config-ref="SMTP_1" fromAddress="from" subject="subject">
+		<reconnect frequency="3000" count="5"/>
+			<email:to-addresses >
+				<email:to-address value="to" />
+			</email:to-addresses>
+			<email:cc-addresses >
+				<email:cc-address value="cc" />
+			</email:cc-addresses>
+			<email:bcc-addresses >
+				<email:bcc-address value="bcc" />
+			</email:bcc-addresses>
+			<email:reply-to-addresses >
+				<email:reply-to-address value="replyto" />
+			</email:reply-to-addresses>
+			<email:body contentType="application/json" encoding="UTF-8"/>
+		</email:send>
+	</flow>
+<email:smtp-config name="SMTP_1" doc:name="SMTP"  >
+		<email:smtp-connection host="localhost" user="user" password="password" port="8080"/>
+	</email:smtp-config>
+	
+</mule>

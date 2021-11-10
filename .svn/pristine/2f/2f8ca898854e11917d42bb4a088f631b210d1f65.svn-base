@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd">
+	<jms:config name="Web_logic_JMS" doc:name="Web logic JMS" >
+		<jms:generic-connection username="user" password="pass" clientId="id" specification="JMS_1_1" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+			<jms:connection-factory >
+				<jms:jndi-connection-factory connectionFactoryJndiName="name" >
+					<jms:name-resolver-builder jndiInitialContextFactory="fact" jndiProviderUrl="url" providerProperties="#[vars.abc]" />
+				</jms:jndi-connection-factory>
+			</jms:connection-factory>
+		</jms:generic-connection>
+		<jms:consumer-config ackMode="MANUAL" selector="10" maxRedelivery="100" />
+		<jms:producer-config persistentDelivery="true" />
+	</jms:config>
+</mule>

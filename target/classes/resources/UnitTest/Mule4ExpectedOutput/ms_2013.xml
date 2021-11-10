@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sharepoint="http://www.mulesoft.org/schema/mule/sharepoint" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sharepoint http://www.mulesoft.org/schema/mule/sharepoint/current/mule-sharepoint.xsd">
+	<sharepoint:sharepoint-online-config name="Microsoft_SharePoint_2013__Online_Connection" doc:name="Microsoft SharePoint 2013: Online Connection" >
+		<sharepoint:online-connection onlineUsername="user" onlinePassword="pass" siteUrl="url" disableCnCheck="true" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sharepoint:online-connection>
+	</sharepoint:sharepoint-online-config>
+	<sharepoint:sharepoint-onpremise-config name="Microsoft_SharePoint_2013__Claims_Connection" doc:name="Microsoft SharePoint 2013: Claims Connection" >
+		<sharepoint:claims-connection claimsUsername="user" claimsPassword="pass" siteUrl="url" stsUrl="url" scope="app" disableCnCheck="true" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sharepoint:claims-connection>
+	</sharepoint:sharepoint-onpremise-config>
+	<sharepoint:sharepoint-onpremise-config name="Microsoft_SharePoint_2013__Legacy_Connection" doc:name="Microsoft SharePoint 2013: Legacy Connection"  >
+		<sharepoint:security-token-connection securityToken="url" securityTokenProvider="app" siteUrl="url" disableCnCheck="true" username="user" password="pass" ntlmDomain="domain" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sharepoint:security-token-connection>
+	</sharepoint:sharepoint-onpremise-config>
+	<sharepoint:sharepoint-onpremise-config name="Microsoft_SharePoint_2013__NTLM_Connection" doc:name="Microsoft SharePoint 2013: NTLM Connection" >
+		<sharepoint:ntlm-connection domain="domain" ntlmUsername="user" ntlmPassword="pass" siteUrl="url" disableCnCheck="true" >
+			<reconnection >
+				<reconnect frequency="3000" count="3" />
+			</reconnection>
+		</sharepoint:ntlm-connection>
+	</sharepoint:sharepoint-onpremise-config>
+	<flow name="ms_2013Flow"  >
+		<sharepoint:file-add doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Online_Connection" fileServerRelativeUrl="url" overwrite="true">
+			<sharepoint:file-content-stream ><![CDATA[#[vars.abc]]]></sharepoint:file-content-stream>
+		</sharepoint:file-add>
+	</flow>
+	<flow name="ms_2013Flow1"  >
+		<sharepoint:file-approve doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" fileServerRelativeUrl="#[vars.abc]" comment="comm"/>
+	</flow>
+	<flow name="ms_2013Flow2"  >
+		<sharepoint:file-check-in doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Legacy_Connection" fileServerRelativeUrl="#[vars.abc]" checkInType="MAJOR_CHECK_IN" comment="comm"/>
+	</flow>
+	<flow name="ms_2013Flow3" >
+		<sharepoint:file-check-out doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__NTLM_Connection" fileServerRelativeUrl="#[vars.abc]"/>
+	</flow>
+	<flow name="ms_2013Flow4" >
+		<sharepoint:file-copy-to doc:name="Microsoft SharePoint 2013" config-ref="Microsoft_SharePoint_2013__Claims_Connection" fileServerRelativeUrl="#[vars.abc]" newFileServerRelativeUrl="url" overwrite="true"/>
+	</flow>
+	<flow name="ms_2013Flow5"  >
+		<sharepoint:file-delete doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" fileServerRelativeUrl="#[vars.abc]"/>
+	</flow>
+	<flow name="ms_2013Flow6"  >
+		<sharepoint:file-deny doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" fileServerRelativeUrl="#[vars.abc]" comment="comm"/>
+	</flow>
+	<flow name="ms_2013Flow7"  >
+		<sharepoint:file-get-content doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" fileServerRelativeUrl="#[vars.abc]"/>
+	</flow>
+	<flow name="ms_2013Flow8"  >
+		<sharepoint:get-metadata doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" fileServerRelativeUrl="#[vars.abc]"/>
+	</flow>
+	<flow name="ms_2013Flow9"  >
+		<sharepoint:file-publish doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" fileServerRelativeUrl="#[vars.abc]" comment="comm"/>
+	</flow>
+	<flow name="ms_2013Flow10"  >
+		<sharepoint:file-query doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" startingFolderPath="/path" recursive="true">
+			<sharepoint:query >dsql:#[vars.abc]</sharepoint:query>
+		</sharepoint:file-query>
+	</flow>
+	<flow name="ms_2013Flow11" >
+		<sharepoint:file-recycle doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" fileServerRelativeUrl="#[vars.abc]"/>
+	</flow>
+	<flow name="ms_2013Flow12" >
+		<sharepoint:file-undo-check-out doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" fileServerRelativeUrl="#[vars.abc]"/>
+	</flow>
+	<flow name="ms_2013Flow13"  >
+		<sharepoint:file-unpublish doc:name="Microsoft SharePoint 2013" config-ref="Microsoft_SharePoint_2013__Claims_Connection" fileServerRelativeUrl="#[vars.abc]" comment="comm"/>
+	</flow>
+	<flow name="ms_2013Flow14"  >
+		<sharepoint:folder-create doc:name="Microsoft SharePoint 2013" config-ref="Microsoft_SharePoint_2013__Legacy_Connection" url="#[vars.abc]" welcomePage="page"/>
+	</flow>
+	<flow name="ms_2013Flow15"  >
+		<sharepoint:folder-delete doc:name="Microsoft SharePoint 2013" config-ref="Microsoft_SharePoint_2013__Claims_Connection" url="#[vars.abc]"/>
+	</flow>
+	<flow name="ms_2013Flow16"  >
+		<sharepoint:folder-query doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" startingFolderPath="/path" recursive="true">
+			<sharepoint:query >dsql:#[vars.abc]</sharepoint:query>
+		</sharepoint:folder-query>
+	</flow>
+	<flow name="ms_2013Flow17" >
+		<sharepoint:list-create doc:name="Microsoft SharePoint 2013" config-ref="Microsoft_SharePoint_2013__Claims_Connection">
+			<sharepoint:list ><![CDATA[#[vars.abc]]]></sharepoint:list>
+		</sharepoint:list-create>
+	</flow>
+	<flow name="ms_2013Flow18" >
+		<sharepoint:list-delete doc:name="Microsoft SharePoint 2013" config-ref="Microsoft_SharePoint_2013__Legacy_Connection" listId="id"/>
+	</flow>
+	<flow name="ms_2013Flow19" >
+		<sharepoint:list-get doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" listId="id"/>
+	</flow>
+	<flow name="ms_2013Flow20" >
+		<sharepoint:list-get-all doc:name="Microsoft SharePoint 2013" config-ref="Microsoft_SharePoint_2013__Claims_Connection"/>
+	</flow>
+	<flow name="ms_2013Flow21"  >
+		<sharepoint:list-item-create listId="id" doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection">
+			<sharepoint:properties ><![CDATA[#[vars.abc]]]></sharepoint:properties>
+		</sharepoint:list-item-create>
+	</flow>
+	<flow name="ms_2013Flow22"  >
+		<sharepoint:list-item-delete doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" listId="id" itemId="id"/>
+	</flow>
+	<flow name="ms_2013Flow23"  >
+		<sharepoint:list-item-query doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" retrieveReferences="true">
+			<sharepoint:query >dsql:#[vars.abc]</sharepoint:query>
+		</sharepoint:list-item-query>
+	</flow>
+	<flow name="ms_2013Flow24"  >
+		<sharepoint:list-item-update doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" listId="id" itemId="id">
+			<sharepoint:updated-properties ><![CDATA[#[vars.abc]]]></sharepoint:updated-properties>
+		</sharepoint:list-item-update>
+	</flow>
+	<flow name="ms_2013Flow25"  >
+		<sharepoint:list-update doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" listId="id">
+			<sharepoint:list ><![CDATA[#[vars.abc]]]></sharepoint:list>
+		</sharepoint:list-update>
+	</flow>
+	<flow name="ms_2013Flow26"  >
+		<sharepoint:resolve-collection doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Claims_Connection" url="url"/>
+	</flow>
+	<flow name="ms_2013Flow27" >
+		<sharepoint:resolve-object doc:name="Microsoft SharePoint 2013"  config-ref="Microsoft_SharePoint_2013__Legacy_Connection" url="url" resolveRequestType="Create">
+			<sharepoint:body ><![CDATA[#[vars.abc]]]></sharepoint:body>
+		</sharepoint:resolve-object>
+	</flow>
+</mule>

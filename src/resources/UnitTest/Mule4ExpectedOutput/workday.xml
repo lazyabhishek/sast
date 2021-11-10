@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:workday="http://www.mulesoft.org/schema/mule/workday" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/workday http://www.mulesoft.org/schema/mule/workday/current/mule-workday.xsd">
+	<workday:config-version-30-config name="Workday__Basic" doc:name="Workday: Basic" >
+		<workday:basic-authentication-api-v30-connection username="user" password="pass" tenantName="name" hostName="host"/>
+	</workday:config-version-30-config>
+	<flow name="workdayFlow"  >
+		<workday:absence-management doc:name="Workday"  config-ref="Workday__Basic" operation="Adjust_Time_Off"/>
+	</flow>
+	<flow name="workdayFlow1"  >
+		<workday:academic-advising doc:name="Workday"  config-ref="Workday__Basic" operation="Get_Academic_Progress_for_Student"/>
+	</flow>
+	<flow name="workdayFlow2" >
+		<workday:academic-foundation doc:name="Workday"  config-ref="Workday__Basic" operation="Change_Institutional_Contact_Information"/>
+	</flow>
+	<flow name="workdayFlow3"  >
+		<workday:admissions doc:name="Workday"  config-ref="Workday__Basic" operation="Get_Admissions_Notes"/>
+	</flow>
+	<flow name="workdayFlow4"  >
+		<workday:adoption doc:name="Workday"  config-ref="Workday__Basic" operation="Get_Adoption_Items"/>
+	</flow>
+	<flow name="workdayFlow5" >
+		<workday:benefits-administration doc:name="Workday"  config-ref="Workday__Basic" operation="Add_Dependent"/>
+	</flow>
+	<flow name="workdayFlow6" >
+		<workday:campus-engagement doc:name="Workday"  config-ref="Workday__Basic" operation="Put_Engagement_Record"/>
+	</flow>
+	<flow name="workdayFlow7"  >
+		<workday:cash-management doc:name="Workday"  config-ref="Workday__Basic" operation="Cancel_Ad_Hoc_Bank_Transaction"/>
+	</flow>
+	<flow name="workdayFlow8"  >
+		<workday:compensation doc:name="Workday" config-ref="Workday__Basic" operation="Add_Stock_Grant"/>
+	</flow>
+	<flow name="workdayFlow9"  >
+		<workday:compensation-review doc:name="Workday"  config-ref="Workday__Basic" operation="Get_Budget_Pools"/>
+	</flow>
+	<flow name="workdayFlow10" >
+		<workday:dynamic-document-generation doc:name="Workday"  config-ref="Workday__Basic" operation="Get_Text_Block_Categories"/>
+	</flow>
+	<flow name="workdayFlow11"  >
+		<workday:external-integrations doc:name="Workday"  config-ref="Workday__Basic" operation="Receive_Launch_Integration_Event"/>
+	</flow>
+	<flow name="workdayFlow12"  >
+		<workday:financial-aid doc:name="Workday"  config-ref="Workday__Basic" operation="Get_Direct_Loan_Disbursements"/>
+	</flow>
+	<flow name="workdayFlow13" >
+		<workday:financial-management doc:name="Workday"  config-ref="Workday__Basic" operation="Cancel_Accounting_Journal"/>
+	</flow>
+	<flow name="workdayFlow14"  >
+		<workday:human-resources doc:name="Workday" config-ref="Workday__Basic" operation="Add_Academic_Appointment"/>
+	</flow>
+	<flow name="workdayFlow15" >
+		<workday:identity-management doc:name="Workday" config-ref="Workday__Basic" operation="Get_Unidentified_Signons"/>
+	</flow>
+	<flow name="workdayFlow16" >
+		<workday:integrations doc:name="Workday"  config-ref="Workday__Basic" operation="Approve_Business_Process"/>
+	</flow>
+	<flow name="workdayFlow17" >
+		<workday:interview-feedback doc:name="Workday"  config-ref="Workday__Basic" operation="Get_Interview_Feedbacks"/>
+	</flow>
+	<flow name="workdayFlow18"  >
+		<workday:inventory doc:name="Workday"  config-ref="Workday__Basic" operation="Cancel_Goods_Delivery"/>
+	</flow>
+	<flow name="workdayFlow19"  >
+		<workday:learning doc:name="Workday" config-ref="Workday__Basic" operation="Enroll_In_Learning_Course"/>
+	</flow>
+	<flow name="workdayFlow20" >
+		<workday:notification doc:name="Workday"  config-ref="Workday__Basic" operation="Receive_Notification"/>
+	</flow>
+	<flow name="workdayFlow21">
+		<workday:payroll doc:name="Workday"  config-ref="Workday__Basic" operation="Assign_Costing_Allocation"/>
+	</flow>
+	<flow name="workdayFlow22"  >
+		<workday:payroll-can doc:name="Workday" config-ref="Workday__Basic" operation="Get_Payroll_CAN_Year_End_Forms"/>
+	</flow>
+	<flow name="workdayFlow23"  >
+		<workday:payroll-fra doc:name="Workday"  config-ref="Workday__Basic" operation="Get_DSN_Data"/>
+	</flow>
+	<flow name="workdayFlow24"  >
+		<workday:payroll-gbr doc:name="Workday"  config-ref="Workday__Basic" operation="Get_AEO_Council_Tax_Orders"/>
+	</flow>
+	<flow name="workdayFlow25" >
+		<workday:payroll-interface doc:name="Workday"  config-ref="Workday__Basic" operation="Get_Batches"/>
+	</flow>
+	<flow name="workdayFlow26"  >
+		<workday:performance-management doc:name="Workday"  config-ref="Workday__Basic" operation="Get_Certification_Issuers"/>
+	</flow>
+	<flow name="workdayFlow27" >
+		<workday:professional-services-automation doc:name="Workday"  config-ref="Workday__Basic" operation="Add_Update_Expense_Report"/>
+	</flow>
+	<flow name="workdayFlow28" >
+		<workday:recruiting doc:name="Workday"  config-ref="Workday__Basic" operation="Assess_Candidate"/>
+	</flow>
+	<flow name="workdayFlow29" >
+		<workday:resource-management doc:name="Workday"  config-ref="Workday__Basic" operation="Add_Supplier_Contract_Line_Hold"/>
+	</flow>
+	<flow name="workdayFlow30"  >
+		<workday:revenue-management doc:name="Workday"  config-ref="Workday__Basic" operation="Cancel_Cash_Sale"/>
+	</flow>
+	<flow name="workdayFlow31" >
+		<workday:settlement-services doc:name="Workday" config-ref="Workday__Basic" operation="Get_Escheatment_Items"/>
+	</flow>
+	<flow name="workdayFlow32"  >
+		<workday:staffing doc:name="Workday"  config-ref="Workday__Basic" operation="Add_Additional_Job"/>
+	</flow>
+	<flow name="workdayFlow33" >
+		<workday:student-finance doc:name="Workday "  config-ref="Workday__Basic" operation="Get_Charges_for_Students"/>
+	</flow>
+	<flow name="workdayFlow34"  >
+		<workday:student-records doc:name="Workday "  config-ref="Workday__Basic" operation="Get_Change_Government_IDs"/>
+	</flow>
+	<flow name="workdayFlow35" >
+		<workday:student-recruiting doc:name="Workday "  config-ref="Workday__Basic" operation="Get_Ad_Hoc_Locations"/>
+	</flow>
+	<flow name="workdayFlow36"  >
+		<workday:talent doc:name="Workday"  config-ref="Workday__Basic" operation="Assess_Talent"/>
+	</flow>
+	<flow name="workdayFlow37"  >
+		<workday:tenant-data-translation doc:name="Workday"  config-ref="Workday__Basic" operation="Get_Translatable_Tenant_Data_Public"/>
+	</flow>
+	<flow name="workdayFlow38"  >
+		<workday:time-tracking doc:name="Workday "  config-ref="Workday__Basic" operation="Assign_Work_Schedule"/>
+	</flow>
+	<flow name="workdayFlow39"  >
+		<workday:workday-connect doc:name="Workday "  config-ref="Workday__Basic" operation="Get_Message_Template"/>
+	</flow>
+	<flow name="workdayFlow40"  >
+		<workday:workday-extensibility doc:name="Workday "  config-ref="Workday__Basic" operation="Get_Custom_Lists"/>
+	</flow>
+	<flow name="workdayFlow41"  >
+		<workday:workforce-planning doc:name="Workday "  config-ref="Workday__Basic" operation="Get_Headcount_Plan_Structures"/>
+	</flow>
+</mule>

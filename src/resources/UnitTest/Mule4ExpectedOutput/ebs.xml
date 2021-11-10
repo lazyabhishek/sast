@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:oracle-ebs="http://www.mulesoft.org/schema/mule/oracle-ebs" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/oracle-ebs http://www.mulesoft.org/schema/mule/oracle-ebs/current/mule-oracle-ebs.xsd">
+	<oracle-ebs:jms-config name="OracleEBS__JMS_Configuration" doc:name="OracleEBS: JMS Configuration"  >
+		<oracle-ebs:jms-parameter-config-connection username="user" password="pass" host="host" port="8080" sid="sid" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</oracle-ebs:jms-parameter-config-connection>
+	</oracle-ebs:jms-config>
+	<oracle-ebs:web-services-config name="OracleEBS__Configuration" doc:name="OracleEBS: Configuration"  >
+		<oracle-ebs:web-services-connection trustStoreLocation="name" trustStorePassword="pass" disableCNCheck="true" username="user" password="pass" host="host" port="8080" sslEnabled="true" responsibilityName="name" responsibilityApplicationName="name" securityGroupName="group" nlsLanguage="lang" orgId="id" />
+	</oracle-ebs:web-services-config>
+	<oracle-ebs:jms-config name="OracleEBS__JMS_DB_URL_Configuration" doc:name="OracleEBS: JMS DB URL Configuration"  >
+		<oracle-ebs:jms-url-config-connection username="user" password="pass" databaseUrl="url" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</oracle-ebs:jms-url-config-connection>
+	</oracle-ebs:jms-config>
+	<flow name="ebsFlow"  >
+		<oracle-ebs:business-events-source doc:name="OracleEBS (Streaming)"  config-ref="OracleEBS__JMS_Configuration" durableSubscription="true" subscriptionName="name"/>
+		<oracle-ebs:create-email doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-email>
+	</flow>
+	<flow name="ebsFlow1" >
+		<oracle-ebs:create-location doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-location>
+	</flow>
+	<flow name="ebsFlow2"  >
+		<oracle-ebs:create-organization doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-organization>
+	</flow>
+	<flow name="ebsFlow3" >
+		<oracle-ebs:create-organization-contact doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-organization-contact>
+	</flow>
+	<flow name="ebsFlow4" >
+		<oracle-ebs:create-organization-customer doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-organization-customer>
+	</flow>
+	<flow name="ebsFlow5"  >
+		<oracle-ebs:create-party-site doc:name="OracleEBS" config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-party-site>
+	</flow>
+	<flow name="ebsFlow6"  >
+		<oracle-ebs:create-person doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-person>
+	</flow>
+	<flow name="ebsFlow7"  >
+		<oracle-ebs:create-person-customer doc:name="OracleEBS" config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-person-customer>
+	</flow>
+	<flow name="ebsFlow8" >
+		<oracle-ebs:create-phone doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-phone>
+	</flow>
+	<flow name="ebsFlow9"  >
+		<oracle-ebs:create-relationship doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-relationship>
+	</flow>
+	<flow name="ebsFlow10"  >
+		<oracle-ebs:create-web doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:create-web>
+	</flow>
+	<flow name="ebsFlow11"  >
+		<oracle-ebs:find-parties doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:criteria ><![CDATA[#[vars.abc]]]></oracle-ebs:criteria>
+		</oracle-ebs:find-parties>
+	</flow>
+	<flow name="ebsFlow12" >
+		<oracle-ebs:get-email doc:name="OracleEBS" config-ref="OracleEBS__Configuration" id="id" origSys="sys" origSysRef="sys"/>
+	</flow>
+	<flow name="ebsFlow13" >
+		<oracle-ebs:get-location doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" id="id" origSys="sys" origSysRef="sys"/>
+	</flow>
+	<flow name="ebsFlow14"  >
+		<oracle-ebs:get-organization doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" id="id" origSys="sys" origSysRef="sys"/>
+	</flow>
+	<flow name="ebsFlow15"  >
+		<oracle-ebs:get-organization-contact doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" id="id" origSys="sys" origSysRef="sys"/>
+	</flow>
+	<flow name="ebsFlow16" >
+		<oracle-ebs:get-organization-customer doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" id="id" origSys="sys" origSysRef="sys"/>
+	</flow>
+	<flow name="ebsFlow17" >
+		<oracle-ebs:get-organizations-created doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" eventId="id"/>
+	</flow>
+	<flow name="ebsFlow18" >
+		<oracle-ebs:get-organizations-updated doc:name="OracleEBS" config-ref="OracleEBS__Configuration" eventId="id"/>
+	</flow>
+	<flow name="ebsFlow19"  >
+		<oracle-ebs:get-party-site doc:name="OracleEBS" config-ref="OracleEBS__Configuration" id="id" origSys="sys" origSysRef="sys"/>
+	</flow>
+	<flow name="ebsFlow20"  >
+		<oracle-ebs:get-person doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" id="id" origSys="sys" origSysRef="sys"/>
+	</flow>
+	<flow name="ebsFlow21"  >
+		<oracle-ebs:get-person-customer doc:name="OracleEBS" config-ref="OracleEBS__Configuration" id="id" origSys="sys" origSysRef="sys"/>
+	</flow>
+	<flow name="ebsFlow22"  >
+		<oracle-ebs:get-person-customers-created doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" eventId="id"/>
+	</flow>
+	<flow name="ebsFlow23" >
+		<oracle-ebs:get-person-customers-updated doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" eventId="id"/>
+	</flow>
+	<flow name="ebsFlow24"  >
+		<oracle-ebs:get-persons-created doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" eventId="id"/>
+	</flow>
+	<flow name="ebsFlow25"  >
+		<oracle-ebs:get-persons-updated doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" eventId="id"/>
+	</flow>
+	<flow name="ebsFlow26"  >
+		<oracle-ebs:get-phone doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" id="id" origSys="sys" origSysRef="sys"/>
+	</flow>
+	<flow name="ebsFlow27" >
+		<oracle-ebs:get-relationship doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" id="id"/>
+	</flow>
+	<flow name="ebsFlow28"  >
+		<oracle-ebs:get-web doc:name="OracleEBS"  config-ref="OracleEBS__Configuration" id="id" origSys="sys" sysRef="sys"/>
+	</flow>
+	<flow name="ebsFlow29" >
+		<oracle-ebs:save-email doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-email>
+	</flow>
+	<flow name="ebsFlow30" >
+		<oracle-ebs:save-location doc:name="OracleEBS" config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-location>
+	</flow>
+	<flow name="ebsFlow31" >
+		<oracle-ebs:save-organization doc:name="OracleEBS" config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-organization>
+	</flow>
+	<flow name="ebsFlow32"  >
+		<oracle-ebs:save-organization-contact doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-organization-contact>
+	</flow>
+	<flow name="ebsFlow33"  >
+		<oracle-ebs:save-organization-customer doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-organization-customer>
+	</flow>
+	<flow name="ebsFlow34" >
+		<oracle-ebs:save-party-site doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-party-site>
+	</flow>
+	<flow name="ebsFlow35" >
+		<oracle-ebs:save-person doc:name="OracleEBS" config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-person>
+	</flow>
+	<flow name="ebsFlow36"  >
+		<oracle-ebs:save-person-customer doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-person-customer>
+	</flow>
+	<flow name="ebsFlow37"  >
+		<oracle-ebs:save-phone doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-phone>
+	</flow>
+	<flow name="ebsFlow38" >
+		<oracle-ebs:save-relationship doc:name="OracleEBS" config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-relationship>
+	</flow>
+	<flow name="ebsFlow39" >
+		<oracle-ebs:save-web doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:save-web>
+	</flow>
+	<flow name="ebsFlow40"  >
+		<oracle-ebs:update-email doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-email>
+	</flow>
+	<flow name="ebsFlow41"  >
+		<oracle-ebs:update-location doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-location>
+	</flow>
+	<flow name="ebsFlow42">
+		<oracle-ebs:update-organization doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-organization>
+	</flow>
+	<flow name="ebsFlow43"  >
+		<oracle-ebs:update-organization-contact doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-organization-contact>
+	</flow>
+	<flow name="ebsFlow44"  >
+		<oracle-ebs:update-organization-customer doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-organization-customer>
+	</flow>
+	<flow name="ebsFlow45"  >
+		<oracle-ebs:update-party-site doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-party-site>
+	</flow>
+	<flow name="ebsFlow46" >
+		<oracle-ebs:update-person doc:name="OracleEBS" config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-person>
+	</flow>
+	<flow name="ebsFlow47"  >
+		<oracle-ebs:update-person-customer doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-person-customer>
+	</flow>
+	<flow name="ebsFlow48"  >
+		<oracle-ebs:update-phone doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-phone>
+	</flow>
+	<flow name="ebsFlow49">
+		<oracle-ebs:update-relationship doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-relationship>
+	</flow>
+	<flow name="ebsFlow50">
+		<oracle-ebs:update-web doc:name="OracleEBS"  config-ref="OracleEBS__Configuration">
+			<oracle-ebs:content ><![CDATA[#[vars.abc]]]></oracle-ebs:content>
+		</oracle-ebs:update-web>
+	</flow>
+	<flow name="ebsFlow51"  >
+		<oracle-ebs:xml-gateway doc:name="OracleEBS" config-ref="OracleEBS__Configuration" messageType="type" messageStandard="stand" transactionType="ttype" transactionSubtype="tsubtype" documentNumber="doc" partyId="pid" partySiteId="psid">
+			<oracle-ebs:body ><![CDATA[#[vars.abc]]]></oracle-ebs:body>
+		</oracle-ebs:xml-gateway>
+	</flow>
+	<flow name="ebsFlow52" >
+		<oracle-ebs:xml-gateway-outbound-source doc:name="OracleEBS (Streaming)"  config-ref="OracleEBS__JMS_DB_URL_Configuration"/>
+	</flow>
+</mule>

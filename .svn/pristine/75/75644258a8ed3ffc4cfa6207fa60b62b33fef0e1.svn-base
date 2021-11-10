@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:custom-metrics="http://www.mulesoft.org/schema/mule/custom-metrics" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/custom-metrics http://www.mulesoft.org/schema/mule/custom-metrics/current/mule-custom-metrics.xsd">
+	<flow name="matricsFlow"  >
+		<custom-metrics:send doc:name="Anypoint Custom Metrics"  metricName="name" throwOnValidationFailure="true">
+			<custom-metrics:dimensions >
+				<custom-metrics:dimension dimensionName="abc" value="#[vars.abc]" />
+			</custom-metrics:dimensions>
+			<custom-metrics:facts >
+				<custom-metrics:fact factName="fact" value="#[vars.fact]" />
+			</custom-metrics:facts>
+		</custom-metrics:send>
+	</flow>
+</mule>

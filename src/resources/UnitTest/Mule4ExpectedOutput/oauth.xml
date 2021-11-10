@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:oauth2-provider="http://www.mulesoft.org/schema/mule/oauth2-provider" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/oauth2-provider http://www.mulesoft.org/schema/mule/oauth2-provider/current/mule-oauth2-provider.xsd">
+	<oauth2-provider:config name="OAuth_provider_module" doc:name="OAuth provider module"  providerName="name" resourceOwnerSecurityProvider="owner" clientSecurityProvider="client" scopes="scopes" >
+		<oauth2-provider:token-config tokenTtl="100" tokenTtlTimeUnit="MILLISECONDS" >
+		</oauth2-provider:token-config>
+		<oauth2-provider:authorization-config loginPage="login" path="/auth path" />
+	</oauth2-provider:config>
+	<flow name="oauthFlow"  >
+		<oauth2-provider:create-client doc:name="OAuth provider module"  config-ref="OAuth_provider_module" clientId="id" 
+		type="CONFIDENTIAL" secret="secret" clientName="name" description="descr" principal="principle" redirectUris="vars.abc" 
+		authorizedGrantTypes="vars.abc" scopes="vars.abc"/>
+	</flow>
+	<flow name="oauthFlow1"  >
+		<oauth2-provider:delete-client doc:name="OAuth provider module"  config-ref="OAuth_provider_module" clientId="id"/>
+	</flow>
+	<flow name="oauthFlow2"  >
+		<oauth2-provider:revoke-token doc:name="OAuth provider module"  config-ref="OAuth_provider_module" token="token"/>
+	</flow>
+	<flow name="oauthFlow3"  >
+		<oauth2-provider:validate-token doc:name="OAuth provider module"  config-ref="OAuth_provider_module" scopes="scopes" resourceOwnerRoles="roles"/>
+	</flow>
+</mule>

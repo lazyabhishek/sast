@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:hl7="http://www.mulesoft.org/schema/mule/hl7" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/hl7 http://www.mulesoft.org/schema/mule/hl7/current/mule-hl7.xsd">
+	<hl7:config name="HL7_EDI__Configuration" doc:name="HL7 EDI: Configuration"  eventMessageMap="path" characterEncoding="BIG_5" identKeys="false" appNamespaceIdSelf="nameid" appUniversalIdSelf="uid" appUniversalIdTypeSelf="uid" appNamespaceIdPartner="nid" appUniversalIdPartner="ui" appUniversalIdTypePartner="ui" processingId="DEBUGGING" genericExtensionPattern="names" missingRequiredValueFail="true" valueLengthErrorFail="true" invalidCharacterInValueFail="true" wrongValuesRepeatsFail="true" unknownSegmentFail="true" segmentOutOfOrderFail="true" unusedSegmentPresentFail="true" wrongSegmentsRepeatsFail="true" fieldSeparator="field" componentSeparator="component" subcompSeparator="sub" repetitionSeparator="repe" escapeCharacter="escape"  >
+	</hl7:config>
+	<flow name="hl7Flow" >
+		<hl7:read doc:name="HL7 EDI"  config-ref="HL7_EDI__Configuration">
+			<hl7:read-content ><![CDATA[#[vars.abc]]]></hl7:read-content>
+		</hl7:read>
+	</flow>
+	<flow name="hl7Flow1" >
+		<hl7:write doc:name="HL7 EDI" config-ref="HL7_EDI__Configuration">
+			<hl7:write-content ><![CDATA[#[vars.abc]]]></hl7:write-content>
+		</hl7:write>
+	</flow>
+</mule>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:cassandradb="http://www.mulesoft.org/schema/mule/cassandradb" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/cassandradb http://www.mulesoft.org/schema/mule/cassandradb/current/mule-cassandradb.xsd">
+    <cassandradb:config name="CassandraDB__Configuration" username="user" password="pass" host="host" port="8080" keyspace="key" clusterName="name" clusterNodes="node" protocolVersion="V1" maxSchemaAgreementWaitSeconds="10" compression="LZ4" sslEnabled="true" doc:name="CassandraDB: Configuration">
+        <reconnect frequency="3000" count="5"/>
+    </cassandradb:config>
+    <flow name="cassandradbFlow">
+        <cassandradb:add-new-column config-ref="CassandraDB__Configuration" keyspaceName="name" table="table" input-ref="#[flowVars.abc]" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow1">
+        <cassandradb:change-column-type config-ref="CassandraDB__Configuration" keyspaceName="key" table="table" input-ref="#[flowVars.abc]" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow2">
+        <cassandradb:create-keyspace config-ref="CassandraDB__Configuration" input-ref="#[flowVars.abc]" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow3">
+        <cassandradb:create-table config-ref="CassandraDB__Configuration" input-ref="#[flowVars.abc]" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow4">
+        <cassandradb:delete-columns-value config-ref="CassandraDB__Configuration" keyspaceName="key" table="table" payload-ref="#[flowVars.abc]" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow5">
+        <cassandradb:delete-rows config-ref="CassandraDB__Configuration" table="table" doc:name="CassandraDB" keyspaceName="key" payload-ref="#[flowVars.abc]"/>
+    </flow>
+    <flow name="cassandradbFlow6">
+        <cassandradb:drop-keyspace config-ref="CassandraDB__Configuration" keyspaceName="#[flowVars.abc]" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow7">
+        <cassandradb:drop-table config-ref="CassandraDB__Configuration" keyspaceName="key" tableName="#[flowVars.abc]" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow8">
+        <cassandradb:execute-c-q-l-query config-ref="CassandraDB__Configuration" input-ref="#[flowVars.abc]" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow9">
+        <cassandradb:get-table-names-from-keyspace config-ref="CassandraDB__Configuration" keyspaceName="key" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow10">
+        <cassandradb:insert config-ref="CassandraDB__Configuration" keyspaceName="key" table="table" entity-ref="#[flowVars.abc]" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow11">
+        <cassandradb:rename-column config-ref="CassandraDB__Configuration" keyspaceName="key" newColumnName="new" oldColumnName="#[flowVars.abc]" table="table" doc:name="CassandraDB"/>
+    </flow>
+    <flow name="cassandradbFlow12">
+        <cassandradb:drop-column config-ref="CassandraDB__Configuration" table="table" doc:name="CassandraDB" columnName="#[flowVars.abc]" keyspaceName="key"/>
+    </flow>
+    <flow name="cassandradbFlow13">
+        <cassandradb:select config-ref="CassandraDB__Configuration" query="#[anjaneyulu]" doc:name="CassandraDB">
+            <cassandradb:parameters ref="#[vars.abc]"/>
+        </cassandradb:select>
+    </flow>
+    <flow name="cassandradbFlow14">
+        <cassandradb:update config-ref="CassandraDB__Configuration" keyspaceName="key" table="table" entity-ref="#[flowVars.abc]" doc:name="CassandraDB"/>
+    </flow>
+</mule>

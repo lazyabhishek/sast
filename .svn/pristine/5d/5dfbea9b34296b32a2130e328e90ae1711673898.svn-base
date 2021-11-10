@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" basePath="/test" doc:name="HTTP Listener Configuration" doc:description="sdvsdvsdv" protocol="HTTPS">
+        <tls:context>
+            <tls:trust-store password="csdacsdv" type="jceks"/>
+            <tls:key-store path="wfwe" alias="wefwe" keyPassword="wefwef" password="wfewef" algorithm="wv"/>
+        </tls:context>
+    </http:listener-config>
+    <flow name="httpConfigFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/test" allowedMethods="GET" doc:name="HTTP">
+            <http:response-builder statusCode="200" reasonPhrase="success"/>
+            <http:error-response-builder statusCode="500" reasonPhrase="Internal Server Error"/>
+        </http:listener>
+    </flow>
+</mule>

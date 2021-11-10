@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:oracle-ebs122="http://www.mulesoft.org/schema/mule/oracle-ebs122" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/oracle-ebs122 http://www.mulesoft.org/schema/mule/oracle-ebs122/current/mule-oracle-ebs122.xsd">
+    <oracle-ebs122:config name="OracleEBS_12_2__Configuration" host="host" port="8080" sslEnabled="true" username="user" password="pass" restServiceLocatorAlias="alias" fndWebSecAlias="falias" responsibility="rname" respApplication="aname" securityGroup="sname" nlsLanguage="nls" orgId="org" doc:name="OracleEBS 12.2: Configuration"/>
+    <flow name="ebs12.2Flow">
+        <oracle-ebs122:invoke-pl-sql-rest-service config-ref="OracleEBS_12_2__Configuration" wadlOperation="pl||op" payload-ref="#[flowVars.abc]" doc:name="OracleEBS 12.2"/>
+    </flow>
+</mule>

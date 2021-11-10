@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:x12-edi="http://www.mulesoft.org/schema/mule/x12-edi" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/x12-edi http://www.mulesoft.org/schema/mule/x12-edi/current/mule-x12-edi.xsd">
+    <x12-edi:config name="X12_EDI" stringSubstitutionChar="sub" versionIdentifierSuffix="suff" characterEncoding="IBM1047" stringCharacterSet="BASIC" snipValidationType="TYPE2_HIPAA" interchangeIdQualifierSelf="mid" interchangeIdSelf="mrid" groupIdSelf="mcode" interchangeIdQualifierPartner="pid" interchangeIdPartner="prid" groupIdPartner="pcode" valueLengthErrorFail="false" invalidCharacterInValueFail="false" wrongValuesRepeatsFail="false" unknownsSegmentFail="false" segmentOutOfOrderFail="false" unusedSegmentPresentFail="false" wrongSegmentsRepeatsFail="false" reportSegmentErrors="false" requireUniqueInterchangeNumbers="true" requireUniqueGroupNumbers="true" requireUniqueTransactionNumbers="true" ackAllSets="true" generate999Acks="true" includeFASchema="false" dataSeparator="deli" componentSeparator="sep" repetitionSeparator="rep" segmentTerminator="ter" lineEnding="CR" sendUniqueGroupNumbers="true" sendUniqueTransactionNumbers="true" implementationConventionReference="ref" initialInterchangeNumber="init" initialGroupNumber="group" initialSetNumber="tra" ackRequested="true" defaultUsageIndicator="q" doc:name="X12 EDI">
+        <x12-edi:schemas ref="#[flowVars.def]"/>
+    </x12-edi:config>
+    <flow name="x12Flow">
+        <x12-edi:read config-ref="X12_EDI" doc:name="X12 EDI" ediContent-ref="#[flowVars.abc]"/>
+    </flow>
+    <flow name="x12Flow1">
+        <x12-edi:write config-ref="X12_EDI" doc:name="X12 EDI">
+            <x12-edi:map ref="#[flowVars.abc]"/>
+        </x12-edi:write>
+    </flow>
+</mule>

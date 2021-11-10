@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:wmq="http://www.mulesoft.org/schema/mule/ee/wmq" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:jbossts="http://www.mulesoft.org/schema/mule/jbossts" xmlns:jms="http://www.mulesoft.org/schema/mule/jms" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/jbossts/current/mule-jbossts.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/wmq http://www.mulesoft.org/schema/mule/ee/wmq/current/mule-wmq-ee.xsd">
+    <spring:beans>
+        <spring:bean id="Bean" name="Bean"/>
+    </spring:beans>
+    <jms:activemq-connector name="Active_MQ" username="user" password="password" brokerURL="tcp://localhost:61616" validateConnections="true" clientId="id" maxRedelivery="10" connectionFactory-ref="Bean" doc:name="Active MQ" doc:description="anji" persistentDelivery="true" specification="1.1" acknowledgementMode="DUPS_OK_ACKNOWLEDGE">
+        <reconnect frequency="3000" count="5"/>
+    </jms:activemq-connector>
+    <jms:custom-connector name="Custom_JMS" specification="1.1" username="user" password="pass" class="jms.jms" validateConnections="true" jndiInitialFactory="jnd.java" jndiProviderUrl="url" connectionFactoryJndiName="factory" jndiProviderProperties-ref="vars.abc" jndiDestinations="true" acknowledgementMode="DUPS_OK_ACKNOWLEDGE" clientId="id" maxRedelivery="10" doc:name="Custom JMS">
+        <reconnect frequency="3000" count="5"/>
+    </jms:custom-connector>
+    <wmq:connector name="WMQ" hostName="host" port="8080" queueManager="queue" channel="channel" username="user" password="pass" transportType="CLIENT_MQ_TCPIP" specification="1.1" validateConnections="true" acknowledgementMode="DUPS_OK_ACKNOWLEDGE" clientId="id" maxRedelivery="10" temporaryModel="model" doc:name="WMQ" receiveExitHandler="jms.recieve" receiveExitHandlerInit="anji" securityExitHandler="security" securityExitHandlerInit="security" sendExitHandler="send" sendExitHandlerInit="send">
+        <reconnect frequency="3000" count="5"/>
+    </wmq:connector>
+    <flow name="jmsFlow">
+        <jms:inbound-endpoint connector-ref="Active_MQ" doc:name="JMS" address="add" encoding="UTF-8" mimeType="application/json" >
+            <idempotent-redelivery-policy maxRedeliveryCount="100"/>
+            <xa-transaction action="ALWAYS_BEGIN"/>
+        </jms:inbound-endpoint>
+        <jms:outbound-endpoint doc:name="JMS"  connector-ref="Active_MQ" encoding="UTF-8" mimeType="application/json" queue="queue">
+            <idempotent-redelivery-policy maxRedeliveryCount="100"/>
+            <xa-transaction action="ALWAYS_BEGIN"/>
+        </jms:outbound-endpoint>
+    </flow>
+    <flow name="jmsFlow1">
+        <jms:inbound-endpoint doc:name="JMS" encoding="UTF-8" mimeType="application/json" queue="queue" connector-ref="Custom_JMS">
+            <idempotent-redelivery-policy maxRedeliveryCount="100"/>
+            <xa-transaction action="ALWAYS_BEGIN"/>
+        </jms:inbound-endpoint>
+        <jms:outbound-endpoint queue="queue" connector-ref="Active_MQ" mimeType="application/json" encoding="UTF-8" doc:name="JMS">
+            <idempotent-redelivery-policy maxRedeliveryCount="100"/>
+            <xa-transaction action="ALWAYS_JOIN"/>
+        </jms:outbound-endpoint>
+    </flow>
+    <flow name="jmsFlow2">
+        <jms:inbound-endpoint connector-ref="WMQ" doc:name="JMS" encoding="UTF-8" mimeType="application/json" queue="queue">
+            <idempotent-redelivery-policy maxRedeliveryCount="100"/>
+            <xa-transaction action="ALWAYS_BEGIN"/>
+        </jms:inbound-endpoint>
+        <jms:outbound-endpoint queue="queue" connector-ref="WMQ" mimeType="application/json" encoding="UTF-8" doc:name="JMS">
+            <xa-transaction action="JOIN_IF_POSSIBLE"/>
+        </jms:outbound-endpoint>
+    </flow>
+</mule>

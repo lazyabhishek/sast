@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:hl7="http://www.mulesoft.org/schema/mule/hl7" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/hl7 http://www.mulesoft.org/schema/mule/hl7/current/mule-hl7.xsd">
+<hl7:config appNamespaceIdPartner="nid" appNamespaceIdSelf="nameid" appUniversalIdPartner="ui" appUniversalIdSelf="uid" appUniversalIdTypePartner="ui" appUniversalIdTypeSelf="uid" characterEncoding="BIG_5" componentSeparator="component" doc:name="HL7 EDI: Configuration" escapeCharacter="escape" eventMessageMap="path" fieldSeparator="field" genericExtensionPattern="names" identKeys="false" invalidCharacterInValueFail="true" missingRequiredValueFail="true" name="HL7_EDI__Configuration" processingId="DEBUGGING" repetitionSeparator="repe" segmentOutOfOrderFail="true" subcompSeparator="sub" unknownSegmentFail="true" unusedSegmentPresentFail="true" valueLengthErrorFail="true" wrongSegmentsRepeatsFail="true" wrongValuesRepeatsFail="true"/>
+<flow name="hl7Flow">
+<hl7:read config-ref="HL7_EDI__Configuration" doc:name="HL7 EDI">
+<hl7:read-content><![CDATA[#[vars.abc]]]></hl7:read-content>
+</hl7:read>
+</flow>
+<flow name="hl7Flow1">
+<hl7:write config-ref="HL7_EDI__Configuration" doc:name="HL7 EDI">
+<hl7:write-content><![CDATA[#[vars.abc]]]></hl7:write-content>
+</hl7:write>
+</flow>
+
+</mule>

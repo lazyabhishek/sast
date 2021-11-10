@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:twilio="http://www.mulesoft.org/schema/mule/twilio" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/twilio http://www.mulesoft.org/schema/mule/twilio/current/mule-twilio.xsd">
+    <twilio:config name="Twilio__Basic_Authentication" username="user" password="pass" doc:name="Twilio: Basic Authentication"/>
+    <flow name="twilioFlow">
+        <twilio:delete-media config-ref="Twilio__Basic_Authentication" doc:name="Twilio" AccountSid="id" DateCreated="create" MediaSid="sid" MessageSid="msid"/>
+    </flow>
+    <flow name="twilioFlow1">
+        <twilio:delete-message config-ref="Twilio__Basic_Authentication" AccountSid="id" MessageSid="msid" doc:name="Twilio"/>
+    </flow>
+    <flow name="twilioFlow2">
+        <twilio:get-media config-ref="Twilio__Basic_Authentication" AccountSid="id" DateCreated="create" MediaSid="sid" MessageSid="msid" doc:name="Twilio"/>
+    </flow>
+    <flow name="twilioFlow3">
+        <twilio:get-media-list config-ref="Twilio__Basic_Authentication" AccountSid="id" DateCreated="create" MessageSid="msid" doc:name="Twilio"/>
+    </flow>
+    <flow name="twilioFlow4">
+        <twilio:get-message config-ref="Twilio__Basic_Authentication" AccountSid="id" MessageSid="msid" doc:name="Twilio"/>
+    </flow>
+    <flow name="twilioFlow5">
+        <twilio:get-message-list config-ref="Twilio__Basic_Authentication" AccountSid="id" DateSent="sent" From="from" To="to" doc:name="Twilio"/>
+    </flow>
+    <flow name="twilioFlow6">
+        <twilio:redact-message config-ref="Twilio__Basic_Authentication" AccountSid="id" MessageSid="msid" entity-ref="#[flowVars.abc]" doc:name="Twilio"/>
+    </flow>
+    <flow name="twilioFlow7">
+        <twilio:send-message config-ref="Twilio__Basic_Authentication" AccountSid="id" entity-ref="#[flowVars.abc]" doc:name="Twilio"/>
+    </flow>
+</mule>

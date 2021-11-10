@@ -1,0 +1,119 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mule-box-connector="http://www.mulesoft.org/schema/mule/mule-box-connector" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/mule-box-connector http://www.mulesoft.org/schema/mule/mule-box-connector/current/mule-mule-box-connector.xsd">
+<mule-box-connector:config doc:name="Box: OAuth 2.0" name="Box__OAuth_2_0" property_accessTokenUrl="https://api.box.com/oauth2/token" property_authorizationUrl="https://account.box.com/api/oauth2/authorize" property_basePath="/2.0" property_clientId="id" property_clientSecret="sec" property_externalCallbackUrl="http://my-app.cloudhub.io/callback" property_host="api.box.com" property_localAuthorizationUrl="http://localhost:8081/authorize" property_localCallbackConfig="cloudhub_http" property_localCallbackPath="/callback" property_port="443" property_protocol="HTTPS"/>
+<flow name="boxFlow">
+<mule-box-connector:copy-file config-ref="Box__OAuth_2_0" doc:name="Box" file-id="#[vars.id]"/>
+</flow>
+<flow name="boxFlow1">
+<mule-box-connector:copy-folder config-ref="Box__OAuth_2_0" doc:name="Box" folder-id="#[vars.id]"/>
+</flow>
+<flow name="boxFlow2">
+<mule-box-connector:create-collaboration config-ref="Box__OAuth_2_0" doc:name="Box">
+<mule-box-connector:create-collaboration-request-data><![CDATA[#[{
+			
+				"collaborationRole" :'EDITOR',
+				"collaboratorId" :'id',
+				"folderId" :vars.id }]]]></mule-box-connector:create-collaboration-request-data>
+</mule-box-connector:create-collaboration>
+</flow>
+<flow name="boxFlow3">
+<mule-box-connector:create-comment config-ref="Box__OAuth_2_0" doc:name="Box">
+<mule-box-connector:create-comment-request-data><![CDATA[#[vars.msg]]]></mule-box-connector:create-comment-request-data>
+</mule-box-connector:create-comment>
+<mule-box-connector:create-folder config-ref="Box__OAuth_2_0" doc:name="Box">
+<mule-box-connector:create-folder-request-data><![CDATA[#[{
+			 
+				"folderName" :vars.id,
+				"parentId" :'id' }]]]></mule-box-connector:create-folder-request-data>
+</mule-box-connector:create-folder>
+<mule-box-connector:create-group config-ref="Box__OAuth_2_0" doc:name="Box">
+<mule-box-connector:create-group-request-data><![CDATA[#[vars.name]]]></mule-box-connector:create-group-request-data>
+</mule-box-connector:create-group>
+<mule-box-connector:create-group-membership config-ref="Box__OAuth_2_0" doc:name="Box">
+<mule-box-connector:create-group-membership-request-data><![CDATA[#[{
+			 
+				"groupId" :vars.id,
+				"membershipRole" :'ADMIN',
+				"userId" :'id' }]]]></mule-box-connector:create-group-membership-request-data>
+</mule-box-connector:create-group-membership>
+<mule-box-connector:create-task config-ref="Box__OAuth_2_0" doc:name="Box">
+<mule-box-connector:create-task-request-data><![CDATA[#[{
+			 
+				"dueAt" :'due',
+				"fileId" :vars.id,
+				"message" :'msg' }]]]></mule-box-connector:create-task-request-data>
+</mule-box-connector:create-task>
+<mule-box-connector:create-task-assignment config-ref="Box__OAuth_2_0" doc:name="Box">
+<mule-box-connector:create-task-assignment-request-data><![CDATA[#[{
+			 
+				"assignTo" :'to',
+				"taskId" :vars.id }]]]></mule-box-connector:create-task-assignment-request-data>
+</mule-box-connector:create-task-assignment>
+<mule-box-connector:create-user config-ref="Box__OAuth_2_0" doc:name="Box">
+<mule-box-connector:create-user-request-data><![CDATA[#[{
+			 
+				"username" :vars.name }]]]></mule-box-connector:create-user-request-data>
+</mule-box-connector:create-user>
+<mule-box-connector:delete-collaboration collab-id="#[vars.id]" config-ref="Box__OAuth_2_0" doc:name="Box"/>
+<mule-box-connector:delete-comment comment-id="#[vars.id]" config-ref="Box__OAuth_2_0" doc:name="Box"/>
+<mule-box-connector:delete-file config-ref="Box__OAuth_2_0" doc:name="Box" file-id="#[vars.id]"/>
+<mule-box-connector:delete-file-version config-ref="Box__OAuth_2_0" doc:name="Box" file-id="#[vars.id]" version-id="id"/>
+<mule-box-connector:delete-folder config-ref="Box__OAuth_2_0" doc:name="Box" folder-id="#[vars.id]" recursive="false"/>
+<mule-box-connector:delete-group config-ref="Box__OAuth_2_0" doc:name="Box" group-id="#[vars.id]"/>
+<mule-box-connector:delete-group-membership config-ref="Box__OAuth_2_0" doc:name="Box" group-membership-id="#[vars.id]"/>
+<mule-box-connector:delete-task config-ref="Box__OAuth_2_0" doc:name="Box" task-id="#[vars.id]"/>
+<mule-box-connector:delete-task-assignment config-ref="Box__OAuth_2_0" doc:name="Box" task-assignment-id="#[vars.id]"/>
+<mule-box-connector:delete-user config-ref="Box__OAuth_2_0" doc:name="Box" force="true" notify="false" user-id="#[vars.id]"/>
+<mule-box-connector:get-collaboration collab-id="#[vars.id]" config-ref="Box__OAuth_2_0" doc:name="Box"/>
+<mule-box-connector:get-comment comment-id="#[vars.id]" config-ref="Box__OAuth_2_0" doc:name="Box"/>
+<mule-box-connector:get-enterprise-groups config-ref="Box__OAuth_2_0" doc:name="Box" limit="1000"/>
+<mule-box-connector:get-enterprise-users config-ref="Box__OAuth_2_0" doc:name="Box" limit="1000"/>
+<mule-box-connector:get-file-content config-ref="Box__OAuth_2_0" doc:name="Box" file-id="#[vars.id]"/>
+<mule-box-connector:get-file-tasks config-ref="Box__OAuth_2_0" doc:name="Box" file-id="#[vars.id]"/>
+<mule-box-connector:get-file-thumbnail config-ref="Box__OAuth_2_0" doc:name="Box" extension="JPG" file-id="#[vars.id]" max-height="mhei" max-width="mw" min-height="hei" min-width="wi"/>
+<mule-box-connector:get-folder config-ref="Box__OAuth_2_0" doc:name="Box" folder-id="#[vars.id]"/>
+<mule-box-connector:get-folder-collaborations config-ref="Box__OAuth_2_0" doc:name="Box" folder-id="#[vars.id]" limit="1000"/>
+<mule-box-connector:get-folder-items config-ref="Box__OAuth_2_0" doc:name="Box" fields="ref" folder-id="#[vars.id]" limit="1000"/>
+<mule-box-connector:get-group config-ref="Box__OAuth_2_0" doc:name="Box" group-id="#[vars.id]"/>
+<mule-box-connector:get-group-membership config-ref="Box__OAuth_2_0" doc:name="Box" group-membership-id="#[vars.id]"/>
+<mule-box-connector:get-pending-collaborations config-ref="Box__OAuth_2_0" doc:name="Box"/>
+<mule-box-connector:get-task config-ref="Box__OAuth_2_0" doc:name="Box" task-id="#[vars.id]"/>
+<mule-box-connector:get-task-assignment config-ref="Box__OAuth_2_0" doc:name="Box" task-assignment-id="#[vars.ass]"/>
+<mule-box-connector:get-trashed-file config-ref="Box__OAuth_2_0" doc:name="Box" file-id="#[vars.id]"/>
+<mule-box-connector:get-trashed-folder config-ref="Box__OAuth_2_0" doc:name="Box" fields="ref" folder-id="#[vars.id]"/>
+<mule-box-connector:get-trashed-items config-ref="Box__OAuth_2_0" doc:name="Box" fields="#[vars.ref]" limit="1000"/>
+<mule-box-connector:get-user config-ref="Box__OAuth_2_0" doc:name="Box" fields="ref" user-id="#[vars.id]"/>
+<mule-box-connector:get-user-group-membership config-ref="Box__OAuth_2_0" doc:name="Box" limit="1000" user-id="#[vars.id]"/>
+<mule-box-connector:promote-file-version config-ref="Box__OAuth_2_0" doc:name="Box" file-id="#[vars.id]">
+<mule-box-connector:promote-file-version-request-data><![CDATA[#[vars.abc]]]></mule-box-connector:promote-file-version-request-data>
+</mule-box-connector:promote-file-version>
+<mule-box-connector:restore-trashed-file config-ref="Box__OAuth_2_0" doc:name="Box" file-id="#[vars.id]"/>
+<mule-box-connector:restore-trashed-folder config-ref="Box__OAuth_2_0" doc:name="Box" folder-id="#[vars.id]"/>
+<mule-box-connector:search ancestor-folder-ids="id" config-ref="Box__OAuth_2_0" doc:name="Box" query="#[vars.q]"/>
+<mule-box-connector:update-collaboration collab-id="id" config-ref="Box__OAuth_2_0" doc:name="Box">
+<mule-box-connector:update-collaboration-request-data><![CDATA[#[vars.ref]]]></mule-box-connector:update-collaboration-request-data>
+</mule-box-connector:update-collaboration>
+<mule-box-connector:update-comment comment-id="id" config-ref="Box__OAuth_2_0" doc:name="Box">
+<mule-box-connector:update-comment-request-data><![CDATA[#[vars.msg]]]></mule-box-connector:update-comment-request-data>
+</mule-box-connector:update-comment>
+<mule-box-connector:update-file-info config-ref="Box__OAuth_2_0" doc:name="Box" file-id="#[vars.id]">
+<mule-box-connector:update-file-info-request-data><![CDATA[#[vars.ref]]]></mule-box-connector:update-file-info-request-data>
+</mule-box-connector:update-file-info>
+<mule-box-connector:update-folder config-ref="Box__OAuth_2_0" doc:name="Box" folder-id="#[vars.id]">
+<mule-box-connector:update-folder-request-data><![CDATA[#[vars.ref]]]></mule-box-connector:update-folder-request-data>
+</mule-box-connector:update-folder>
+<mule-box-connector:update-group-membership config-ref="Box__OAuth_2_0" doc:name="Box" group-membership-id="#[vars.id]">
+<mule-box-connector:update-group-membership-request-data><![CDATA[#[vars.abc]]]></mule-box-connector:update-group-membership-request-data>
+</mule-box-connector:update-group-membership>
+<mule-box-connector:update-task config-ref="Box__OAuth_2_0" doc:name="Box" task-id="#[vars.abc]">
+<mule-box-connector:update-task-request-data><![CDATA[#[ref]]]></mule-box-connector:update-task-request-data>
+</mule-box-connector:update-task>
+<mule-box-connector:update-task-assignment config-ref="Box__OAuth_2_0" doc:name="Box" task-assignment-id="#[vars.id]">
+<mule-box-connector:update-task-assignment-request-data><![CDATA[#[vars.abc]]]></mule-box-connector:update-task-assignment-request-data>
+</mule-box-connector:update-task-assignment>
+<mule-box-connector:update-user config-ref="Box__OAuth_2_0" doc:name="Box" user-id="#[vars.id]">
+<mule-box-connector:update-user-request-data><![CDATA[#[vars.abc]]]></mule-box-connector:update-user-request-data>
+</mule-box-connector:update-user>
+</flow>
+
+</mule>

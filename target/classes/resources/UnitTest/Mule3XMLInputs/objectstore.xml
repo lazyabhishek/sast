@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:objectstore="http://www.mulesoft.org/schema/mule/objectstore" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/objectstore http://www.mulesoft.org/schema/mule/objectstore/current/mule-objectstore.xsd">
+    <objectstore:config name="ObjectStore__Connector" entryTtl="10" expirationInterval="10" maxEntries="10" persistent="true" doc:name="ObjectStore: Connector"/>
+    <flow name="objectstoreFlow">
+        <objectstore:contains config-ref="ObjectStore__Connector" key="key" doc:name="ObjectStore"/>
+    </flow>
+    <flow name="objectstoreFlow1">
+        <objectstore:remove config-ref="ObjectStore__Connector" key="key" doc:name="ObjectStore"/>
+    </flow>
+    <flow name="objectstoreFlow2">
+        <objectstore:retrieve config-ref="ObjectStore__Connector" key="key" defaultValue-ref="#[flowVars.abc]" doc:name="ObjectStore"/>
+    </flow>
+    <flow name="objectstoreFlow3">
+        <objectstore:retrieve-all-keys config-ref="ObjectStore__Connector" doc:name="ObjectStore"/>
+    </flow>
+    <flow name="objectstoreFlow4">
+        <objectstore:store config-ref="ObjectStore__Connector" key="key" value-ref="#[flowVars.abc]" doc:name="ObjectStore"/>
+    </flow>
+    <flow name="objectstoreFlow5">
+        <objectstore:retrieve-and-store config-ref="ObjectStore__Connector" key="key" defaultValue-ref="#[flowVars.abc]" storeValue-ref="#[flowVars.abc]" doc:name="ObjectStore"/>
+    </flow>
+</mule>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ftp="http://www.mulesoft.org/schema/mule/ee/ftp" xmlns:quartz="http://www.mulesoft.org/schema/mule/quartz" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/quartz http://www.mulesoft.org/schema/mule/quartz/current/mule-quartz.xsd
+http://www.mulesoft.org/schema/mule/ee/ftp http://www.mulesoft.org/schema/mule/ee/ftp/current/mule-ftp-ee.xsd">
+    <flow name="quartzFlow">
+        <quartz:inbound-endpoint responseTimeout="10000" doc:name="Quartz"   jobName="jobName" repeatInterval="3920000" >
+            <quartz:custom-job groupName="gName" jobGroupName="groupName" job-ref="jobRef"/>
+        </quartz:inbound-endpoint>
+    </flow>
+    <flow name="quartzFlow1">
+        <quartz:inbound-endpoint jobName="jobName" cronExpression="cronExp" cronTimeZone="cronTimeZone" responseTimeout="10000" doc:name="Quartz">
+            <quartz:endpoint-polling-job groupName="gName" jobGroupName="jGName">
+                <quartz:job-endpoint ref="FTP1"/>
+            </quartz:endpoint-polling-job>
+        </quartz:inbound-endpoint>
+    </flow>
+</mule>

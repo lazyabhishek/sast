@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:mft="http://www.mulesoft.org/schema/mule/mft" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/mft http://www.mulesoft.org/schema/mule/mft/current/mule-mft.xsd">
+	<mft:config doc:name="MFT: Configuration" name="MFT__Configuration">
+		<mft:mft-connection APIUrl="url" FlowSecret="sec" SiteKey="key" StorageRepository="storage"/>
+	</mft:config>
+	<mft:config doc:name="MFT: Sandbox Configuration" name="MFT__Sandbox_Configuration">
+		<mft:mft-connection APIUrl="url" FlowSecret="secret" SiteKey="key" StorageRepository="storage"/>
+	</mft:config>
+	<flow name="mftFlow" >
+		<mft:file-pickup-source doc:name="MFT (Streaming)"  config-ref="MFT__Configuration">
+			<scheduling-strategy >
+				<fixed-frequency frequency="20000"/>
+			</scheduling-strategy>
+		</mft:file-pickup-source>
+		<mft:batch-exception-handler doc:name="MFT" config-ref="MFT__Sandbox_Configuration" fileCode="code">
+			<mft:exception-data ><![CDATA[#[vars.abc]]]></mft:exception-data>
+		</mft:batch-exception-handler>
+	</flow>
+	<flow name="mftFlow1"  >
+		<mft:file-dropoff fileSize="size" doc:name="MFT"  config-ref="MFT__Configuration" filename="name" fileCode="pic">
+			<mft:file-data ><![CDATA[#[vars.abc]]]></mft:file-data>
+		</mft:file-dropoff>
+	</flow>
+	<flow name="mftFlow2"  >
+		<mft:file-metadata doc:name="MFT"  config-ref="MFT__Configuration" fileCode="code"/>
+	</flow>
+	<flow name="mftFlow3"  >
+		<mft:file-pickup doc:name="MFT"  config-ref="MFT__Configuration"/>
+	</flow>
+	<flow name="mftFlow4"  >
+		<mft:flow-outcome status="FAILED" doc:name="MFT"  config-ref="MFT__Configuration" fileCode="code" flowInstanceCode="icode" selectiveDropOffRecipients="off" batchTotalRecordCount="100" batchFailedRecordCount="100" activityMessage="activem" activityDetail="actived"/>
+	</flow>
+</mule>

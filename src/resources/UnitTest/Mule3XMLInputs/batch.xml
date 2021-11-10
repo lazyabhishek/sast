@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:batch="http://www.mulesoft.org/schema/mule/batch"
+	xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:dw="http://www.mulesoft.org/schema/mule/ee/dw"
+	xmlns:schedulers="http://www.mulesoft.org/schema/mule/schedulers"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/ee/dw http://www.mulesoft.org/schema/mule/ee/dw/current/dw.xsd
+http://www.mulesoft.org/schema/mule/schedulers http://www.mulesoft.org/schema/mule/schedulers/current/mule-schedulers.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/batch http://www.mulesoft.org/schema/mule/batch/current/mule-batch.xsd">
+	<batch:job name="mule-simple-batch">
+		<batch:input>
+            <poll doc:name="Poll">
+                <fixed-frequency-scheduler frequency="10000" startDelay="10"/>
+              <set-payload doc:name="Set Payload" value="#[
+{
+  &quot;key&quot;:value,
+ &quot;abc&quot;:&quot;test&quot;
+}
+
+]"/>
+            </poll>
+            <dw:transform-message doc:name="Transform Message">
+                <dw:set-payload><![CDATA[%dw 1.0
+%output application/java
+---
+payload filter $.status != 'MessedUp']]></dw:set-payload>
+            </dw:transform-message>
+		</batch:input>
+		<!-- Implicit Load and Dispatch phase -->
+		<batch:process-records>
+			<batch:step name="Batch_Step_1">
+				<flow-ref name="batch-step-1-process"
+					doc:name="Flow batch-step-1-process" />
+			</batch:step>
+			<batch:step name="Batch_Step_2"
+				accept-expression="#[payload.status == 'Processing']">
+				<flow-ref name="batch-step-2-process"
+					doc:name="Flow batch-step-2-process" />
+			</batch:step>
+			<batch:step name="Batch_Step_3"
+				accept-expression="#[payload.status == 'Not-Processing']">
+				<flow-ref name="batch-step-3-process"
+					doc:name="Flow batch-step-3-process" />
+			</batch:step>
+			<batch:step name="commitStep">
+			  <batch:commit size="10">
+			    <foreach>
+			      <expression-component>
+				<![CDATA[record.payload = 'foo';record.recordVars['marco'] = 'polo';]]>
+			      </expression-component>
+			    </foreach>
+			  </batch:commit>
+			</batch:step>
+		</batch:process-records>
+		<batch:on-complete>
+			<logger
+				message="#['Batch Processing Result: Loaded:'+ payload.loadedRecords + ', successful: '+ payload.successfulRecords + ', failed: '+ payload.failedRecords]"
+				level="INFO" doc:name="EndLogger" />
+		</batch:on-complete>
+	</batch:job>
+</mule>

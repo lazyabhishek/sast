@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:mft="http://www.mulesoft.org/schema/mule/mft" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/mft http://www.mulesoft.org/schema/mule/mft/current/mule-mft.xsd">
+<mft:config doc:name="MFT: Configuration" name="MFT__Configuration">
+<mft:mft-connection APIUrl="url" FlowSecret="sec" SiteKey="key" StorageRepository="storage"/>
+</mft:config>
+<mft:config doc:name="MFT: Sandbox Configuration" name="MFT__Sandbox_Configuration">
+<mft:mft-connection APIUrl="url" FlowSecret="secret" SiteKey="key" StorageRepository="storage"/>
+</mft:config>
+<flow name="mftFlow">
+<mft:file-pickup-source config-ref="MFT__Configuration" doc:name="MFT (Streaming)">
+<scheduling-strategy>
+<fixed-frequency frequency="20000"/>
+</scheduling-strategy>
+</mft:file-pickup-source>
+<mft:batch-exception-handler config-ref="MFT__Sandbox_Configuration" doc:name="MFT" fileCode="code">
+<mft:exception-data><![CDATA[#[vars.abc]]]></mft:exception-data>
+</mft:batch-exception-handler>
+</flow>
+<flow name="mftFlow1">
+<mft:file-dropoff config-ref="MFT__Configuration" doc:name="MFT" fileCode="pic" fileSize="size" filename="name">
+<mft:file-data><![CDATA[#[vars.abc]]]></mft:file-data>
+</mft:file-dropoff>
+</flow>
+<flow name="mftFlow2">
+<mft:file-metadata config-ref="MFT__Configuration" doc:name="MFT" fileCode="code"/>
+</flow>
+<flow name="mftFlow3">
+<mft:file-pickup config-ref="MFT__Configuration" doc:name="MFT"/>
+</flow>
+<flow name="mftFlow4">
+<mft:flow-outcome activityDetail="actived" activityMessage="activem" batchFailedRecordCount="100" batchTotalRecordCount="100" config-ref="MFT__Configuration" doc:name="MFT" fileCode="code" flowInstanceCode="icode" selectiveDropOffRecipients="off" status="FAILED"/>
+</flow>
+
+</mule>

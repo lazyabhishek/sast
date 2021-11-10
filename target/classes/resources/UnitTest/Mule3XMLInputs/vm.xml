@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:core="http://www.mulesoft.org/schema/mule/core" xmlns:jbossts="http://www.mulesoft.org/schema/mule/jbossts" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/jbossts/current/mule-jbossts.xsd">
+   
+    <vm:connector name="VM" doc:name="VM">
+        <vm:queue-profile maxOutstandingMessages="14">
+            <default-in-memory-queue-store />
+        </vm:queue-profile>
+    </vm:connector>
+    <flow name="vmFlow">
+        <vm:inbound-endpoint exchange-pattern="request-response" path="path" connector-ref="VM" tracking:enable-default-events="true" responseTimeout="100" encoding="UTF-8" disableTransportTransformer="true" mimeType="application/json" doc:name="VM">
+            <xa-transaction action="ALWAYS_BEGIN" timeout="100"/>
+        </vm:inbound-endpoint>
+        <vm:outbound-endpoint exchange-pattern="one-way" path="queue" connector-ref="VM" doc:name="VM">
+            <xa-transaction action="NONE"/>
+        </vm:outbound-endpoint>
+    </flow>
+    <flow name="vmFlow1">
+        <vm:outbound-endpoint exchange-pattern="request-response" path="queue" doc:name="VM" connector-ref="VM">
+            <vm:transaction action="ALWAYS_JOIN"/>
+        </vm:outbound-endpoint>
+    </flow>
+</mule>

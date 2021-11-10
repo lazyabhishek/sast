@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dynamicscrm="http://www.mulesoft.org/schema/mule/dynamicscrm" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/dynamicscrm http://www.mulesoft.org/schema/mule/dynamicscrm/current/mule-dynamicscrm.xsd">
+    <dynamicscrm:claims-connection-config name="Microsoft_Dynamics_CRM__Claims_Connection" username="user" password="pass" organizationServiceUrl="org" disableCnCheck="true" connectionTimeout="600" proxyConnection="8080" doc:name="Microsoft Dynamics CRM: Claims Connection">
+        <dynamicscrm:connection-pooling-profile maxActive="100" initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect frequency="3000" count="5"/>
+    </dynamicscrm:claims-connection-config>
+    <dynamicscrm:kerberos-connection-config name="Microsoft_Dynamics_CRM__Kerberos_Connection" username="user" password="pass" organizationServiceUrl="org" spn="spn" realm="realm" kdc="kdc" disableCnCheck="true" connectionTimeout="600" proxyConnection="8080" doc:name="Microsoft Dynamics CRM: Kerberos Connection">
+        <dynamicscrm:connection-pooling-profile maxActive="100" initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect frequency="3000" count="5"/>
+    </dynamicscrm:kerberos-connection-config>
+    <dynamicscrm:ntlm-connection-config name="Microsoft_Dynamics_CRM__NTLM_Connection" username="user" password="pass" organizationServiceUrl="url" gatewayRouterServiceAddress="addr" disableCnCheck="true" connectionTimeout="600" proxyConnection="8080" doc:name="Microsoft Dynamics CRM: NTLM Connection">
+        <dynamicscrm:connection-pooling-profile maxActive="100" initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect frequency="3000" count="5"/>
+    </dynamicscrm:ntlm-connection-config>
+    <dynamicscrm:online-connection-config name="Microsoft_Dynamics_CRM__Online_Connection" username="user" password="pass" organizationServiceUrl="url" authenticationRetries="10" disableCnCheck="true" connectionTimeout="600" stsMetadataUrl="url" stsUsernamePortQname="qname" proxyConnection="8080" doc:name="Microsoft Dynamics CRM: Online Connection">
+        <dynamicscrm:connection-pooling-profile maxActive="100" initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect frequency="3000" count="5"/>
+    </dynamicscrm:online-connection-config>
+    <flow name="crmFlow">
+        <dynamicscrm:associate config-ref="Microsoft_Dynamics_CRM__Claims_Connection" id="id" logicalName="name" relationshipSchemaName="name" relationshipEntityRoleIsReferenced="true" doc:name="Microsoft Dynamics CRM">
+            <dynamicscrm:related-entities-ids ref="#[flowVars.abc]"/>
+        </dynamicscrm:associate>
+    </flow>
+    <flow name="crmFlow1">
+        <dynamicscrm:create config-ref="Microsoft_Dynamics_CRM__Kerberos_Connection" logicalName="name" doc:name="Microsoft Dynamics CRM">
+            <dynamicscrm:attributes ref="#[flowVars.abc]"/>
+        </dynamicscrm:create>
+    </flow>
+    <flow name="crmFlow2">
+        <dynamicscrm:create-multiple config-ref="Microsoft_Dynamics_CRM__NTLM_Connection" logicalName="name" useSingleTransaction="true" doc:name="Microsoft Dynamics CRM">
+            <dynamicscrm:attributes-list ref="#[flowVars.abc]"/>
+        </dynamicscrm:create-multiple>
+    </flow>
+    <flow name="crmFlow3">
+        <dynamicscrm:delete config-ref="Microsoft_Dynamics_CRM__Online_Connection" logicalName="name" doc:name="Microsoft Dynamics CRM" id="#[flowVars.abc]"/>
+    </flow>
+    <flow name="crmFlow4">
+        <dynamicscrm:delete-multiple config-ref="Microsoft_Dynamics_CRM__Claims_Connection" logicalName="name" useSingleTransaction="true" doc:name="Microsoft Dynamics CRM">
+            <dynamicscrm:ids ref="#[flowVars.abc]"/>
+        </dynamicscrm:delete-multiple>
+    </flow>
+    <flow name="crmFlow5">
+        <dynamicscrm:disassociate config-ref="Microsoft_Dynamics_CRM__Claims_Connection" id="#[flowVars.abc]" logicalName="name" relationshipSchemaName="name" relationshipEntityRoleIsReferenced="true" doc:name="Microsoft Dynamics CRM">
+            <dynamicscrm:related-entities-ids ref="#[flowVars.abc]"/>
+        </dynamicscrm:disassociate>
+    </flow>
+    <flow name="crmFlow6">
+        <dynamicscrm:execute config-ref="Microsoft_Dynamics_CRM__Claims_Connection" requestName="name" requestId="#[flowVars.abc]" doc:name="Microsoft Dynamics CRM"/>
+    </flow>
+    <flow name="crmFlow7">
+        <dynamicscrm:execute-multiple config-ref="Microsoft_Dynamics_CRM__Claims_Connection" useSingleTransaction="true" requestId="#[flowVars.abc]" doc:name="Microsoft Dynamics CRM"/>
+    </flow>
+    <flow name="crmFlow8">
+        <dynamicscrm:retrieve config-ref="Microsoft_Dynamics_CRM__Claims_Connection" id="#[flowVars.abc]" logicalName="name" doc:name="Microsoft Dynamics CRM"/>
+    </flow>
+    <flow name="crmFlow9">
+        <dynamicscrm:retrieve-multiple-by-query config-ref="Microsoft_Dynamics_CRM__Claims_Connection" query="dsql:#[flowVars.abc]" singlePageNumber="10" fetchSize="1000" doc:name="Microsoft Dynamics CRM"/>
+    </flow>
+    <flow name="crmFlow10">
+        <dynamicscrm:update config-ref="Microsoft_Dynamics_CRM__Claims_Connection" id="#[flowVars.abc]" logicalName="name" doc:name="Microsoft Dynamics CRM">
+            <dynamicscrm:attributes ref="#[flowVars.abc]"/>
+        </dynamicscrm:update>
+    </flow>
+    <flow name="crmFlow11">
+        <dynamicscrm:update-multiple config-ref="Microsoft_Dynamics_CRM__Kerberos_Connection" logicalName="name" useSingleTransaction="true" doc:name="Microsoft Dynamics CRM">
+            <dynamicscrm:attributes-list ref="#[flowVars.abc]"/>
+        </dynamicscrm:update-multiple>
+    </flow>
+</mule>

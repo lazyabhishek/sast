@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:sftp="http://www.mulesoft.org/schema/mule/sftp" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/sftp http://www.mulesoft.org/schema/mule/sftp/current/mule-sftp.xsd">
+<flow name="sftpFlow">
+<sftp:listener config-ref="SFTP" directory="path" doc:name="SFTP" outputEncoding="UTF-8" outputMimeType="application/json" timeBetweenSizeCheck="1000" timeBetweenSizeCheckUnit="MILLISECONDS">
+<scheduling-strategy>
+<fixed-frequency frequency="3000" timeUnit="MILLISECONDS"/>
+</scheduling-strategy>
+</sftp:listener>
+</flow>
+<sftp:config doc:name="SFTP" name="SFTP" timeBetweenSizeCheck="1000">
+<sftp:connection host="host" identityFile="identify" passphrase="pass" password="password" port="8080" responseTimeout="10000" responseTimeoutUnit="MILLISECONDS" username="user" workingDir="path">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</sftp:connection>
+</sftp:config>
+<flow name="sftpFlow1">
+<sftp:write config-ref="SFTP" doc:name="SFTP" encoding="UTF-8" path="path"/>
+</flow>
+
+</mule>

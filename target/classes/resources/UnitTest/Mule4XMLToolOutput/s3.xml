@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:metadata="http://www.mulesoft.org/schema/mule/metadata" xmlns:s3="http://www.mulesoft.org/schema/mule/s3" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/s3 http://www.mulesoft.org/schema/mule/s3/current/mule-s3.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+<s3:config doc:description="anjaneyulu" doc:name="Amazon S3: Configuration" name="Amazon_S3__Configuration">
+<s3:role-connection accessKey="anji" proxyDomain="domain" proxyHost="host" proxyPassword="password" proxyPort="8080" proxyUsername="user" proxyWorkstation="work" roleARN="arn" secretKey="amar" tryDefaultAWSCredentialsProviderChain="true">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</s3:role-connection>
+</s3:config>
+<flow name="abort-multipart-upload">
+<s3:abort-multipart-upload bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" key="key1" uploadId="5"/>
+</flow>
+<flow name="complete-multipart-upload">
+<s3:complete-multipart-upload bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" key="key1" uploadId="5">
+<s3:part-e-tags><![CDATA[#[vars.abc]]]></s3:part-e-tags>
+</s3:complete-multipart-upload>
+</flow>
+<flow name="copy-object">
+<s3:copy-object config-ref="Amazon_S3__Configuration" contentType="text" destinationAcl="LOG_DELIVERY_WRITE" destinationBucketName="bucket2" destinationKey="key1" destinationStorageClass="REDUCED_REDUNDANCY" doc:name="Amazon S3" encryption="encryption" modifiedSince="tue" sourceBucketName="bucket" sourceKey="key" sourceVersionId="5" unmodifiedSince="thur"/>
+</flow>
+<flow name="create-bucket">
+<s3:create-bucket acl="BUCKET_OWNER_FULL_CONTROL" bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" region="EU_IRELAND"/>
+</flow>
+<flow name="s3:create-object">
+<s3:create-object acl="BUCKET_OWNER_READ" bucketName="bucket1" config-ref="Amazon_S3__Configuration" contentDisposition="2" contentLength="10" contentMD5="4" contentType="text" doc:name="Amazon S3" key="key" kmsMasterKey="key" storageClass="REDUCED_REDUNDANCY"/>
+</flow>
+<flow name="create-object-presigned-uri">
+<s3:create-object-presigned-uri bucketName="bucket1" config-ref="Amazon_S3__Configuration" contentMd5="5" contentType="text" doc:name="Amazon S3" expiration="time" key="key" method="GET" sseS3Encryption="KMS"/>
+</flow>
+<flow name="delete-bucket">
+<s3:delete-bucket bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" force="true"/>
+</flow>
+<flow name="delete-bucket-cors-configuration">
+<s3:delete-bucket-cors-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="delete-bucket-lifecycle-configuration">
+<s3:delete-bucket-lifecycle-configuration bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="delete-bucket-policy">
+<s3:delete-bucket-policy bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="delete-bucket-tagging-configuration">
+<s3:delete-bucket-tagging-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="delete-bucket-website-configuration">
+<s3:delete-bucket-website-configuration bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="delete-object">
+<s3:delete-object bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" key="key1" versionId="2"/>
+</flow>
+<flow name="delete-objects">
+<s3:delete-objects bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" keys="anji"/>
+</flow>
+<flow name="get-bucket-acl">
+<s3:get-bucket-acl bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="get-bucket-cors-configuration">
+<s3:get-bucket-cors-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="get-bucket-lifecycle-configuration">
+<s3:get-bucket-lifecycle-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="get-bucket-location">
+<s3:get-bucket-location bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="get-bucket-logging-configuration">
+<s3:get-bucket-logging-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="get-bucket-notification-configuration">
+<s3:get-bucket-notification-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="get-bucket-policy">
+<s3:get-bucket-policy bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="get-bucket-tagging-configuration">
+<s3:get-bucket-tagging-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="get-bucket-versioning-configuration">
+<s3:get-bucket-versioning-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="get-bucket-website-configuration">
+<s3:get-bucket-website-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="get-object">
+<s3:get-object bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" key="key" modifiedSince="tue" unmodifiedSince="thur" versionId="2"/>
+</flow>
+<flow name="get-object-acl">
+<s3:get-object-acl bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" key="key1" versionId="2"/>
+</flow>
+<flow name="initiate-multipart-upload">
+<s3:initiate-multipart-upload acl="LOG_DELIVERY_WRITE" bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" key="key" redirectLocation="up"/>
+</flow>
+<flow name="list-buckets">
+<s3:list-buckets config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" region="AP_SYDNEY"/>
+</flow>
+<flow name="list-multipart-uploads">
+<s3:list-multipart-uploads bucketName="bucket" config-ref="Amazon_S3__Configuration" delimiter="2" doc:name="Amazon S3" encodingType="encode" keyMarker="key" maxUploads="5" prefix="a" uploadIdMarker="1"/>
+</flow>
+<flow name="list-objects">
+<s3:list-objects bucketName="bucket" config-ref="Amazon_S3__Configuration" delimiter="2" doc:name="Amazon S3" encodingType="URL" marker="2" maxKeys="5" prefix="a"/>
+</flow>
+<flow name="list-parts">
+<s3:list-parts bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" encodingType="encode" key="key" maxParts="5" partNumberMarker="10" uploadId="1"/>
+</flow>
+<flow name="list-versions">
+<s3:list-versions bucketName="bucket" config-ref="Amazon_S3__Configuration" delimiter="2" doc:name="Amazon S3" encodingType="URL" keyMarker="key" maxResults="2" prefix="a" versionIdMarker="1"/>
+</flow>
+<flow name="set-bucket-acl">
+<s3:set-bucket-acl bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="set-bucket-cors-configuration">
+<s3:set-bucket-cors-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3">
+<s3:rules><![CDATA[#[vars.abc]]]></s3:rules>
+</s3:set-bucket-cors-configuration>
+</flow>
+<flow name="set-bucket-lifecycle-configuration">
+<s3:set-bucket-lifecycle-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3">
+<s3:lifecycle-configuration-rules><![CDATA[#[vars.abc]]]></s3:lifecycle-configuration-rules>
+</s3:set-bucket-lifecycle-configuration>
+</flow>
+<flow name="set-bucket-logging-configuration">
+<s3:set-bucket-logging-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3"/>
+</flow>
+<flow name="set-bucket-notification-configuration">
+<s3:set-bucket-notification-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3">
+<s3:topic-configurations><![CDATA[#[vars.abc]]]></s3:topic-configurations>
+</s3:set-bucket-notification-configuration>
+</flow>
+<flow name="set-bucket-policy">
+<s3:set-bucket-policy bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3">
+<s3:policy-text><![CDATA[#[vars.abc]]]></s3:policy-text>
+</s3:set-bucket-policy>
+</flow>
+<flow name="set-bucket-tagging-configuration">
+<s3:set-bucket-tagging-configuration bucketName="bucket1" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3">
+<s3:tag-sets><![CDATA[#[vars.abc]]]></s3:tag-sets>
+</s3:set-bucket-tagging-configuration>
+</flow>
+<flow name="set-bucket-versioning-configuration">
+<s3:set-bucket-versioning-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3">
+<s3:versioning-status><![CDATA[#[vars.abc]]]></s3:versioning-status>
+</s3:set-bucket-versioning-configuration>
+</flow>
+<flow name="set-bucket-website-configuration">
+<s3:set-bucket-website-configuration bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3">
+<s3:bucket-website-configuration><![CDATA[#[vars.abc]]]></s3:bucket-website-configuration>
+</s3:set-bucket-website-configuration>
+</flow>
+<flow name="set-object-acl">
+<s3:set-object-acl bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" key="key" versionId="2"/>
+</flow>
+<flow name="set-object-storage-class">
+<s3:set-object-storage-class bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" key="key">
+<s3:storage-class><![CDATA[#[vars.abc]]]></s3:storage-class>
+</s3:set-object-storage-class>
+</flow>
+<flow name="upload-part">
+<s3:upload-part bucketName="bucket" config-ref="Amazon_S3__Configuration" doc:name="Amazon S3" fileOffset="1" isLastPart="true" key="key" md5Digest="5" partNumber="1" partSize="1" uploadId="1">
+<s3:content><![CDATA[#[vars.text]]]></s3:content>
+</s3:upload-part>
+</flow>
+<flow name="upload-part-copy">
+<s3:upload-part-copy config-ref="Amazon_S3__Configuration" destinationBucketName="bucket" destinationKey="key" doc:name="Amazon S3" firstByte="1" lastByte="1" matchingETagConstraints="abc" modifiedSince="tue" partNumber="1" sourceBucketName="bucket1" sourceKey="key1" sourceVersionId="1" unmodifiedSince="thur" uploadId="1"/>
+</flow>
+
+</mule>

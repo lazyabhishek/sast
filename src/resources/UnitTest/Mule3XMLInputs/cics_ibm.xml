@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ibm-ctg="http://www.mulesoft.org/schema/mule/ibm-ctg" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ibm-ctg http://www.mulesoft.org/schema/mule/ibm-ctg/current/mule-ibm-ctg.xsd">
+    <flow name="cics_ibmFlow">
+        <ibm-ctg:create-channel-and-content-instance config-ref="" content-ref="#[flowVars.abc]" request-ref="#[flowVars.req]" doc:name="IBM CTG"/>
+    </flow>
+    <flow name="cics_ibmFlow1">
+        <ibm-ctg:execute config-ref="" content-ref="#[flowVars.abc]" request-ref="#[flowVars.req]" doc:name="IBM CTG"/>
+    </flow>
+    <flow name="cics_ibmFlow2">
+        <ibm-ctg:execute-using-commarea  content-ref="#[flowVars.abc]" request-ref="#[flowVars.req]" doc:name="IBM CTG"/>
+    </flow>
+    <flow name="cics_ibmFlow3">
+        <ibm-ctg:execute-with-multiple-channels  channelAndContentList-ref="#[flowVars.abc]" doc:name="IBM CTG"/>
+    </flow>
+</mule>

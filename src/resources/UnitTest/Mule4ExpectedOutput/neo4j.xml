@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:neo4j="http://www.mulesoft.org/schema/mule/neo4j" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/neo4j http://www.mulesoft.org/schema/mule/neo4j/current/mule-neo4j.xsd">
+	<neo4j:config name="Neo4j__Basic_Authentication" doc:name="Neo4j: Basic Authentication"  >
+		<neo4j:connection username="user" password="pass" boltUrl="url" restUrl="url" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</neo4j:connection>
+	</neo4j:config>
+	<flow name="neo4jFlow" >
+		<neo4j:create-node doc:name="Neo4j"  config-ref="Neo4j__Basic_Authentication" label="label">
+			<neo4j:input ><![CDATA[#[vars.abc]]]></neo4j:input>
+		</neo4j:create-node>
+	</flow>
+	<flow name="neo4jFlow1"  >
+		<neo4j:delete-nodes label="label" doc:name="Neo4j"  config-ref="Neo4j__Basic_Authentication" removeRelationships="true">
+			<neo4j:parameters ><![CDATA[#[vars.abc]]]></neo4j:parameters>
+		</neo4j:delete-nodes>
+	</flow>
+	<flow name="neo4jFlow2" >
+		<neo4j:execute doc:name="Neo4j"  config-ref="Neo4j__Basic_Authentication" query="#[vars.q]">
+			<neo4j:input ><![CDATA[#[vars.ref]]]></neo4j:input>
+		</neo4j:execute>
+	</flow>
+	<flow name="neo4jFlow3" >
+		<neo4j:select-nodes label="label" doc:name="Neo4j" config-ref="Neo4j__Basic_Authentication">
+			<neo4j:input ><![CDATA[#[vars.abc]]]></neo4j:input>
+		</neo4j:select-nodes>
+	</flow>
+	<flow name="neo4jFlow4"  >
+		<neo4j:update-nodes label="label" doc:name="Neo4j"  config-ref="Neo4j__Basic_Authentication">
+			<neo4j:parameters ><![CDATA[#[vars.abc]]]></neo4j:parameters>
+			<neo4j:set-parameters ><![CDATA[#[vars.p]]]></neo4j:set-parameters>
+		</neo4j:update-nodes>
+	</flow>
+</mule>

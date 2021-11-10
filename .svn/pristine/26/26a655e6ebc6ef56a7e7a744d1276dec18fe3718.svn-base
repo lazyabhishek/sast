@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tcp="http://www.mulesoft.org/schema/mule/tcp" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns:schedulers="http://www.mulesoft.org/schema/mule/schedulers" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/schedulers http://www.mulesoft.org/schema/mule/schedulers/current/mule-schedulers.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/tcp http://www.mulesoft.org/schema/mule/tcp/current/mule-tcp.xsd">
+    <http:listener-config name="HTTP_Listener_Configuration" host="0.0.0.0" port="8081" doc:name="HTTP Listener Configuration">
+        <tls:context>
+            <tls:trust-store path="/test" password="test" type="jceks" algorithm="test"/>
+            <tls:key-store type="jceks" path="/test" alias="test" keyPassword="test" password="test" algorithm="test"/>
+        </tls:context>
+    </http:listener-config>
+    <http:request-config name="HTTP_Request_Configuration" host="host" port="port" basePath="basePath" responseTimeout="4000" doc:name="HTTP Request Configuration" protocol="HTTPS">
+        <tcp:client-socket-properties connectionTimeout="300000" keepAlive="false" receiveBufferSize="100" sendBufferSize="100" timeout="100"/>
+        <tls:context enabledProtocols="enabledProtocols" enabledCipherSuites="enabledCipherSuites">
+            <tls:trust-store path="path" password="pass" type="jceks" algorithm="CBC" insecure="true"/>
+            <tls:key-store type="jceks" path="path" alias="alias" keyPassword="key" password="pass" algorithm="algo"/>
+        </tls:context>
+        <http:raml-api-configuration location="abc"/>
+        <http:proxy host="pHost" port="8080" username="pUserName" password="pPassword"/>
+    </http:request-config>
+    <flow name="httpRequestor">
+        <http:request config-ref="HTTP_Request_Configuration" path="/test" method="POST" doc:name="HTTP"/>
+    </flow>
+    <flow name="httpFlow">
+        <http:listener config-ref="HTTP_Listener_Configuration" path="/hello" allowedMethods="GET" parseRequest="false" doc:name="httpListener" responseStreamingMode="ALWAYS">
+            <http:response-builder statusCode="200" reasonPhrase="success">
+                <http:header headerName="test" value="test"/>
+            </http:response-builder>
+            <http:error-response-builder statusCode="500" reasonPhrase="failure">
+                <http:header headerName="test" value="test"/>
+            </http:error-response-builder>
+        </http:listener>
+    </flow>
+</mule>

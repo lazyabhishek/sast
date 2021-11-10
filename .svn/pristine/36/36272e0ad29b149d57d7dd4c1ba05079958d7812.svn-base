@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:msmq="http://www.mulesoft.org/schema/mule/msmq" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/msmq http://www.mulesoft.org/schema/mule/msmq/current/mule-msmq.xsd">
+    <msmq:config name="MSMQ" serviceAddress="add" accessToken="token" rootQueueName="name" rootUserName="user" rootPassword="pass" ignoreSSLWarnings="true" doc:name="MSMQ">
+        <reconnect frequency="3000" count="5"/>
+    </msmq:config>
+    <msmq:config name="MSMQ1" serviceAddress="add" accessToken="token" rootQueueName="name" rootUserName="user" rootPassword="pass" ignoreSSLWarnings="true" doc:name="MSMQ">
+        <reconnect frequency="3000" count="5"/>
+    </msmq:config>
+    <flow name="msmqFlow">
+        <msmq:receive config-ref="MSMQ" doc:name="MSMQ (Streaming)" messageCount="100" messageFormatter="ActiveXMessageFormatter" pollingFrecuency="100"/>
+        <msmq:send config-ref="MSMQ1" doc:name="MSMQ" queueName="name" messageFormatter="ActiveXMessageFormatter" password="pass" payload-ref="#[flowVars.abc]" timeToBeReceived="100" timeToReachQueue="100" userName="user"/>
+    </flow>
+</mule>

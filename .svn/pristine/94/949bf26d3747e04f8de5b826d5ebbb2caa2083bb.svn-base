@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:as400="http://www.mulesoft.org/schema/mule/as400" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/as400 http://www.mulesoft.org/schema/mule/as400/current/mule-as400.xsd">
+	<as400:config name="AS400__AS400_Connector_Configuration" doc:name="AS400: AS400 Connector Configuration"  >
+		<as400:config-connection endpoint="url" userid="id" password="pass" IASP="sp" libraryList="list" secureConnection="true" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+			<pooling-profile  exhaustedAction="WHEN_EXHAUSTED_GROW" initialisationPolicy="INITIALISE_ONE" maxActive="100" />
+		</as400:config-connection>
+	</as400:config>
+	<flow name="as400Flow"  >
+		<as400:command-call doc:name="AS400"  config-ref="AS400__AS400_Connector_Configuration">
+			<as400:cmd ><![CDATA[#[vars.a]]]></as400:cmd>
+		</as400:command-call>
+	</flow>
+	<flow name="as400Flow1" >
+		<as400:program-call-processor doc:name="AS400"  config-ref="AS400__AS400_Connector_Configuration" programName="name" programLibrary="library" procedureName="name" procedureReturnsValue="true" threadSafe="true">
+			<as400:parameters >
+				<as400:parameter parameterName="name" dataType="BINARY" length="100" decimalPositions="100" usage="IN" count="100" parmValue="ref" />
+			</as400:parameters>
+		</as400:program-call-processor>
+	</flow>
+	<flow name="as400Flow2"  >
+		<as400:read-data-queue-processor doc:name="AS400"  config-ref="AS400__AS400_Connector_Configuration" dtaq="queue" library="library" dtaqKey="key" dtaqKeySearchType="EQUAL" dtaqwaittime="40" peek="true" formatFileName="name" formatFileLibrary="library"/>
+	</flow>
+	<flow name="as400Flow3" >
+		<as400:read-data-queue doc:name="AS400 (Streaming)"  config-ref="AS400__AS400_Connector_Configuration" dtaq="queue" library="library" dtaqKey="key" dtaqKeySearchType="EQUAL" peek="true" formatFileName="name" formatFileLibrary="library" numberOfConsumers="1000"/>
+		<as400:write-data-queue doc:name="AS400"  config-ref="AS400__AS400_Connector_Configuration" dtaq="queue" library="library" dtaqKey="key" formatFileName="name" formatFileLibrary="library">
+			<as400:dq-entry ><![CDATA[#[vars.abc]]]></as400:dq-entry>
+		</as400:write-data-queue>
+	</flow>
+</mule>

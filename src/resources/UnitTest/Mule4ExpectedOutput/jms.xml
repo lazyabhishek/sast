@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ibm-mq="http://www.mulesoft.org/schema/mule/ibm-mq" xmlns:jms="http://www.mulesoft.org/schema/mule/jms"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/jms http://www.mulesoft.org/schema/mule/jms/current/mule-jms.xsd
+http://www.mulesoft.org/schema/mule/ibm-mq http://www.mulesoft.org/schema/mule/ibm-mq/current/mule-ibm-mq.xsd">
+	<jms:config name="Active_MQ" doc:name="Active MQ" doc:description="anji">
+		<jms:active-mq-connection username="user" password="password" clientId="id" connectionFactory="Bean" specification="1.1">
+			<reconnection >
+				<reconnect frequency="3000" count="5"/>
+			</reconnection>
+			<jms:caching-strategy >
+				<jms:default-caching />
+			</jms:caching-strategy>
+		</jms:active-mq-connection>
+		<jms:consumer-config maxRedelivery="10" ackMode="DUPS_OK_ACKNOWLEDGE"/>
+		<jms:producer-config persistentDelivery="true" />
+	</jms:config>
+	<jms:config name="Custom_JMS" doc:name="Custom JMS"  >
+		<jms:generic-connection specification="1.1" username="user" password="pass" clientId="id" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+			<jms:connection-factory >
+				<jms:jndi-connection-factory connectionFactoryJndiName="factory">
+					<jms:custom-jndi-name-resolver >
+						<jms:cached-jndi-name-resolver jndiInitialFactory="jnd.java" jndiProviderUrl="url" jndiProviderProperties="vars.abc" />
+					</jms:custom-jndi-name-resolver>
+				</jms:jndi-connection-factory>
+			</jms:connection-factory>
+		</jms:generic-connection>
+		<jms:consumer-config ackMode="DUPS_OK_ACKNOWLEDGE" maxRedelivery="10"/>
+		<jms:producer-config/>
+	</jms:config>
+	<ibm-mq:config name="WMQ" doc:name="WMQ"  >
+		<ibm-mq:connection username="user" password="pass" specification="1.1" temporaryModel="model" clientId="id">
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+			<ibm-mq:connection-mode >
+				<ibm-mq:client host="host" port="8080" queueManager="queue" channel="channel" />
+			</ibm-mq:connection-mode>
+			<ibm-mq:handlers-config receiveExitHandler="jms.recieve" receiveExitHandlerInit="anji" sendExitHandler="send" sendExitHandlerInit="send" securityExitHandler="security" securityExitHandlerInit="security"/>
+		</ibm-mq:connection>
+		<ibm-mq:consumer-config ackMode="DUPS_OK_ACKNOWLEDGE" />
+	</ibm-mq:config>
+	<flow name="jmsFlow"  >
+		<jms:listener doc:name="JMS"  config-ref="Active_MQ"  inboundContentType="application/json" inboundEncoding="UTF-8" transactionalAction="ALWAYS_BEGIN"  transactionType="XA">
+			<redelivery-policy maxRedeliveryCount="100" />
+			<jms:response outboundContentType="application/json" outboundEncoding="UTF-8" />
+		</jms:listener>
+		<jms:publish doc:name="JMS"  config-ref="Active_MQ" destination="queue" destinationType="QUEUE">
+			<jms:message outboundContentType="application/json" outboundEncoding="UTF-8" />
+		</jms:publish>
+	</flow>
+	<flow name="jmsFlow1" >
+		<jms:listener doc:name="JMS"  config-ref="Custom_JMS" destination="queue" >
+			<jms:consumer-type >
+				<jms:queue-consumer />
+			</jms:consumer-type>
+			<redelivery-policy maxRedeliveryCount="100" />
+			<jms:response outboundContentType="application/json" outboundEncoding="UTF-8"/>
+		</jms:listener>
+		<jms:publish doc:name="JMS"  config-ref="Active_MQ" destination="queue" destinationType="QUEUE">
+			<jms:message outboundContentType="application/json" outboundEncoding="UTF-8" />
+		</jms:publish>
+	</flow>
+	<flow name="jmsFlow2"  >
+		<ibm-mq:listener doc:name="JMS"  config-ref="WMQ" destination="queue" >
+			<ibm-mq:consumer-type >
+				<ibm-mq:queue-consumer />
+			</ibm-mq:consumer-type>
+			<redelivery-policy maxRedeliveryCount="100" />
+		</ibm-mq:listener>
+		<ibm-mq:publish doc:name="JMS"  config-ref="WMQ" destination="queue" destinationType="QUEUE" >
+	     <ibm-mq:message outboundContentType="application/json" outboundEncoding="UTF-8"/>
+	     </ibm-mq:publish>
+	</flow>
+</mule>

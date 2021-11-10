@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:jbossts="http://www.mulesoft.org/schema/mule/jbossts" xmlns:wmq="http://www.mulesoft.org/schema/mule/ee/wmq" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/wmq http://www.mulesoft.org/schema/mule/ee/wmq/current/mule-wmq-ee.xsd
+http://www.mulesoft.org/schema/mule/jbossts http://www.mulesoft.org/schema/mule/jbossts/current/mule-jbossts.xsd">
+    <wmq:xa-connector name="WMQ" hostName="host" port="8080" transportType="CLIENT_MQ_TCPIP" validateConnections="true" doc:name="WMQ" acknowledgementMode="DUPS_OK_ACKNOWLEDGE" ccsId="id" channel="channel" clientId="client" maxRedelivery="100" password="pass" persistentDelivery="true" queueManager="manager" receiveExitHandler="exit" receiveExitHandlerInit="init" securityExitHandler="secure" securityExitHandlerInit="init" sendExitHandler="send" sendExitHandlerInit="init" specification="1.1" temporaryModel="model" username="user">
+        <reconnect frequency="3000" count="5"/>
+    </wmq:xa-connector>
+    <flow name="wmqFlow">
+        <wmq:inbound-endpoint queue="name" connector-ref="WMQ" doc:name="WMQ">
+            <xa-transaction action="ALWAYS_BEGIN"/>
+        </wmq:inbound-endpoint>
+        <wmq:outbound-endpoint queue="name" doc:name="WMQ" connector-ref="WMQ">
+            <xa-transaction action="ALWAYS_JOIN"/>
+        </wmq:outbound-endpoint>
+    </flow>
+</mule>

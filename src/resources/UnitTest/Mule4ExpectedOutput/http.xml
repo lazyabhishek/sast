@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sockets="http://www.mulesoft.org/schema/mule/sockets" xmlns:tls="http://www.mulesoft.org/schema/mule/tls"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd
+http://www.mulesoft.org/schema/mule/sockets http://www.mulesoft.org/schema/mule/sockets/current/mule-sockets.xsd">
+	
+	<flow name="mule_phase_3Flow"  >
+		<http:listener doc:name="HTTP"  config-ref="HTTP_HTTPS" path="path" outputMimeType="application/json" outputEncoding="UTF-8">
+			<reconnection>
+				<reconnect count="5" frequency="3000"/>
+			</reconnection>
+		</http:listener>
+		<http:request method="DELETE" doc:name="HTTP"  config-ref="HTTP_HTTPS1" path="path" outputMimeType="application/json" outputEncoding="UTF-8" responseTimeout="50000">
+			<reconnection>
+				<reconnect count="5" frequency="3000"/>
+			</reconnection>
+		</http:request>
+	</flow>
+	<http:listener-config doc:name="HTTP-HTTPS" name="HTTP_HTTPS">
+<http:listener-connection connectionIdleTimeout="50000" host="localhost" port="port" protocol="HTTP">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+<tls:context>
+<tls:trust-store algorithm="alg" insecure="true" password="pass" path="path"/>
+<tls:key-store algorithm="alg" keyPassword="pass" password="pass1" path="path"/>
+</tls:context>
+</http:listener-connection>
+</http:listener-config>
+<http:request-config doc:name="HTTP-HTTPS" name="HTTP_HTTPS1">
+<http:request-connection host="localhost" port="port" protocol="HTTP">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+<http:proxy-config>
+<http:proxy host="localhost" port="port"/>
+</http:proxy-config>
+<http:client-socket-properties>
+<sockets:tcp-client-socket-properties clientTimeout="0" connectionTimeout="50000" failOnUnresolvedHost="true" receiveBufferSize="0" reuseAddress="true" sendBufferSize="0" sendTcpNoDelay="true"/>
+</http:client-socket-properties>
+<tls:context>
+<tls:trust-store algorithm="alg" insecure="true" password="pass" path="path"/>
+<tls:key-store algorithm="alg" keyPassword="pass" password="pass1" path="path"/>
+</tls:context>
+</http:request-connection>
+</http:request-config>
+</mule>

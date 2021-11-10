@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sfdc-marketing-cloud="http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud/current/mule-sfdc-marketing-cloud.xsd">
+	<sfdc-marketing-cloud:sfdc-marketing-cloud-config name="Salesforce_Marketing_Cloud__Configuration" doc:name="Salesforce Marketing Cloud: Configuration"  >
+		<sfdc-marketing-cloud:basic-connection username="user" password="pass" authEndPoint="end" readTimeout="2000" connectionTimeout="2000" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sfdc-marketing-cloud:basic-connection>
+	</sfdc-marketing-cloud:sfdc-marketing-cloud-config>
+	<sfdc-marketing-cloud:sfdc-marketing-cloud-config name="Salesforce_Marketing_Cloud__OAuth_Configuration" doc:name="Salesforce Marketing Cloud: OAuth Configuration"  >
+		<sfdc-marketing-cloud:oauth-user-pass-connection clientId="id" clientSecret="sec" authEndpoint="end" soapEndpoint="send" readTimeout="2000" connectionTimeout="2000" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</sfdc-marketing-cloud:oauth-user-pass-connection>
+	</sfdc-marketing-cloud:sfdc-marketing-cloud-config>
+	<flow name="s_marketingFlow"  >
+		<sfdc-marketing-cloud:configure-create doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" objectType="type" configureOptions="opt">
+			<sfdc-marketing-cloud:configurations ><![CDATA[#[vars.abc]]]></sfdc-marketing-cloud:configurations>
+		</sfdc-marketing-cloud:configure-create>
+	</flow>
+	<flow name="s_marketingFlow1"  >
+		<sfdc-marketing-cloud:configure-delete doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__OAuth_Configuration" objectType="type" configureOptions="#[vars.opt]">
+			<sfdc-marketing-cloud:configurations ><![CDATA[#[vars.abc]]]></sfdc-marketing-cloud:configurations>
+		</sfdc-marketing-cloud:configure-delete>
+	</flow>
+	<flow name="s_marketingFlow2" >
+		<sfdc-marketing-cloud:configure-update objectType="type" doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" configureOptions="#[vars.opt]">
+			<sfdc-marketing-cloud:configurations ><![CDATA[#[vars.abc]]]></sfdc-marketing-cloud:configurations>
+		</sfdc-marketing-cloud:configure-update>
+	</flow>
+	<flow name="s_marketingFlow3"  >
+		<sfdc-marketing-cloud:create objectType="type" doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" createOptions="#[vars.opt]">
+			<sfdc-marketing-cloud:api-objects ><![CDATA[#[vars.abc]]]></sfdc-marketing-cloud:api-objects>
+		</sfdc-marketing-cloud:create>
+	</flow>
+	<flow name="s_marketingFlow4"  >
+		<sfdc-marketing-cloud:delete objectType="type" doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" deleteOptions="#[vars.opt]">
+			<sfdc-marketing-cloud:api-objects ><![CDATA[#[vars.api]]]></sfdc-marketing-cloud:api-objects>
+		</sfdc-marketing-cloud:delete>
+	</flow>
+	<flow name="s_marketingFlow5"  >
+		<sfdc-marketing-cloud:perform-get-max-count objectType="type" doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" performOptions="#[vars.opt]">
+			<sfdc-marketing-cloud:definitions ><![CDATA[#[vars.abc]]]></sfdc-marketing-cloud:definitions>
+		</sfdc-marketing-cloud:perform-get-max-count>
+	</flow>
+	<flow name="s_marketingFlow6"  >
+		<sfdc-marketing-cloud:perform-start objectType="type" doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" performOptions="#[vars.opt]">
+			<sfdc-marketing-cloud:definitions ><![CDATA[#[vars.abc]]]></sfdc-marketing-cloud:definitions>
+		</sfdc-marketing-cloud:perform-start>
+	</flow>
+	<flow name="s_marketingFlow7"  >
+		<sfdc-marketing-cloud:perform-stop objectType="type" doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" performOptions="#[vars.abc]">
+			<sfdc-marketing-cloud:definitions ><![CDATA[#[vars.opt]]]></sfdc-marketing-cloud:definitions>
+		</sfdc-marketing-cloud:perform-stop>
+	</flow>
+	<flow name="s_marketingFlow8"  >
+		<sfdc-marketing-cloud:retrieve doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" retrieveOptions="#[vars.opt]">
+			<sfdc-marketing-cloud:query ><![CDATA[#[dsql:#[vars.q]]]]></sfdc-marketing-cloud:query>
+		</sfdc-marketing-cloud:retrieve>
+	</flow>
+	<flow name="s_marketingFlow9"  >
+		<sfdc-marketing-cloud:schedule-start objectType="type" doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" scheduleOptions="#[vars.abc]">
+			<sfdc-marketing-cloud:interactions ><![CDATA[#[vars.abc]]]></sfdc-marketing-cloud:interactions>
+			<sfdc-marketing-cloud:schedule-definitions ><![CDATA[#[vars.def]]]></sfdc-marketing-cloud:schedule-definitions>
+		</sfdc-marketing-cloud:schedule-start>
+	</flow>
+	<flow name="s_marketingFlow10"  >
+		<sfdc-marketing-cloud:update objectType="type" doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" updateOptions="#[vars.opt]">
+			<sfdc-marketing-cloud:api-objects ><![CDATA[#[vars.obj]]]></sfdc-marketing-cloud:api-objects>
+		</sfdc-marketing-cloud:update>
+	</flow>
+	<flow name="s_marketingFlow11"  >
+		<sfdc-marketing-cloud:upsert objectType="type" doc:name="Salesforce Marketing Cloud"  config-ref="Salesforce_Marketing_Cloud__Configuration" upsertOptions="#[vars.opt]">
+			<sfdc-marketing-cloud:api-objects ><![CDATA[#[vars.obj]]]></sfdc-marketing-cloud:api-objects>
+		</sfdc-marketing-cloud:upsert>
+	</flow>
+</mule>

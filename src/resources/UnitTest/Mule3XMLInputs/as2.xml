@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:as2="http://www.mulesoft.org/schema/mule/as2" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/as2 http://www.mulesoft.org/schema/mule/as2/current/mule-as2.xsd">
+    <as2:config name="AS2__Configuration" namePartnerFrom="name" as2IdPartnerFrom="as2" x509aliasPartnerFrom="alias" emailPartnerFrom="email" namePartnerTo="name1" as2IdPartnerTo="as21" x509aliasPartnerTo="alias1" emailPartnerTo="email1" sender="sender" receiver="reciever" subject="subject" as2Url="url" as2ReceiptOption="option" encrypt="AES128" sign="SHA224" contentTransferEncoding="_7BIT" compressionType="true" removeCmsAlgorithmProtectionAttrib="true" keystorePath="path" keystorePassword="pass" receiverPort="rport" secureReceiverPort="sport" secureReceiverKeystorePath="spath" secureReceiverKeystorePassword="spass" mdnReceiverPort="8080" mdnSecureReceiverPort="8080" mdnSecureReceiverKeystorePath="path1" mdnSecureReceiverKeystorePassword="pass1" doc:name="AS2: Configuration">
+        <reconnect frequency="3000" count="5"/>
+    </as2:config>
+    <flow name="as2Flow">
+        <as2:receive config-ref="AS2__Configuration" doc:name="AS2 (Streaming)"/>
+        <as2:send config-ref="AS2__Configuration" doc:name="AS2" fileName="name" input-ref="#[flowVars.abc]" timeout="100"/>
+    </flow>
+</mule>

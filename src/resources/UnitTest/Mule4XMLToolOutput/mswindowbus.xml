@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:servicebus="http://www.mulesoft.org/schema/mule/servicebus" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/servicebus http://www.mulesoft.org/schema/mule/servicebus/current/mule-servicebus.xsd">
+<servicebus:config doc:name="Microsoft Service Bus: Windows Service Bus" name="Microsoft_Service_Bus__Windows_Service_Bus">
+<servicebus:windows-connection disableCnCheck="true" fqdn="domain" namespace="name" password="key" username="access">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</servicebus:windows-connection>
+</servicebus:config>
+<servicebus:config doc:name="Microsoft Service Bus: Azure Service Bus" name="Microsoft_Service_Bus__Azure_Service_Bus">
+<servicebus:shared-access-signature-connection blobAccountKey="key" namespace="name" sharedAccessSignature="access">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</servicebus:shared-access-signature-connection>
+</servicebus:config>
+<flow name="mswindowbusFlow">
+<servicebus:listener config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus (Streaming)"/>
+</flow>
+<flow name="mswindowbusFlow23">
+<servicebus:listener config-ref="Microsoft_Service_Bus__Azure_Service_Bus" doc:name="Microsoft Service Bus (Streaming)"/>
+</flow>
+<flow name="mswindowbusFlow1">
+<servicebus:queue-create config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" queuePath="path">
+<servicebus:queue-description>output applicaton/java
+				---{ 
+				"deadLetteringOnMessageExpiration" : true,
+				"defaultMessageTimeToLive" : live,
+				"duplicateDetectionHistoryTimeWindow" : window,
+				"lockDuration" : duration,
+				"maxDeliveryCount" : 20,
+				"maxSizeInMegabytes" : 2048,
+				"requiresDuplicateDetection" : true,
+				"requiresSession" : true	}</servicebus:queue-description>
+</servicebus:queue-create>
+</flow>
+<flow name="mswindowbusFlow2">
+<servicebus:queue-delete config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus">
+<servicebus:queue-path><![CDATA[#[vars.abc]]]></servicebus:queue-path>
+</servicebus:queue-delete>
+</flow>
+<flow name="mswindowbusFlow3">
+<servicebus:queue-get config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus">
+<servicebus:queue-path><![CDATA[#[vars.abc]]]></servicebus:queue-path>
+</servicebus:queue-get>
+</flow>
+<flow name="mswindowbusFlow4">
+<servicebus:queue-send config-ref="Microsoft_Service_Bus__Windows_Service_Bus" destinationQueue="dest" doc:name="Microsoft Service Bus" priority="priority" timeToLive="leave">
+<servicebus:message correlationId="id" outboundContentType="application/json">
+<servicebus:body><![CDATA[#[vars.abc]]]></servicebus:body>
+</servicebus:message>
+</servicebus:queue-send>
+</flow>
+<flow name="mswindowbusFlow5">
+<servicebus:queue-update config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" queuePath="#[vars.abc]">
+<servicebus:queue-description>output applicaton/java
+				---{ 
+				"deadLetteringOnMessageExpiration" : true,
+				"defaultMessageTimeToLive" : live,
+				"duplicateDetectionHistoryTimeWindow" : window,
+				"lockDuration" : duration,
+				"maxDeliveryCount" : 20,
+				"maxSizeInMegabytes" : 2048,
+				"requiresDuplicateDetection" : true,
+				"requiresSession" : true	}</servicebus:queue-description>
+</servicebus:queue-update>
+</flow>
+<flow name="mswindowbusFlow6">
+<servicebus:queues config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus"/>
+</flow>
+<flow name="mswindowbusFlow7">
+<servicebus:rule-create config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" rulePath="rule path" subscriptionPath="sub path" topicPath="topic path"/>
+</flow>
+<flow name="mswindowbusFlow8">
+<servicebus:rule-delete config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" rulePath="rule path" subscriptionPath="sub path" topicPath="topic path"/>
+</flow>
+<flow name="mswindowbusFlow9">
+<servicebus:rule-get config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" rulePath="rule" subscriptionPath="sub" topicPath="topic"/>
+</flow>
+<flow name="mswindowbusFlow10">
+<servicebus:rule-update config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" rulePath="rule" subscriptionPath="sub" topicPath="topic "/>
+</flow>
+<flow name="mswindowbusFlow11">
+<servicebus:rules config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" subscriptionPath="sub" topicPath="topic"/>
+</flow>
+<flow name="mswindowbusFlow12">
+<servicebus:subscription-create config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" subscriptionPath="sub" topicPath="topic"/>
+</flow>
+<flow name="mswindowbusFlow13">
+<servicebus:subscription-delete config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" subscriptionPath="sub" topicPath="topic "/>
+</flow>
+<flow name="mswindowbusFlow14">
+<servicebus:subscription-get config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" subscriptionPath="sub" topicPath="topic"/>
+</flow>
+<flow name="mswindowbusFlow15">
+<servicebus:subscription-update config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" subscriptionPath="sub" topicPath="topic "/>
+</flow>
+<flow name="mswindowbusFlow16">
+<servicebus:subscriptions config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus">
+<servicebus:topic-path><![CDATA[#[vars.abc]]]></servicebus:topic-path>
+</servicebus:subscriptions>
+</flow>
+<flow name="mswindowbusFlow17">
+<servicebus:topic-create config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" topicPath="topic"/>
+</flow>
+<flow name="mswindowbusFlow18">
+<servicebus:topic-delete config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus">
+<servicebus:topic-path><![CDATA[#[vars.abc]]]></servicebus:topic-path>
+</servicebus:topic-delete>
+</flow>
+<flow name="mswindowbusFlow19">
+<servicebus:topic-get config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus">
+<servicebus:topic-path><![CDATA[#[vars.abc]]]></servicebus:topic-path>
+</servicebus:topic-get>
+</flow>
+<flow name="mswindowbusFlow20">
+<servicebus:topic-send config-ref="Microsoft_Service_Bus__Windows_Service_Bus" destinationTopic="dest" doc:name="Microsoft Service Bus">
+<servicebus:message>
+<servicebus:body><![CDATA[#[vars.abc]]]></servicebus:body>
+</servicebus:message>
+</servicebus:topic-send>
+</flow>
+<flow name="mswindowbusFlow21">
+<servicebus:topic-update config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus" topicPath="topic"/>
+</flow>
+<flow name="mswindowbusFlow22">
+<servicebus:topics config-ref="Microsoft_Service_Bus__Windows_Service_Bus" doc:name="Microsoft Service Bus"/>
+</flow>
+
+</mule>

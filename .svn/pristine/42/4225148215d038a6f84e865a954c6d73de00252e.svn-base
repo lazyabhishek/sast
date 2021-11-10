@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:cassandra-db="http://www.mulesoft.org/schema/mule/cassandra-db" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/cassandra-db http://www.mulesoft.org/schema/mule/cassandra-db/current/mule-cassandra-db.xsd">
+<cassandra-db:config doc:name="CassandraDB: Configuration" name="CassandraDB__Configuration">
+<cassandra-db:connection clusterName="name" clusterNodes="node" compression="LZ4" host="host" keyspace="key" maxSchemaAgreementWaitSeconds="10" password="pass" port="8080" protocolVersion="V1" sslEnabled="true" username="user">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</cassandra-db:connection>
+</cassandra-db:config>
+<flow name="cassandradbFlow">
+<cassandra-db:add-new-column config-ref="CassandraDB__Configuration" doc:name="CassandraDB" keyspaceName="name" table="table">
+<cassandra-db:alter-column-input><![CDATA[#[vars.abc]]]></cassandra-db:alter-column-input>
+</cassandra-db:add-new-column>
+</flow>
+<flow name="cassandradbFlow1">
+<cassandra-db:change-column-type config-ref="CassandraDB__Configuration" doc:name="CassandraDB" keyspaceName="key" table="table">
+<cassandra-db:alter-column-input><![CDATA[#[vars.abc]]]></cassandra-db:alter-column-input>
+</cassandra-db:change-column-type>
+</flow>
+<flow name="cassandradbFlow2">
+<cassandra-db:create-keyspace config-ref="CassandraDB__Configuration" doc:name="CassandraDB">
+<cassandra-db:input><![CDATA[#[vars.abc]]]></cassandra-db:input>
+</cassandra-db:create-keyspace>
+</flow>
+<flow name="cassandradbFlow3">
+<cassandra-db:create-table config-ref="CassandraDB__Configuration" doc:name="CassandraDB">
+<cassandra-db:create-table-input><![CDATA[#[vars.abc]]]></cassandra-db:create-table-input>
+</cassandra-db:create-table>
+</flow>
+<flow name="cassandradbFlow4">
+<cassandra-db:delete-columns-value config-ref="CassandraDB__Configuration" doc:name="CassandraDB" keyspaceName="key" table="table">
+<cassandra-db:where-clause><![CDATA[#[vars.abc]]]></cassandra-db:where-clause>
+</cassandra-db:delete-columns-value>
+</flow>
+<flow name="cassandradbFlow5">
+<cassandra-db:delete-rows config-ref="CassandraDB__Configuration" doc:name="CassandraDB" keyspaceName="key" table="table">
+<cassandra-db:where-clause><![CDATA[#[vars.abc]]]></cassandra-db:where-clause>
+</cassandra-db:delete-rows>
+</flow>
+<flow name="cassandradbFlow6">
+<cassandra-db:drop-keyspace config-ref="CassandraDB__Configuration" doc:name="CassandraDB">
+<cassandra-db:keyspace-name><![CDATA[#[vars.abc]]]></cassandra-db:keyspace-name>
+</cassandra-db:drop-keyspace>
+</flow>
+<flow name="cassandradbFlow7">
+<cassandra-db:drop-table config-ref="CassandraDB__Configuration" doc:name="CassandraDB" keyspaceName="key">
+<cassandra-db:table-name><![CDATA[#[vars.abc]]]></cassandra-db:table-name>
+</cassandra-db:drop-table>
+</flow>
+<flow name="cassandradbFlow8">
+<cassandra-db:execute-cql-query config-ref="CassandraDB__Configuration" doc:name="CassandraDB">
+<cassandra-db:cql-input><![CDATA[#[vars.abc]]]></cassandra-db:cql-input>
+</cassandra-db:execute-cql-query>
+</flow>
+<flow name="cassandradbFlow9">
+<cassandra-db:get-table-names-from-keyspace config-ref="CassandraDB__Configuration" doc:name="CassandraDB" keyspaceName="key"/>
+</flow>
+<flow name="cassandradbFlow10">
+<cassandra-db:insert config-ref="CassandraDB__Configuration" doc:name="CassandraDB" keyspaceName="key" table="table">
+<cassandra-db:entity-to-insert><![CDATA[#[vars.abc]]]></cassandra-db:entity-to-insert>
+</cassandra-db:insert>
+</flow>
+<flow name="cassandradbFlow11">
+<cassandra-db:rename-column config-ref="CassandraDB__Configuration" doc:name="CassandraDB" keyspaceName="key" newColumnName="new" table="table">
+<cassandra-db:old-column-name><![CDATA[#[vars.abc]]]></cassandra-db:old-column-name>
+</cassandra-db:rename-column>
+</flow>
+<flow name="cassandradbFlow12">
+<cassandra-db:drop-column config-ref="CassandraDB__Configuration" doc:name="CassandraDB" keyspaceName="key" table="table">
+<cassandra-db:column-name><![CDATA[#[vars.abc]]]></cassandra-db:column-name>
+</cassandra-db:drop-column>
+</flow>
+<flow name="cassandradbFlow13">
+<cassandra-db:select config-ref="CassandraDB__Configuration" doc:name="CassandraDB" parameters="#[vars.abc]">
+<cassandra-db:query><![CDATA[#[anjaneyulu]]]></cassandra-db:query>
+</cassandra-db:select>
+</flow>
+<flow name="cassandradbFlow14">
+<cassandra-db:update config-ref="CassandraDB__Configuration" doc:name="CassandraDB" keyspaceName="key" table="table">
+<cassandra-db:entity-to-update><![CDATA[#[vars.abc]]]></cassandra-db:entity-to-update>
+</cassandra-db:update>
+</flow>
+
+</mule>

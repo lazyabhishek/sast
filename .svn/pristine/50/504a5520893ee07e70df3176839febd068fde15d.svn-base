@@ -1,0 +1,414 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:marketo="http://www.mulesoft.org/schema/mule/marketo" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/marketo http://www.mulesoft.org/schema/mule/marketo/current/mule-marketo.xsd http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+<marketo:config doc:name="Marketo: Connector" name="Marketo__Connector" property_accessTokenUrl="url" property_clientId="id" property_clientSecret="sec"/>
+<flow name="marketoFlow">
+<marketo:get-activity-types config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow1">
+<marketo:get-deleted-leads batch-size="1000" config-ref="Marketo__Connector" doc:name="Marketo" next-page-token="#[vars.abc]"/>
+</flow>
+<flow name="marketoFlow2">
+<marketo:get-lead-activities activity-type-ids="type" batch-size="1000" config-ref="Marketo__Connector" doc:name="Marketo" lead-ids="#[vars.abc]" list-id="id" next-page-token="#[vars.abc]"/>
+</flow>
+<flow name="marketoFlow3">
+<marketo:get-lead-changes batch-size="1000" config-ref="Marketo__Connector" doc:name="Marketo" fields="#[vars.abc]" list-id="id" next-page-token="#[vars.abc]"/>
+</flow>
+<flow name="marketoFlow4">
+<marketo:get-paging-token config-ref="Marketo__Connector" doc:name="Marketo" since-datetime="#[vars.abc]"/>
+</flow>
+<flow name="marketoFlow5">
+<marketo:approve-email-template-draft config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow6">
+<marketo:clone-email-template config-ref="Marketo__Connector" doc:name="Marketo" id="id">
+<marketo:clone-email-template-request-data><![CDATA[#[vars.abc]]]></marketo:clone-email-template-request-data>
+</marketo:clone-email-template>
+</flow>
+<flow name="marketoFlow7">
+<marketo:create-email-template config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:create-email-template-request-data><![CDATA[#[vars.abc]]]></marketo:create-email-template-request-data>
+</marketo:create-email-template>
+</flow>
+<flow name="marketoFlow8">
+<marketo:delete-email-template config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow9">
+<marketo:discard-email-template-draft config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow10">
+<marketo:get-email-template-by-id config-ref="Marketo__Connector" doc:name="Marketo" id="id" status="status"/>
+</flow>
+<flow name="marketoFlow11">
+<marketo:get-email-template-by-name config-ref="Marketo__Connector" doc:name="Marketo" name="name" status="status"/>
+</flow>
+<flow name="marketoFlow12">
+<marketo:get-email-template-content-by-id config-ref="Marketo__Connector" doc:name="Marketo" id="id" status="status"/>
+</flow>
+<flow name="marketoFlow13">
+<marketo:get-email-templates config-ref="Marketo__Connector" doc:name="Marketo" status="APPROVED"/>
+</flow>
+<flow name="marketoFlow14">
+<marketo:unapprove-email-template-draft config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow15">
+<marketo:update-email-template-content config-ref="Marketo__Connector" doc:name="Marketo" id="id">
+<marketo:update-email-template-content-request-data><![CDATA[#[vars.abc]]]></marketo:update-email-template-content-request-data>
+</marketo:update-email-template-content>
+</flow>
+<flow name="marketoFlow16">
+<marketo:approve-email-draft config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow17">
+<marketo:clone-email config-ref="Marketo__Connector" doc:name="Marketo" id="id">
+<marketo:clone-email-request-data><![CDATA[#[vars.abc]]]></marketo:clone-email-request-data>
+</marketo:clone-email>
+</flow>
+<flow name="marketoFlow18">
+<marketo:create-email config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:create-email-request-data><![CDATA[#[vars.abc]]]></marketo:create-email-request-data>
+</marketo:create-email>
+</flow>
+<flow name="marketoFlow19">
+<marketo:delete-email-template config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow20">
+<marketo:discard-email-draft config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow21">
+<marketo:get-email-by-id config-ref="Marketo__Connector" doc:name="Marketo" id="id" status="status"/>
+</flow>
+<flow name="marketoFlow22">
+<marketo:get-email-content config-ref="Marketo__Connector" doc:name="Marketo" id="id" status="status"/>
+</flow>
+<flow name="marketoFlow23">
+<marketo:get-email-dynamic-content config-ref="Marketo__Connector" doc:name="Marketo" dynamic-content-id="#[vars.id]" id="id"/>
+</flow>
+<flow name="marketoFlow24">
+<marketo:get-emails config-ref="Marketo__Connector" doc:name="Marketo" offset="1000" status="status">
+<marketo:get-emails-request-data><![CDATA[#[vars.data]]]></marketo:get-emails-request-data>
+</marketo:get-emails>
+</flow>
+<flow name="marketoFlow25">
+<marketo:unapprove-email config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow26">
+<marketo:update-email-content config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow27">
+<marketo:update-email-content-section config-ref="Marketo__Connector" doc:name="Marketo" id="id">
+<marketo:update-email-content-section-request-data><![CDATA[#[vars.abc]]]></marketo:update-email-content-section-request-data>
+</marketo:update-email-content-section>
+</flow>
+<flow name="marketoFlow28">
+<marketo:update-email-content-section config-ref="Marketo__Connector" doc:name="Marketo" html-id="id" id="id">
+<marketo:update-email-content-section-request-data><![CDATA[#[vars.abc]]]></marketo:update-email-content-section-request-data>
+</marketo:update-email-content-section>
+</flow>
+<flow name="marketoFlow29">
+<marketo:update-email-dynamic-content-section config-ref="Marketo__Connector" doc:name="Marketo" dynamic-content-id="#[vars.id]" id="id">
+<marketo:update-email-dynamic-content-section-request-data><![CDATA[#[vars.abc]]]></marketo:update-email-dynamic-content-section-request-data>
+</marketo:update-email-dynamic-content-section>
+</flow>
+<flow name="marketoFlow30">
+<marketo:create-file config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:create-file-request-data><![CDATA[#[vars.abc]]]></marketo:create-file-request-data>
+</marketo:create-file>
+</flow>
+<flow name="marketoFlow31">
+<marketo:get-email-by-name config-ref="Marketo__Connector" doc:name="Marketo" folder="ref" name="#[vars.name]" status="status"/>
+</flow>
+<flow name="marketoFlow32">
+<marketo:get-file-by-id config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow33">
+<marketo:get-file-by-name config-ref="Marketo__Connector" doc:name="Marketo" name="#[vars.name]"/>
+</flow>
+<flow name="marketoFlow34">
+<marketo:get-files config-ref="Marketo__Connector" doc:name="Marketo" folder="#[vars.abc]"/>
+</flow>
+<flow name="marketoFlow35">
+<marketo:send-sample-email config-ref="Marketo__Connector" doc:name="Marketo" id="id">
+<marketo:send-sample-email-request-data><![CDATA[#[vars.abc]]]></marketo:send-sample-email-request-data>
+</marketo:send-sample-email>
+</flow>
+<flow name="marketoFlow36">
+<marketo:update-file-content config-ref="Marketo__Connector" doc:name="Marketo" id="id">
+<marketo:update-file-content-request-data><![CDATA[#[vars.abc]]]></marketo:update-file-content-request-data>
+</marketo:update-file-content>
+</flow>
+<flow name="marketoFlow37">
+<marketo:get-folders config-ref="Marketo__Connector" doc:name="Marketo" max-depth="max" root="root" work-space="work"/>
+</flow>
+<flow name="marketoFlow38">
+<marketo:create-folder config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:create-folder-request-data><![CDATA[#[vars.abc]]]></marketo:create-folder-request-data>
+</marketo:create-folder>
+</flow>
+<flow name="marketoFlow39">
+<marketo:delete-folder config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow40">
+<marketo:get-folder-contents config-ref="Marketo__Connector" doc:name="Marketo" id="id" max-return="1000"/>
+</flow>
+<flow name="marketoFlow41">
+<marketo:get-folder-by-id config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow42">
+<marketo:get-folder-by-name config-ref="Marketo__Connector" doc:name="Marketo" name="name" root="root" type="FOLDER" work-space="work"/>
+</flow>
+<flow name="marketoFlow43">
+<marketo:create-landing-page-template config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:create-landing-page-template-request-data><![CDATA[#[output applicaton/java
+				---{ }]]]></marketo:create-landing-page-template-request-data>
+</marketo:create-landing-page-template>
+</flow>
+<flow name="marketoFlow44">
+<marketo:get-landing-page-content config-ref="Marketo__Connector" doc:name="Marketo" id="id" status="status"/>
+</flow>
+<flow name="marketoFlow45">
+<marketo:get-landing-page-template-by-id config-ref="Marketo__Connector" doc:name="Marketo" id="id" status="status"/>
+</flow>
+<flow name="marketoFlow46">
+<marketo:get-landing-page-template-by-name config-ref="Marketo__Connector" doc:name="Marketo" name="name"/>
+</flow>
+<flow name="marketoFlow47">
+<marketo:update-landing-page-template-content config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:update-landing-page-template-content-request-data><![CDATA[#[vars.abc]]]></marketo:update-landing-page-template-content-request-data>
+</marketo:update-landing-page-template-content>
+</flow>
+<flow name="marketoFlow48">
+<marketo:get-segmentations config-ref="Marketo__Connector" doc:name="Marketo" status="APPROVED"/>
+</flow>
+<flow name="marketoFlow49">
+<marketo:get-segments-for-segmentation config-ref="Marketo__Connector" doc:name="Marketo" id="id" max-return="1000" status="status"/>
+</flow>
+<flow name="marketoFlow50">
+<marketo:approve-snippet-draft config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow51">
+<marketo:clone-snippet config-ref="Marketo__Connector" doc:name="Marketo" id="id">
+<marketo:clone-snippet-request-data><![CDATA[#[vars.abc]]]></marketo:clone-snippet-request-data>
+</marketo:clone-snippet>
+</flow>
+<flow name="marketoFlow52">
+<marketo:create-snippet config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:create-snippet-request-data><![CDATA[#[output applicaton/java
+				---{ }]]]></marketo:create-snippet-request-data>
+</marketo:create-snippet>
+</flow>
+<flow name="marketoFlow53">
+<marketo:delete-snippet config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow54">
+<marketo:discard-snippet-draft config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow55">
+<marketo:get-snippet-by-id config-ref="Marketo__Connector" doc:name="Marketo" id="id" status="status"/>
+</flow>
+<flow name="marketoFlow56">
+<marketo:get-snippet-content config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow57">
+<marketo:unapprove-snippet config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow58">
+<marketo:update-snippet-content config-ref="Marketo__Connector" doc:name="Marketo" id="id">
+<marketo:update-snippet-content-request-data><![CDATA[#[vars.abc]]]></marketo:update-snippet-content-request-data>
+</marketo:update-snippet-content>
+</flow>
+<flow name="marketoFlow59">
+<marketo:update-snippet-content config-ref="Marketo__Connector" doc:name="Marketo" id="id">
+<marketo:update-snippet-content-request-data><![CDATA[#[vars.abc]]]></marketo:update-snippet-content-request-data>
+</marketo:update-snippet-content>
+</flow>
+<flow name="marketoFlow60">
+<marketo:update-snippet-dynamic-content config-ref="Marketo__Connector" doc:name="Marketo" id="id" segment-id="id">
+<marketo:update-snippet-dynamic-content-request-data><![CDATA[#[vars.abc]]]></marketo:update-snippet-dynamic-content-request-data>
+</marketo:update-snippet-dynamic-content>
+</flow>
+<flow name="marketoFlow61">
+<marketo:create-token config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:create-token-request-data><![CDATA[#[vars.abc]]]></marketo:create-token-request-data>
+</marketo:create-token>
+</flow>
+<flow name="marketoFlow62">
+<marketo:delete-token-by-name config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:delete-token-by-name-request-data><![CDATA[#[vars.abc]]]></marketo:delete-token-by-name-request-data>
+</marketo:delete-token-by-name>
+</flow>
+<flow name="marketoFlow63">
+<marketo:get-tokens-by-folder-id config-ref="Marketo__Connector" doc:name="Marketo" id="#[vars.abc]"/>
+</flow>
+<flow name="marketoFlow64">
+<marketo:get-campaign-by-id campaign-id="id" config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow65">
+<marketo:get-campaigns batch-size="1000" config-ref="Marketo__Connector" doc:name="Marketo" id="#[vars.id]" name="#[vars.name]" next-page-token="next" program-name="#[vars.name]" workspace-name="#[vars.name]"/>
+</flow>
+<flow name="marketoFlow66">
+<marketo:request-campaign campaign-id="id" config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:request-campaign-request-data><![CDATA[#[vars.abc]]]></marketo:request-campaign-request-data>
+</marketo:request-campaign>
+</flow>
+<flow name="marketoFlow67">
+<marketo:schedule-campaign campaign-id="id" config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:schedule-campaign-request-data><![CDATA[#[vars.abc]]]></marketo:schedule-campaign-request-data>
+</marketo:schedule-campaign>
+</flow>
+<flow name="marketoFlow68">
+<marketo:delete-companies config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:delete-companies-request-data><![CDATA[#[vars.abc]]]></marketo:delete-companies-request-data>
+</marketo:delete-companies>
+</flow>
+<flow name="marketoFlow69">
+<marketo:describe-companies config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow70">
+<marketo:get-companies batch-size="1000" config-ref="Marketo__Connector" doc:name="Marketo" fields="#[vars.field]" filter-type="type" filter-values="#[vars.ref]"/>
+</flow>
+<flow name="marketoFlow71">
+<marketo:delete-custom-objects config-ref="Marketo__Connector" custom-object-name="name" doc:name="Marketo">
+<marketo:delete-custom-objects-request-data><![CDATA[#[vars.abc]]]></marketo:delete-custom-objects-request-data>
+</marketo:delete-custom-objects>
+</flow>
+<flow name="marketoFlow72">
+<marketo:describe-custom-objects config-ref="Marketo__Connector" custom-object-name="name" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow73">
+<marketo:get-custom-obects batch-size="1000" config-ref="Marketo__Connector" custom-object-name="name" doc:name="Marketo" fields="#[vars.filed]" filter-type="type">
+<marketo:get-custom-obects-request-data><![CDATA[#[vars.ref]]]></marketo:get-custom-obects-request-data>
+</marketo:get-custom-obects>
+</flow>
+<flow name="marketoFlow74">
+<marketo:associate-lead config-ref="Marketo__Connector" cookie="#[vars.cook]" doc:name="Marketo" lead-id="id"/>
+</flow>
+<flow name="marketoFlow75">
+<marketo:delete-leads config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:delete-leads-request-data><![CDATA[#[vars.abc]]]></marketo:delete-leads-request-data>
+</marketo:delete-leads>
+</flow>
+<flow name="marketoFlow76">
+<marketo:describe-lead config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow77">
+<marketo:get-lead-by-id config-ref="Marketo__Connector" doc:name="Marketo" fields="#[vars.abc]" lead-id="id"/>
+</flow>
+<flow name="marketoFlow78">
+<marketo:get-lead-partitions config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow79">
+<marketo:get-leads-by-filter-type batch-size="1000" config-ref="Marketo__Connector" doc:name="Marketo" fields="#[vars.filed]" filter-type="type" filter-values="#[vars.filter]"/>
+</flow>
+<flow name="marketoFlow80">
+<marketo:get-leads-by-list-id batch-size="1000" config-ref="Marketo__Connector" doc:name="Marketo" fields="#[vars.abc]" list-id="id"/>
+</flow>
+<flow name="marketoFlow81">
+<marketo:get-leads-by-program-id batch-size="1000" config-ref="Marketo__Connector" doc:name="Marketo" fields="#[vars.field]" program-id="id"/>
+</flow>
+<flow name="marketoFlow82">
+<marketo:merge-leads config-ref="Marketo__Connector" doc:name="Marketo" lead-id="id" lead-ids="#[vars.id]" merge-in-crm="true"/>
+</flow>
+<flow name="marketoFlow83">
+<marketo:update-lead-partition config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:update-lead-partition-request-data><![CDATA[#[vars.abc]]]></marketo:update-lead-partition-request-data>
+</marketo:update-lead-partition>
+</flow>
+<flow name="marketoFlow84">
+<marketo:add-to-list config-ref="Marketo__Connector" doc:name="Marketo" id="#[vars.id]" list-id="id"/>
+</flow>
+<flow name="marketoFlow85">
+<marketo:get-import-lead-status batch-id="id" config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow86">
+<marketo:get-import-lead-failures batch-id="id" config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow87">
+<marketo:get-import-lead-warnings batch-id="id" config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow88">
+<marketo:get-list-by-id config-ref="Marketo__Connector" doc:name="Marketo" list-id="id"/>
+</flow>
+<flow name="marketoFlow89">
+<marketo:get-lists batch-size="1000" config-ref="Marketo__Connector" doc:name="Marketo" id="#[vars.abc]" name="#[vars.abc]" program-name="#[vars.name]" workspace-name="#[vars.name]"/>
+</flow>
+<flow name="marketoFlow90">
+<marketo:import-leads config-ref="Marketo__Connector" doc:name="Marketo" format="SSV" list-id="id" lookup-field="field" partition-name="name">
+<marketo:import-leads-request-data><![CDATA[#[vars.abc]]]></marketo:import-leads-request-data>
+</marketo:import-leads>
+</flow>
+<flow name="marketoFlow91">
+<marketo:member-of-list config-ref="Marketo__Connector" doc:name="Marketo" id="#[vars.abc]" list-id="id"/>
+</flow>
+<flow name="marketoFlow92">
+<marketo:remove-from-list config-ref="Marketo__Connector" doc:name="Marketo" id="#[vars.abc]" list-id="id"/>
+</flow>
+<flow name="marketoFlow93">
+<marketo:delete-opportunities config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:delete-opportunities-request-data><![CDATA[#[vars.abc]]]></marketo:delete-opportunities-request-data>
+</marketo:delete-opportunities>
+</flow>
+<flow name="marketoFlow94">
+<marketo:delete-opportunity-roles config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:delete-opportunity-roles-request-data><![CDATA[#[vars.abc]]]></marketo:delete-opportunity-roles-request-data>
+</marketo:delete-opportunity-roles>
+</flow>
+<flow name="marketoFlow95">
+<marketo:describe-opportunity config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow96">
+<marketo:describe-opportunity-role config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow97">
+<marketo:approve-program config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow98">
+<marketo:clone-program config-ref="Marketo__Connector" doc:name="Marketo" id="id">
+<marketo:clone-program-request-data><![CDATA[#[vars.name]]]></marketo:clone-program-request-data>
+</marketo:clone-program>
+</flow>
+<flow name="marketoFlow99">
+<marketo:delete-program config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow100">
+<marketo:get-channel-by-name config-ref="Marketo__Connector" doc:name="Marketo" name="#[vars.name]"/>
+</flow>
+<flow name="marketoFlow101">
+<marketo:get-channels config-ref="Marketo__Connector" doc:name="Marketo" max-return="1000"/>
+</flow>
+<flow name="marketoFlow102">
+<marketo:get-program-by-id config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow103">
+<marketo:get-program-by-name config-ref="Marketo__Connector" doc:name="Marketo" name="name"/>
+</flow>
+<flow name="marketoFlow104">
+<marketo:get-programs-by-tag config-ref="Marketo__Connector" doc:name="Marketo" tag-value="#[vars.abc]"/>
+</flow>
+<flow name="marketoFlow105">
+<marketo:get-tag-by-name config-ref="Marketo__Connector" doc:name="Marketo" name="name"/>
+</flow>
+<flow name="marketoFlow106">
+<marketo:get-tag-types config-ref="Marketo__Connector" doc:name="Marketo" max-return="1000"/>
+</flow>
+<flow name="marketoFlow107">
+<marketo:unapprove-program config-ref="Marketo__Connector" doc:name="Marketo" id="id"/>
+</flow>
+<flow name="marketoFlow108">
+<marketo:delete-salespersons config-ref="Marketo__Connector" doc:name="Marketo">
+<marketo:delete-salespersons-request-data><![CDATA[#[vars.abc]]]></marketo:delete-salespersons-request-data>
+</marketo:delete-salespersons>
+</flow>
+<flow name="marketoFlow109">
+<marketo:describe-salespersons config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow110">
+<marketo:get-salespersons batch-size="1000" config-ref="Marketo__Connector" doc:name="Marketo" fields="#[vars.abc]" filter-type="type" filter-values="#[vars.filter]"/>
+</flow>
+<flow name="marketoFlow111">
+<marketo:get-daily-errors config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+<flow name="marketoFlow112">
+<marketo:get-daily-usage config-ref="Marketo__Connector" doc:name="Marketo"/>
+</flow>
+
+</mule>

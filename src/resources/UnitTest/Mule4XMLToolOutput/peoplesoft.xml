@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:peoplesoft="http://www.mulesoft.org/schema/mule/peoplesoft" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/peoplesoft http://www.mulesoft.org/schema/mule/peoplesoft/current/mule-peoplesoft.xsd">
+<peoplesoft:config doc:name="PeopleSoft: Configuration" name="PeopleSoft__Configuration">
+<peoplesoft:connection domainConnectionPassword="pass1" password="pass" server="server" username="user">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</peoplesoft:connection>
+</peoplesoft:config>
+<flow name="peoplesoftFlow">
+<peoplesoft:invoke-operation component="name" config-ref="PeopleSoft__Configuration" doc:name="PeopleSoft" operation="op">
+<peoplesoft:content><![CDATA[#[vars.abc]]]></peoplesoft:content>
+</peoplesoft:invoke-operation>
+</flow>
+
+</mule>

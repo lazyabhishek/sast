@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:sqs="http://www.mulesoft.org/schema/mule/sqs" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/sqs http://www.mulesoft.org/schema/mule/sqs/current/mule-sqs.xsd">
+<sqs:config doc:name="Amazon SQS: Configuration" name="Amazon_SQS__Configuration">
+<sqs:basic-connection accessKey="key" proxyDomain="domain" proxyHost="host" proxyPassword="pass" proxyPort="8080" proxyUsername="user" proxyWorkstation="work" region="APNORTHEAST1" secretKey="key" testQueueArn="name">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</sqs:basic-connection>
+</sqs:config>
+<sqs:config doc:name="Amazon SQS: Configuration" name="Amazon_SQS__Configuration1">
+<sqs:role-connection accessKey="key" proxyDomain="domain" proxyHost="host" proxyPassword="pass" proxyPort="8080" proxyUsername="user" proxyWorkstation="work" region="APNORTHEAST1" roleARN="arn" secretKey="key" testQueueArn="name">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</sqs:role-connection>
+</sqs:config>
+<flow name="sqsFlow">
+<sqs:add-permission accountIds="vars.abc" actions="vars.abc" config-ref="Amazon_SQS__Configuration" doc:name="Amazon SQS" label="label" queueUrl="url"/>
+</flow>
+<flow name="sqsFlow1">
+<sqs:send-message config-ref="Amazon_SQS__Configuration1" doc:name="Amazon SQS" queueUrl="url">
+<sqs:message><![CDATA[#[output applicaton/java
+				---{ 
+				"messageBody" : vars.abc}]]]></sqs:message>
+</sqs:send-message>
+</flow>
+
+</mule>

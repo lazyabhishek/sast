@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:os="http://www.mulesoft.org/schema/mule/os" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/os http://www.mulesoft.org/schema/mule/os/current/mule-os.xsd">
+	<os:object-store name="ObjectStore__Connector" doc:name="ObjectStore: Connector"  maxEntries="10" entryTtl="10" entryTtlUnit="MILLISECONDS" 
+	expirationInterval="10" expirationIntervalUnit="MILLISECONDS" persistent="true"/>
+	<flow name="objectstoreFlow" >
+		<os:contains doc:name="ObjectStore"  key="key" objectStore="ObjectStore__Connector"/>
+	</flow>
+	<flow name="objectstoreFlow1"  >
+		<os:remove doc:name="ObjectStore"  key="key" objectStore="ObjectStore__Connector"/>
+	</flow>
+	<flow name="objectstoreFlow2"  >
+		<os:retrieve doc:name="ObjectStore"  key="key" objectStore="ObjectStore__Connector">
+			<os:default-value ><![CDATA[#[vars.abc]]]></os:default-value>
+		</os:retrieve>
+	</flow>
+	<flow name="objectstoreFlow3"  >
+		<os:retrieve-all-keys doc:name="ObjectStore"  objectStore="ObjectStore__Connector"/>
+	</flow>
+	<flow name="objectstoreFlow4" >
+		<os:store doc:name="ObjectStore"  key="key" objectStore="ObjectStore__Connector">
+			<os:value ><![CDATA[#[vars.abc]]]></os:value>
+		</os:store>
+	</flow>
+	<flow name="objectstoreFlow5"  >
+		<os:retrieve doc:name="ObjectStore"  key="key" objectStore="ObjectStore__Connector">
+			<os:default-value ><![CDATA[#[vars.abc]]]></os:default-value>
+		</os:retrieve>
+		<os:store doc:name="ObjectStore"  key="key" objectStore="ObjectStore__Connector">
+			<os:value ><![CDATA[#[vars.abc]]]></os:value>
+		</os:store>
+	</flow>
+</mule>

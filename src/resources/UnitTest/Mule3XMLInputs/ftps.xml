@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ftps="http://www.mulesoft.org/schema/mule/ftps" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ftps http://www.mulesoft.org/schema/mule/ftps/current/mule-ftps.xsd">
+    <ftps:config name="FTPS__FTPS_Basic_Config" username="user" password="pass" host="host" port="8080" keystorePath="path" keystorePassword="pass" readTimeout="1000" connectionTimeout="1000" encryptionMode="EXPLICIT" doc:name="FTPS: FTPS Basic Config">
+        <ftps:connection-pooling-profile maxActive="100" initialisationPolicy="INITIALISE_ONE" exhaustedAction="WHEN_EXHAUSTED_GROW"/>
+        <reconnect frequency="3000" count="5"/>
+    </ftps:config>
+    <flow name="ftpsFlow">
+        <ftps:read config-ref="FTPS__FTPS_Basic_Config" moveToDir="move" fileName="name" filesPath="path" doc:name="FTPS (Streaming)" pollingPeriod="2000"/>
+        <ftps:write config-ref="FTPS__FTPS_Basic_Config" doc:name="FTPS" fileName="name" filePath="path" input-ref="#[flowVars.abc]"/>
+    </flow>
+</mule>

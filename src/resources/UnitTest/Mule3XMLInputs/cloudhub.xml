@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns:cloudhub="http://www.mulesoft.org/schema/mule/cloudhub" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/cloudhub http://www.mulesoft.org/schema/mule/cloudhub/current/mule-cloudhub.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd">
+    <cloudhub:config name="Cloudhub__Basic_Auth_Authentication" username="anji" password="amar" doc:name="Cloudhub: Basic Auth Authentication"/>
+    <flow name="list-applications">
+        
+        <cloudhub:list-notifications config-ref="Cloudhub__Basic_Auth_Authentication" domain=".com"  status="UNREAD" doc:name="Cloudhub"/>
+        
+        <cloudhub:create-notification config-ref="Cloudhub__Basic_Auth_Authentication" domain="american-flight"  priority="INFO" doc:name="Cloudhub">
+            <cloudhub:custom-properties ref="flowVars.abc"/>
+        </cloudhub:create-notification>
+        <cloudhub:change-notification-status config-ref="Cloudhub__Basic_Auth_Authentication" notificationId="1" status="READ" doc:name="Cloudhub"/>
+    </flow>
+</mule>

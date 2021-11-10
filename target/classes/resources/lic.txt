@@ -1,0 +1,154 @@
+*************************************************************************************************************************
+*                                                                                                                       *
+*                                          Software License Terms                                                       *
+*                                                                                                                       *
+*                                                                                                                       *
+*       This covers the products licensed directly by WHISHWORKS IT Consulting private limited                          *
+*       and its affiliates ("WHISHWORKS").                                                                              *
+*                                                                                                                       *
+*       BY PROCEEDING TO DOWNLOAD, INSTALL OR USE THE SOFTWARE IN WHICH THIS AGREEMENT IS ELECTRONICALLY                *
+*       EMBEDDED OR BY OBTAINING A LICENSE KEY FOR THIS SOFTWARE, YOU ("User") HEREBY ACKNOWLEDGE AND AGREE             *
+*       TO BE BOUND BY THE FOLLOWING TERMS AND CONDITIONS. IF YOU DO NOT AGREE WITH THESE TERMS AND                     *
+*       CONDITIONS, THEN CLICK "DO NOT ACCEPT," DO NOT INSTALL OR USE THE SOFTWARE AND DELETE THE SOFTWARE              *
+*       FROM YOUR COMPUTER SYSTEM. BY INSTALLING OR USING THE SOFTWARE OR BY CLICKING ON " ACCEPT" YOU                  *
+*       ACKNOWLEDGE AND AGREE THAT ON BEHALF OF YOURSELF AND YOUR EMPLOYER YOU HAVE READ THIS SOFTWARE                  *
+*       LICENSE AGREEMENT CAREFULLY, THAT YOU AND YOUR EMPLOYER AGREE TO BE BOUND BY THIS AGREEMENT AND                 *
+*       THAT IF APPLICABLE YOUR EMPLOYER OR ANY REPRESENTATIVE ON YOUR BEHALF, HAS INFORMED YOU OF THE                  *
+*       RELEVANT PROVISIONS OF THIS AGREEMENT WHICH MAY BE APPLICABLE TO YOU. THIS AGREEMENT, SHALL GOVERN              *
+*       YOUR INSTALLATION AND USE OF THE SOFTWARE IN WHICH THIS AGREEMENT IS ELECTRONICALLY EMBEDDED.                   *
+*       IN ADDITION TO THE LICENSE TERMS SET OUT IN THE END USER LICENSE AGREEMENT ACCOMPANYING THE BASE                *
+*       SOFTWARE TERMS OF USE, THE FOLLOWING ADDITIONAL RIGHTS AND LIMITATIONS SHALL APPLY. WHISHWORKS URGES            *
+*       YOU TO CAREFULLY READ THIS AGREEMENT AND ASSESS YOUR USE OF THE SOFTWARE PRIOR TO INSTALLING OR                 *
+*       USING THE SOFTWARE OR MAKING ANY DECISION TO USE OR PURCHASE IT.                                                *
+*                                                                                                                       *
+*       NOW THEREFORE, in consideration of the mutual promises, covenants and agreements contained herein,              *
+*       the parties have agreed and do agree as follows:                                                                *
+*                                                                                                                       *
+*       This Software License Terms, is dated as of the date of, the date of Customer's acquisition of a                *
+*       License Key, or in the case of any purchase of a license for use of the Licensed Software                       *
+*       (as defined below) pursuant to which such license is purchased, is between WHISHWORKS, in the case              *
+*       of any purchase of a license for use of the Licensed Software, the customer set forth on the                    *
+*       purchase order/ statement of work pursuant to which such license is purchased (in each case, herein             *
+*       "Customer"), and sets forth the terms and conditions whereby WHISHWORKS agrees to provide to                    *
+*       Customer and Customer agrees to acquire from WHISHWORKS one or more licenses to use certain                     *
+*       software and documentation and maintenance services (as applicable) related thereto, owned or                   *
+*       licensed by WHISHWORKS. It applies to WHISHWORKS products that are provided to the customer in the              *
+*       form of upgrades to a base software, listed herein, but does not apply to separately branded                    *
+*       software/ services made available with or connected to the WHISHWORKS products. This Agreement                  *
+*       remains valid until superseded by a revised agreement. This Agreement outlines the parameters of                *
+*       all upgrades covered as they are mutually understood by the parties with respect to WHISHWORKS Products.        *
+*       In consideration of the mutual promises and agreements contained herein, the parties hereto agree               *
+*       as follows:                                                                                                     *
+*                                                                                                                       *
+*       GENERAL TERMS AND CONDITIONS                                                                                    *
+*                                                                                                                       *
+*       DEFINITIONS-                                                                                                    *
+*                                                                                                                       *
+*       "Affiliate" means any entity that Customer, directly or indirectly, controls; an entity that controls           *
+*       Customer; or an entity that is under common control with Customer. For purposes of this provision,              *
+*       "control" means ownership of at least fifty percent (50%) of the outstanding voting shares of the entity.       *
+*                                                                                                                       *
+*       "Confidential Information" means all technical and non-technical information in both tangible and               *
+*       intangible form, including, but not limited to, product design information, software code,                      *
+*       technical information, customer information, discounting, cost and pricing information, financial               *
+*       information and the results derived from or methodology employed by Customer in conducting any                  *
+*       benchmark testing of the Licensed Software; provided that the term "Confidential Information" shall             *
+*       not include information which the recipient can show by reasonable proof (i) to have been known by              *
+*       the recipient prior to the time of disclosure by the disclosing party, (ii) to have become part of              *
+*       the public domain through no fault or breach of this Agreement by the recipient, (iii) to have been             *
+*       disclosed to the recipient in good faith by a third party who is not under any obligation of                    *
+*       confidence or secrecy to the disclosing party at the time such third party discloses the information            *
+*       to the recipient or (iv) to have been compelled to be produced by a court of competent jurisdiction,            *
+*       provided that the recipient shall first give notice to the disclosing party of any such request or              *
+*       order of the court to give the disclosing party an opportunity to contest or limit said request or              *
+*       order of the court.                                                                                             *
+*                                                                                                                       *
+*       "Licensed Documentation" means the published user manuals that WHISHWORKS makes generally available             *
+*       for the Licensed Software.                                                                                      *
+*                                                                                                                       *
+*       "Software" means the machine-readable object code version of (i) the software specified on each                 *
+*       purchase, whether embedded on disc, tape, internet download site or other media and (ii) all Updates            *
+*       for the Licensed Software that Customer is entitled to receive in connection with its receipt of                *
+*       Maintenance Services (if applicable).                                                                           *
+*                                                                                                                       *
+*       "Users" means the Customer, Customer's employees and contractors which are authorized by Customer to            *
+*       access and use the Software.                                                                                    *
+*                                                                                                                       *
+*       "Update" means any revision, enhancement, improvement or modification to or programming fix for the             *
+*       Licensed Software or Licensed Documentation which WHISHWORKS makes generally available, incorporates            *
+*       into and makes a part of the Licensed Software or Licensed Documentation and does not separately                *
+*       price or market.                                                                                                *
+*                                                                                                                       *
+*       PROPRIETARY RIGHTS - Notwithstanding anything to the contrary contained herein, except for the                  *
+*       limited license rights expressly provided herein, WHISHWORKS has and will retain all right, title               *
+*       and interest in and to the Software  (including, without limitation, all patent, copyright,                     *
+*       trademark, trade secret and other intellectual property rights) and all copies, modifications and               *
+*       derivative works thereof. Customer acknowledges that it is obtaining only a limited license right               *
+*       to access and use (as the case may be) the Software and that irrespective of any use of the words               *
+*       "purchase," "sale," or like terms hereunder no ownership rights are being conveyed to Customer                  *
+*       under this Agreement or otherwise.                                                                              *
+*                                                                                                                       *
+*       Customer shall not acquire, by virtue of this Agreement, any right or license other than as                     *
+*       expressly provided herein. Customer shall not reproduce the Licensed Material or other confidential             *
+*       or proprietary information of WHISHWORKS, except as provided in this Agreement. All proprietary                 *
+*       rights in and to the Licensed Material and all Software (as defined herein), all derivatives,                   *
+*       translations, modifications, adaptations, improvements, enhancements or developments thereof and                *
+*       all confidential or proprietary information of WHISHWORKS, including without limitation, all rights             *
+*       under and with respect to patents, copyrights, trademarks and rights under the trade secret laws                *
+*       of any jurisdiction shall remain the sole property of WHISHWORKS or its applicable licensor (for                *
+*       third-party or base software owner), whether recognized by or perfected under applicable local law.             *
+*       Customer shall promptly notify WHISHWORKS of any infringement of WHISHWORKS' proprietary rights of              *
+*       which it becomes aware.                                                                                         *
+*                                                                                                                       *
+*       Subscription and Payment terms: The Customer shall pay the fees for the License procured herein for             *
+*       the subscription term in accordance with the payment terms agreed in the relevant statement of work             *
+*       or  purchase order.                                                                                             *
+*                                                                                                                       *
+*       License Restrictions. Customer shall not (and shall not allow any third party to): (a) decompile,               *
+*       disassemble, translate, reverse engineer or otherwise attempt to derive source code from any                    *
+*       encrypted or encoded portion of the Software, in whole or in part, nor will Customer use any                    *
+*       mechanical, electronic or other method to trace, decompile, disassemble, or identify the source                 *
+*       code of the Software or encourage or permit others to do so, except and only to the extent that                 *
+*       applicable law prohibits or restricts reverse engineering restrictions (provided, however, before               *
+*       Customer exercises any rights that Customer believes to be entitled to based on mandatory law.                  *
+*                                                                                                                       *
+*       DISCLAIMER OF WARRANTIES: WITHOUT LIMITING THE GENERALITY OF THE FOREGOING DISCLAIMER, WHISHWORKS               *
+*       DOES NOT WARRANT THAT THE SOFTWARE (i) WILL OPERATE UNINTERRUPTED, (ii) WILL BE FREE FROM DEFECTS,              *
+*       OR (iii) HAVE BEEN DESIGNED TO MEET CUSTOMER'S SPECIFIC BUSINESS REQUIREMENTS. WHISHWORKS DOES NOT              *
+*       MAKE ANY OTHER WARRANTIES, EXPRESS OR IMPLIED, STATUTORY OR OTHERWISE, INCLUDING BUT NOT LIMITED TO             *
+*       THE IMPLIED WARRANTIES OF MERCHANTABILITY, TITLE, FITNESS FOR A PARTICULAR PURPOSE, OR NON INFRINGEMENT.        *
+*                                                                                                                       *
+*       NO CONSEQUENTIAL DAMAGES- UNDER NO CIRCUMSTANCES WILL WHISHWORKS OR ITS AUTHORIZED REPRESENTATIVES              *
+*       BE LIABLE FOR ANY CONSEQUENTIAL, INDIRECT, SPECIAL, PUNITIVE, EXEMPLARY OR INCIDENTAL DAMAGES,                  *
+*       WHETHER FORESEEABLE OR UNFORESEEABLE, BASED ON CLAIMS BY CUSTOMER OR ANY THIRD PARTY (INCLUDING,                *
+*       BUT NOT LIMITED TO, CLAIMS FOR LOSS OF DATA, GOODWILL, PROFITS, USE OF MONEY OR USE OF THE LICENSED             *
+*       MATERIALS, INTERRUPTION IN USE OR AVAILABILITY OF DATA, STOPPAGE OF OTHER WORK OR IMPAIRMENT OF                 *
+*       OTHER ASSETS), ARISING OUT OF BREACH OF EXPRESS OR IMPLIED WARRANTY, BREACH OF CONTRACT, BREACH OF              *
+*       ANY INTELLECTUAL PROPERTY RIGHT, MISREPRESENTATION, NEG-LIGENCE, STRICT LIABILITY IN TORT OR                    *
+*       OTHERWISE, EXCEPT ONLY IN THE CASE OF PERSONAL INJURY WHERE AND TO THE EXTENT THAT APPLICABLE LAW               *
+*       REQUIRES SUCH LIABILITY. IN NO EVENT WILL THE AGGREGATE LIABILITY INCURRED IN ANY ACTION OR                     *
+*       PROCEEDING BY WHISHWORKS OR ITS AUTHORIZED REPRESENTATIVE EXCEED THE TOTAL AMOUNT ACTUALLY PAID BY              *
+*       CUSTOMER FOR THE SPECIFIC LICENSED SOFTWARE THAT DIRECTLY CAUSED THE DAMAGE.                                    *
+*       REMEDIES- Without prejudice to any other rights or remedies that WHISHWORKS may have, the Customer              *
+*       acknowledges and agrees that:                                                                                   *
+*       (i) WHISHWORKS shall be entitled to the remedies of injunction, specific performance and other                  *
+*           equitable relief for any threatened or actual breach of this Agreement;                                     *
+*       (ii) In particular, it would be appropriate for WHISHWORKS to obtain immediate interlocutory relief             *
+*           in any jurisdiction to prevent a breach of this Agreement by the Customer, and that damages                 *
+*           would not be an adequate remedy for any such breach.                                                        *
+*                                                                                                                       *
+*       GENERAL                                                                                                         *
+*                                                                                                                       *
+*       Force Majeure. Neither party shall be liable to the other for any delay or failure to perform any               *
+*       obligation under this Agreement (except for a failure to pay fees) if the delay or failure is due               *
+*       to events which are beyond the reasonable control of such party, including but not limited to any               *
+*       strike, blockade, war, act of terrorism, riot, natural disaster, failure or diminishment of power               *
+*       or of telecommunications or data networks or services, or refusal of approval or a license by a                 *
+*       government agency.                                                                                              *
+*       Customer Acknowledgement. Customer may not use WHISHWORKS name, logo, or trademark for any purpose.             *
+*       Governing Law and Jurisdiction: These terms (and any non-contractual disputes or claims arising in              *
+*       this relation) shall be governed by the laws of England and Wales and the parties irrevocably submit            *
+*       to the exclusive jurisdiction of the courts in London, United Kingdom.                                          *
+*                                                                                                                       *
+*                                                                                                                       *
+*************************************************************************************************************************

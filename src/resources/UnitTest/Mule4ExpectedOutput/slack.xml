@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:slack="http://www.mulesoft.org/schema/mule/slack" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/slack http://www.mulesoft.org/schema/mule/slack/current/mule-slack.xsd">
+	<slack:config name="Slack__OAuth2_Configuration" doc:name="Slack: OAuth2 Configuration" >
+		<slack:oauth-connection >
+			<slack:oauth-authorization-code consumerKey="id" consumerSecret="sec" scopes="scope" />
+		</slack:oauth-connection>
+	</slack:config>
+	<slack:config name="Slack__Token_Configuration" doc:name="Slack: Token Configuration"  >
+		<slack:token-connection token="token" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</slack:token-connection>
+	</slack:config>
+	<flow name="slackFlow"  >
+		<slack:unauthorize doc:name="Slack"  config-ref="Slack__OAuth2_Configuration" resourceOwnerId="id"/>
+	</flow>
+	<flow name="slackFlow1"  >
+		<slack:channel-info doc:name="Slack"  config-ref="Slack__Token_Configuration" channel="id"/>
+	</flow>
+	<flow name="slackFlow2"  >
+		<slack:invite-to-channel doc:name="Slack" channel="name" config-ref="Slack__OAuth2_Configuration"/>
+	</flow>
+	<flow name="slackFlow3" >
+		<slack:list-channels doc:name="Slack"  excludeArchived="true" excludeMembers="true" cursor="cur" limit="100" config-ref="Slack__OAuth2_Configuration"/>
+	</flow>
+	<flow name="slackFlow4" >
+		<slack:rename-channel doc:name="Slack"  channel="id" name="name" config-ref="Slack__OAuth2_Configuration"/>
+	</flow>
+	<flow name="slackFlow5"  >
+		<slack:set-channel-purpose doc:name="Slack"  channel="channel" purpose="pur" config-ref="Slack__OAuth2_Configuration"/>
+	</flow>
+	<flow name="slackFlow6" >
+		<slack:set-channel-topic doc:name="Slack"  config-ref="Slack__OAuth2_Configuration" channel="channel" topic="topic"/>
+	</flow>
+	<flow name="slackFlow7"  >
+		<slack:post-message channel="channel" doc:name="Slack"  config-ref="Slack__OAuth2_Configuration" asUser="true" iconUrl="url" iconEmoji="img">
+			<slack:message ><![CDATA[#[vars.abc]]]></slack:message>
+		</slack:post-message>
+	</flow>
+	<flow name="slackFlow8" >
+		<slack:update channel="id" doc:name="Slack"  config-ref="Slack__OAuth2_Configuration" timestamp="time">
+			<slack:message ><![CDATA[#[vars.abc]]]></slack:message>
+		</slack:update>
+	</flow>
+	<flow name="slackFlow9" >
+		<slack:upload-file doc:name="Slack" config-ref="Slack__OAuth2_Configuration" fileName="name" title="title" initialComment="comm" fileType="type">
+			<slack:channels ><![CDATA[#[vars.id]]]></slack:channels>
+		</slack:upload-file>
+	</flow>
+	<flow name="slackFlow10"  >
+		<slack:group-info channel="id" doc:name="Slack"  config-ref="Slack__OAuth2_Configuration"/>
+	</flow>
+	<flow name="slackFlow11" >
+		<slack:list-groups doc:name="Slack" config-ref="Slack__OAuth2_Configuration" excludeArchived="true" excludeMembers="true"/>
+	</flow>
+	<flow name="slackFlow12" >
+		<slack:rename-group channel="id" doc:name="Slack" name="name" config-ref="Slack__OAuth2_Configuration"/>
+	</flow>
+	<flow name="slackFlow13" >
+		<slack:set-group-purpose channel="name" doc:name="Slack"  config-ref="Slack__OAuth2_Configuration" purpose="pur"/>
+	</flow>
+	<flow name="slackFlow14"  >
+		<slack:set-group-topic channel="name" doc:name="Slack"  config-ref="Slack__OAuth2_Configuration" topic="topic"/>
+	</flow>
+	<flow name="slackFlow15"  >
+		<slack:list-ims doc:name="Slack" config-ref="Slack__OAuth2_Configuration"/>
+	</flow>
+	<flow name="slackFlow16"  >
+		<slack:open-im doc:name="Slack" user="user" config-ref="Slack__OAuth2_Configuration"/>
+	</flow>
+	<flow name="slackFlow17" >
+		<slack:user-info doc:name="Slack"  config-ref="Slack__OAuth2_Configuration" user="id"/>
+	</flow>
+	<flow name="slackFlow18"  >
+		<slack:list-users doc:name="Slack" config-ref="Slack__OAuth2_Configuration"/>
+	</flow>
+</mule>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:msmq="http://www.mulesoft.org/schema/mule/msmq" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/msmq http://www.mulesoft.org/schema/mule/msmq/current/mule-msmq.xsd">
+	<flow name="msmqFlow"  >
+		<msmq:msmq doc:name="MSMQ (Streaming)"  config-ref="MSMQ"/>
+		<msmq:send doc:name="MSMQ"  queueName="name" config-ref="MSMQ1" messageFormatter="ActiveXMessageFormatter" userName="user" password="pass" timeToBeReceived="100" timeToReachQueue="100">
+			<msmq:payload ><![CDATA[#[vars.abc]]]></msmq:payload>
+		</msmq:send>
+	</flow>
+	<msmq:msmq-receiver-config name="MSMQ" messageFormatter="ActiveXMessageFormatter" doc:name="MSMQ"  messageCount="100" pollingFrequency="100" >
+		<msmq:msmq-connection serviceAddress="add" accessToken="token" queueName="name" rootUserName="user" rootPassword="pass" ignoreSSLWarnings="true" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</msmq:msmq-connection>
+	</msmq:msmq-receiver-config>
+	<msmq:msmq-sender-config name="MSMQ1" doc:name="MSMQ"  >
+		<msmq:msmq-connection serviceAddress="add" accessToken="token" queueName="name" rootUserName="user" rootPassword="pass" ignoreSSLWarnings="true" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</msmq:msmq-connection>
+	</msmq:msmq-sender-config>
+	
+</mule>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:vm="http://www.mulesoft.org/schema/mule/vm" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd">
+	<vm:config name="VM" doc:name="VM">
+		<vm:queues >
+			<vm:queue queueName="myQueue" maxOutstandingMessages="14"/>
+		</vm:queues>
+	</vm:config>
+	<flow name="vmFlow">
+		<vm:listener queueName="path" doc:name="VM" config-ref="VM" numberOfConsumers="4" transactionalAction="ALWAYS_BEGIN" transactionType="XA" timeout="100" timeoutUnit="MILLISECONDS" />
+		<vm:publish queueName="queue" doc:name="VM" config-ref="VM" sendCorrelationId="ALWAYS"/>
+	</flow>
+	<flow name="vmFlow1">
+		<vm:publish-consume queueName="queue" doc:name="VM" config-ref="VM" sendCorrelationId="ALWAYS"/>
+	</flow>
+</mule>

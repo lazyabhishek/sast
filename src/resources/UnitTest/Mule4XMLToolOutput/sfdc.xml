@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:sfdc-marketing-cloud="http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud http://www.mulesoft.org/schema/mule/sfdc-marketing-cloud-marketing-cloud/current/mule-sfdc-marketing-cloud.xsd">
+<sfdc-marketing-cloud:sfdc-marketing-cloud-config doc:description="anji" doc:name="Salesforce: Basic Authentication" name="Salesforce__Basic_Authentication">
+<sfdc-marketing-cloud:basic-connection authEndPoint="endpoint" connectionTimeout="10" password="password" readTimeout="10" username="user">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</sfdc-marketing-cloud:basic-connection>
+</sfdc-marketing-cloud:sfdc-marketing-cloud-config>
+<sfdc-marketing-cloud:sfdc-marketing-cloud-config doc:description="anji" doc:name="Salesforce: OAuth 2.0 Username-Password" name="Salesforce__OAuth_2_0_Username_Password">
+<sfdc-marketing-cloud:oauth-user-pass-connection authEndpoint="endpoint" clientId="id" clientSecret="secret" connectionTimeout="10" readTimeout="10" soapEndpoint="https://login.salesforce.com/services/Soap/c/37.0/">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</sfdc-marketing-cloud:oauth-user-pass-connection>
+</sfdc-marketing-cloud:sfdc-marketing-cloud-config>
+<flow name="sfdcFlow">
+<sfdc-marketing-cloud:create config-ref="Salesforce__Basic_Authentication" createOptions="#[payload]" doc:name="Salesforce" objectType="object">
+<sfdc-marketing-cloud:api-objects><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+</sfdc-marketing-cloud:create>
+</flow>
+<flow name="sfdcFlow1">
+<sfdc-marketing-cloud:create config-ref="Salesforce__OAuth_2_0_Username_Password" createOptions="#[payload]" doc:name="Salesforce" objectType="object">
+<sfdc-marketing-cloud:api-objects><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+</sfdc-marketing-cloud:create>
+</flow>
+<flow name="sfdcFlow2">
+<sfdc-marketing-cloud:delete config-ref="Salesforce__Basic_Authentication" deleteOptions="#[payload]" doc:name="Salesforce">
+<sfdc-marketing-cloud:api-objects><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+</sfdc-marketing-cloud:delete>
+</flow>
+<flow name="sfdcFlow3">
+<sfdc-marketing-cloud:delete config-ref="Salesforce__OAuth_2_0_Username_Password" deleteOptions="#[payload]" doc:name="Salesforce">
+<sfdc-marketing-cloud:api-objects><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+</sfdc-marketing-cloud:delete>
+</flow>
+<flow name="sfdcFlow4">
+<sfdc-marketing-cloud:retrieve config-ref="Salesforce__Basic_Authentication" doc:name="Salesforce" retrieveOptions="#[payload]">
+<sfdc-marketing-cloud:query><![CDATA[#[payload]]]></sfdc-marketing-cloud:query>
+</sfdc-marketing-cloud:retrieve>
+</flow>
+<flow name="sfdcFlow5">
+<sfdc-marketing-cloud:update config-ref="Salesforce__Basic_Authentication" doc:name="Salesforce" objectType="object" updateOptions="#[payload]">
+<sfdc-marketing-cloud:api-objects><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+</sfdc-marketing-cloud:update>
+</flow>
+<flow name="sfdcFlow6">
+<sfdc-marketing-cloud:upsert config-ref="Salesforce__Basic_Authentication" doc:name="Salesforce" objectType="object" upsertOptions="#[payload]">
+<sfdc-marketing-cloud:api-objects><![CDATA[#[payload]]]></sfdc-marketing-cloud:api-objects>
+</sfdc-marketing-cloud:upsert>
+</flow>
+
+</mule>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:wsc="http://www.mulesoft.org/schema/mule/wsc" xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/wsc http://www.mulesoft.org/schema/mule/wsc/current/mule-wsc.xsd">
+	<wsc:config name="Web_Service_Consumer" doc:name="Web Service Consumer" >
+		<wsc:connection wsdlLocation="http://www.dneonline.com/calculator.asmx?wsdl" service="Calculator" port="CalculatorSoap12" address="http://www.dneonline.com/calculator.asmx" >
+			<wsc:web-service-security >
+				<wsc:username-token-security-strategy username="user" password="pass" addNonce="true" addCreated="true" passwordType="DIGEST"/>
+				<wsc:timestamp-security-strategy timeToLive="12" />
+			</wsc:web-service-security>
+		</wsc:connection>
+	</wsc:config>
+	<flow name="webServiceConsumerFlow">
+		<wsc:consume doc:name="Web Service Consumer" config-ref="Web_Service_Consumer" operation="Add"/>
+	</flow>
+</mule>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:dynamicsax="http://www.mulesoft.org/schema/mule/dynamicsax" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/dynamicsax http://www.mulesoft.org/schema/mule/dynamicsax/current/mule-dynamicsax.xsd">
+    <dynamicsax:gateway-connection-config name="Microsoft_Dynamics_AX_2012__Gateway_Connection" username="user" password="pass" aosServerName="aos" aosWsdlPort="8080" disableCnCheck="true" gatewayRouterServiceAddress="addr" aosEndpointPort="8080" connectionTimeout="10000" receiveTimeout="10000" company="company" language="lang" logonAsUser="logon" messageId="id" partitionKey="key" doc:name="Microsoft Dynamics AX 2012: Gateway Connection">
+        <reconnect frequency="3000" count="5"/>
+    </dynamicsax:gateway-connection-config>
+    <flow name="ms_2012Flow">
+        <dynamicsax:invoke-document-service-operation config-ref="Microsoft_Dynamics_AX_2012__Gateway_Connection" serviceAndSoapActionUri="service||operation" doc:name="Microsoft Dynamics AX 2012"/>
+    </flow>
+    <flow name="ms_2012Flow1">
+        <dynamicsax:query-table config-ref="Microsoft_Dynamics_AX_2012__Gateway_Connection" query="#[flowVars.abc]" doc:name="Microsoft Dynamics AX 2012" fetchSize="10000"/>
+    </flow>
+     <flow name="ms_2012Flow2">
+        <dynamicsax:static-query config-ref="Microsoft_Dynamics_AX_2012__Gateway_Connection" staticQueryName="name" fetchSize="10000" doc:name="Microsoft Dynamics AX 2012"/>
+    </flow>
+</mule>

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:x12="http://www.mulesoft.org/schema/mule/x12" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/x12 http://www.mulesoft.org/schema/mule/x12/current/mule-x12.xsd">
+	<x12:config name="X12_EDI" doc:name="X12 EDI"  formValidation="HIPAA_SNIP2" characterEncoding="IBM1047" stringCharacterSet="BASIC" stringSubstitutionChar="sub" versionIdentifierSuffix="suff" interchangeIdQualifierSelf="mid" interchangeIdSelf="mrid" groupIdSelf="mcode" interchangeIdQualifierPartner="pid" interchangeIdPartner="prid" groupIdPartner="pcode" enforceLengthLimits="false" enforceCharacterSet="false" enforceValueRepeats="false" allowUnknownSegments="true" enforceSegmentOrder="false" allowUnusedSegments="true" enforceSegmentRepeats="false" requireUniqueInterchanges="false" requireUniqueGroups="true" requireUniqueTransactionSets="true" ackAllSets="true" generate999Acks="true" reportSegmentErrors="false" includeFASchema="false" dataSeparator="deli" componentSeparator="sep" repetitionSeparator="rep" segmentTerminator="ter" lineEnding="CR" sendUniqueGroupNumbers="true" sendUniqueTransactionNumbers="true" implementationConventionReference="ref" schemas="#[vars.def]" initialInterchangeNumber="init" initialGroupNumber="group" initialSetNumber="tra" defaultUsageIndicator="q" ackRequested="true"/>
+	<flow name="x12Flow" >
+		<x12:read doc:name="X12 EDI"  config-ref="X12_EDI">
+			<x12:read-content ><![CDATA[#[vars.abc]]]></x12:read-content>
+		</x12:read>
+	</flow>
+	<flow name="x12Flow1"  >
+		<x12:write doc:name="X12 EDI"  config-ref="X12_EDI">
+			<x12:write-content ><![CDATA[#[vars.abc]]]></x12:write-content>
+		</x12:write>
+	</flow>
+</mule>

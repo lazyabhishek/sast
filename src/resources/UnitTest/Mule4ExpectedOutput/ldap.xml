@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ldap="http://www.mulesoft.org/schema/mule/ldap" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ldap http://www.mulesoft.org/schema/mule/ldap/current/mule-ldap.xsd">
+	<ldap:config name="LDAP__Configuration" doc:name="LDAP: Configuration"  >
+		<ldap:basic-connection authDn="dn" authPassword="pass" authentication="auth" url="url" initialPoolSize="100" maxPoolSize="100" poolTimeout="90000" schemaEnabled="true" referral="FOLLOW" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</ldap:basic-connection>
+	</ldap:config>
+	<ldap:config name="LDAP__TLS_Configuration" doc:name="LDAP: TLS Configuration"  >
+		<ldap:tls-connection authDn="dn" authPassword="pass" authentication="auth" url="url" schemaEnabled="true" referral="FOLLOW" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</ldap:tls-connection>
+	</ldap:config>
+	<flow name="ldapFlow"  >
+		<ldap:add doc:name="LDAP"  config-ref="LDAP__Configuration" structuralObjectClass="class">
+			<ldap:entry ><![CDATA[#[vars.abc]]]></ldap:entry>
+		</ldap:add>
+	</flow>
+	<flow name="ldapFlow1"  >
+		<ldap:add-multi-value-attribute doc:name="LDAP"  config-ref="LDAP__Configuration" dn="dn" attributeName="name" ignoreInvalidAttribute="true">
+			<ldap:attribute-values ><![CDATA[#[vars.abc]]]></ldap:attribute-values>
+		</ldap:add-multi-value-attribute>
+	</flow>
+	<flow name="ldapFlow2"  >
+		<ldap:add-single-value-attribute doc:name="LDAP"  config-ref="LDAP__Configuration" dn="dn" attributeName="name" attributeValue="value" ignoreInvalidAttribute="true"/>
+	</flow>
+	<flow name="ldapFlow3"  >
+		<ldap:bind doc:name="LDAP"  config-ref="LDAP__TLS_Configuration"/>
+	</flow>
+	<flow name="ldapFlow4" >
+		<ldap:delete doc:name="LDAP"  config-ref="LDAP__Configuration" dn="#[vars.abc]"/>
+	</flow>
+	<flow name="ldapFlow5"  >
+		<ldap:delete-multi-value-attribute doc:name="LDAP"  config-ref="LDAP__Configuration" dn="dn" attributeName="name" ignoreInvalidAttribute="true">
+			<ldap:attribute-values ><![CDATA[#[vars.abc]]]></ldap:attribute-values>
+		</ldap:delete-multi-value-attribute>
+	</flow>
+	<flow name="ldapFlow6"  >
+		<ldap:delete-single-value-attribute doc:name="LDAP"  config-ref="LDAP__Configuration" dn="dn" attributeName="name" attributeValue="value" ignoreInvalidAttribute="true"/>
+	</flow>
+	<flow name="ldapFlow7" >
+		<ldap:exists doc:name="LDAP" config-ref="LDAP__Configuration" dn="dn"/>
+	</flow>
+	<flow name="ldapFlow8"  >
+		<ldap:ldap-entry-to-ldif doc:name="LDAP"  config-ref="LDAP__Configuration">
+			<ldap:entry ><![CDATA[#[vars.abc]]]></ldap:entry>
+		</ldap:ldap-entry-to-ldif>
+	</flow>
+	<flow name="ldapFlow9"  >
+		<ldap:lookup doc:name="LDAP" config-ref="LDAP__Configuration" dn="dn" structuralObjectClass="class" attributes="#[vars.abc]"/>
+	</flow>
+	<flow name="ldapFlow10"  >
+		<ldap:modify doc:name="LDAP"  config-ref="LDAP__Configuration" structuralObjectClass="class">
+			<ldap:entry ><![CDATA[#[vars.abc]]]></ldap:entry>
+		</ldap:modify>
+	</flow>
+	<flow name="ldapFlow11" >
+		<ldap:modify-multi-value-attribute doc:name="LDAP" config-ref="LDAP__Configuration" dn="dn" attributeName="name" ignoreInvalidAttribute="true">
+			<ldap:attribute-values ><![CDATA[#[vars.abc]]]></ldap:attribute-values>
+		</ldap:modify-multi-value-attribute>
+	</flow>
+	<flow name="ldapFlow12"  >
+		<ldap:modify-single-value-attribute doc:name="LDAP"  config-ref="LDAP__Configuration" dn="dn" attributeName="name" attributeValue="value" ignoreInvalidAttribute="true"/>
+	</flow>
+	<flow name="ldapFlow13" >
+		<ldap:paged-result-search doc:name="LDAP"  config-ref="LDAP__Configuration" baseDn="dn" filter="filter" scope="OBJECT" structuralObjectClass="class" fetchSize="500" attributes="#[vars.abc]"/>
+	</flow>
+	<flow name="ldapFlow14"  >
+		<ldap:rename doc:name="LDAP"  config-ref="LDAP__Configuration" oldDn="dn" newDn="new"/>
+	</flow>
+	<flow name="ldapFlow15" >
+		<ldap:search doc:name="LDAP" config-ref="LDAP__Configuration" baseDn="dn" filter="filter" scope="OBJECT" structuralObjectClass="class" attributes="#[vars.abc]"/>
+	</flow>
+	<flow name="ldapFlow16"  >
+		<ldap:search-one doc:name="LDAP"  config-ref="LDAP__Configuration" baseDn="dn" filter="filter" scope="OBJECT" structuralObjectClass="class" attributes="#[vars.abc]"/>
+	</flow>
+	<flow name="ldapFlow17">
+		<ldap:unbind doc:name="LDAP"  config-ref="LDAP__Configuration"/>
+	</flow>
+</mule>

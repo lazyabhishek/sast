@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:wd-connector="http://www.mulesoft.org/schema/mule/wd-connector" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/wd-connector http://www.mulesoft.org/schema/mule/wd-connector/current/mule-wd-connector.xsd">
+    <wd-connector:config name="Workday__Basic" username="user" password="pass" tenantName="name" doc:name="Workday: Basic" hostName="host"/>
+    <flow name="workdayFlow">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Absence_Management||Adjust_Time_Off" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow1">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Academic_Advising||Get_Academic_Progress_for_Student" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow2">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Academic_Foundation||Change_Institutional_Contact_Information" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow3">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Admissions||Get_Admissions_Notes" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow4">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Adoption||Get_Adoption_Items" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow5">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Benefits_Administration||Add_Dependent" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow6">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Campus_Engagement||Put_Engagement_Record" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow7">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Cash_Management||Cancel_Ad_Hoc_Bank_Transaction" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow8">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Compensation||Add_Stock_Grant" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow9">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Compensation_Review||Get_Budget_Pools" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow10">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Dynamic_Document_Generation||Get_Text_Block_Categories" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow11">
+        <wd-connector:invoke config-ref="Workday__Basic" type="External_Integrations||Receive_Launch_Integration_Event" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow12">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Financial_Aid||Get_Direct_Loan_Disbursements" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow13">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Financial_Management||Cancel_Accounting_Journal" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow14">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Human_Resources||Add_Academic_Appointment" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow15">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Identity_Management||Get_Unidentified_Signons" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow16">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Integrations||Approve_Business_Process" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow17">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Interview_Feedback||Get_Interview_Feedbacks" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow18">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Inventory||Cancel_Goods_Delivery" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow19">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Learning||Enroll_In_Learning_Course" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow20">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Notification||Receive_Notification" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow21">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Payroll||Assign_Costing_Allocation" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow22">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Payroll_CAN||Get_Payroll_CAN_Year_End_Forms" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow23">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Payroll_FRA||Get_DSN_Data" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow24">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Payroll_GBR||Get_AEO_Council_Tax_Orders" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow25">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Payroll_Interface||Get_Batches" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow26">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Performance_Management||Get_Certification_Issuers" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow27">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Professional_Services_Automation||Add_Update_Expense_Report" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow28">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Recruiting||Assess_Candidate" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow29">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Resource_Management||Add_Supplier_Contract_Line_Hold" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow30">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Revenue_Management||Cancel_Cash_Sale" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow31">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Settlement_Services||Get_Escheatment_Items" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow32">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Staffing||Add_Additional_Job" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow33">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Student_Finance||Get_Charges_for_Students" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow34">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Student_Records||Get_Change_Government_IDs" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow35">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Student_Recruiting||Get_Ad_Hoc_Locations" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow36">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Talent||Assess_Talent" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow37">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Tenant_Data_Translation||Get_Translatable_Tenant_Data_Public" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow38">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Time_Tracking||Assign_Work_Schedule" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow39">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Workday_Connect||Get_Message_Template" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow40">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Workday_Extensibility||Get_Custom_Lists" doc:name="Workday"/>
+    </flow>
+    <flow name="workdayFlow41">
+        <wd-connector:invoke config-ref="Workday__Basic" type="Workforce_Planning||Get_Headcount_Plan_Structures" doc:name="Workday"/>
+    </flow>
+</mule>

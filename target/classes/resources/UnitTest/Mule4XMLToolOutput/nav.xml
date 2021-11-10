@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:nav="http://www.mulesoft.org/schema/mule/nav" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/nav http://www.mulesoft.org/schema/mule/nav/current/mule-nav.xsd">
+<nav:dynamics-nav-config doc:name="Microsoft Dynamics NAV Connector: NTLM Authentication" name="Microsoft_Dynamics_NAV_Connector__NTLM_Authentication">
+<nav:ntlm-connection companyName="name" disableCnCheck="true" domain="domain" odataUrl="url" password="pass" soapUrl="url" username="user">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+<pooling-profile exhaustedAction="WHEN_EXHAUSTED_GROW" initialisationPolicy="INITIALISE_ONE" maxActive="100"/>
+</nav:ntlm-connection>
+</nav:dynamics-nav-config>
+<nav:dynamics-nav-config doc:name="Microsoft Dynamics NAV Connector: OAuth 2.0 Access Token" name="Microsoft_Dynamics_NAV_Connector__OAuth_2_0_Access_Token">
+<nav:oauth-connection accessToken="token" companyName="name" disableCnCheck="true" odataUrl="url" soapUrl="url" username="user">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+<pooling-profile exhaustedAction="WHEN_EXHAUSTED_GROW" initialisationPolicy="INITIALISE_ONE" maxActive="100"/>
+</nav:oauth-connection>
+</nav:dynamics-nav-config>
+<flow name="navFlow">
+<nav:codeunit-operation config-ref="Microsoft_Dynamics_NAV_Connector__NTLM_Authentication" doc:name="Microsoft Dynamics NAV Connector" operation="op" service="ser">
+<nav:entity><![CDATA[#[vars.abc]]]></nav:entity>
+</nav:codeunit-operation>
+</flow>
+<flow name="navFlow1">
+<nav:odata-query config-ref="Microsoft_Dynamics_NAV_Connector__OAuth_2_0_Access_Token" doc:name="Microsoft Dynamics NAV Connector" fetchSize="200">
+<nav:query>dsql:#[vars.abc]</nav:query>
+</nav:odata-query>
+</flow>
+<flow name="navFlow2">
+<nav:page-operation config-ref="Microsoft_Dynamics_NAV_Connector__NTLM_Authentication" doc:name="Microsoft Dynamics NAV Connector" operation="op" service="ser">
+<nav:entity><![CDATA[#[vars.abc]]]></nav:entity>
+</nav:page-operation>
+</flow>
+
+</mule>

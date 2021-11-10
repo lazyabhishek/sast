@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:sfdc="http://www.mulesoft.org/schema/mule/sfdc" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/sfdc http://www.mulesoft.org/schema/mule/sfdc/current/mule-sfdc.xsd">
+    <sfdc:config name="Salesforce__Basic_Authentication" username="user" password="password" readTimeout="10" connectionTimeout="10" doc:name="Salesforce: Basic Authentication" doc:description="anji" url="endpoint">
+        <reconnect frequency="3000" count="5"/>
+    </sfdc:config>
+    <sfdc:config-oauth-user-pass name="Salesforce__OAuth_2_0_Username_Password" consumerKey="id" consumerSecret="secret" username="user" password="password" readTimeout="10" connectionTimeout="10" doc:name="Salesforce: OAuth 2.0 Username-Password" doc:description="anji" tokenEndpoint="endpoint">
+        <reconnect frequency="3000" count="5"/>
+    </sfdc:config-oauth-user-pass>
+    <flow name="sfdcFlow">
+        <sfdc:create config-ref="Salesforce__Basic_Authentication" type="object" doc:name="Salesforce">
+            <sfdc:objects ref="#[payload]"/>
+            <sfdc:headers ref="#[payload]"/>
+        </sfdc:create>
+    </flow>
+    <flow name="sfdcFlow1">
+        <sfdc:create config-ref="Salesforce__OAuth_2_0_Username_Password" type="object" doc:name="Salesforce">
+            <sfdc:objects ref="#[payload]"/>
+            <sfdc:headers ref="#[payload]"/>
+        </sfdc:create>
+    </flow>
+    <flow name="sfdcFlow2">
+        <sfdc:delete config-ref="Salesforce__Basic_Authentication" doc:name="Salesforce">
+            <sfdc:ids ref="#[payload]"/>
+            <sfdc:headers ref="#[payload]"/>
+        </sfdc:delete>
+    </flow>
+ <flow name="sfdcFlow3">
+        <sfdc:delete config-ref="Salesforce__OAuth_2_0_Username_Password" doc:name="Salesforce">
+            <sfdc:ids ref="#[payload]"/>
+            <sfdc:headers ref="#[payload]"/>
+        </sfdc:delete>
+    </flow>
+    <flow name="sfdcFlow4">
+        <sfdc:retrieve config-ref="Salesforce__Basic_Authentication" type="object" doc:name="Salesforce">
+            <sfdc:ids ref="#[payload]"/>
+            <sfdc:fields ref="#[payload]"/>
+            <sfdc:headers ref="#[payload]"/>
+        </sfdc:retrieve>
+    </flow>
+    <flow name="sfdcFlow5">
+        <sfdc:update config-ref="Salesforce__Basic_Authentication" type="object" doc:name="Salesforce">
+            <sfdc:objects ref="#[payload]"/>
+            <sfdc:headers ref="#[payload]"/>
+        </sfdc:update>
+    </flow>
+    <flow name="sfdcFlow6">
+        <sfdc:upsert config-ref="Salesforce__Basic_Authentication" externalIdFieldName="id" type="object" doc:name="Salesforce">
+            <sfdc:objects ref="#[payload]"/>
+            <sfdc:headers ref="#[payload]"/>
+        </sfdc:upsert>
+    </flow>
+</mule>

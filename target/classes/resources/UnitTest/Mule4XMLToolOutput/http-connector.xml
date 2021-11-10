@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+<http:listener-config doc:name="HTTP Listener Configuration" name="HTTP_Listener_Configuration">
+<http:listener-connection basePath="/test" host="0.0.0.0" port="8081" protocol="HTTPS">
+<tls:context>
+<tls:trust-store password="csdacsdv" type="jceks"/>
+<tls:key-store algorithm="wv" alias="wefwe" keyPassword="wefwef" password="wfewef" path="wfwe"/>
+</tls:context>
+</http:listener-connection>
+</http:listener-config>
+<flow name="httpConfigFlow">
+<http:listener allowedMethods="GET" config-ref="HTTP_Listener_Configuration" doc:name="HTTP" path="/test">
+<http:response reasonPhrase="success" statusCode="#[vars.httpStatus default 200]">
+<http:body><![CDATA[#[payload]]]></http:body>
+</http:response>
+<http:error-response reasonPhrase="Internal Server Error" statusCode="#[vars.httpStatus default 500]">
+<http:body><![CDATA[#[error]]]></http:body>
+</http:error-response>
+</http:listener>
+</flow>
+
+</mule>

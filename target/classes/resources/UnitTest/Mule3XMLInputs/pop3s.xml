@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:imaps="http://www.mulesoft.org/schema/mule/imaps" xmlns:pop3s="http://www.mulesoft.org/schema/mule/pop3s" xmlns:imap="http://www.mulesoft.org/schema/mule/imap" xmlns:pop3="http://www.mulesoft.org/schema/mule/pop3" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/pop3 http://www.mulesoft.org/schema/mule/pop3/current/mule-pop3.xsd
+http://www.mulesoft.org/schema/mule/imap http://www.mulesoft.org/schema/mule/imap/current/mule-imap.xsd
+http://www.mulesoft.org/schema/mule/pop3s http://www.mulesoft.org/schema/mule/pop3s/current/mule-pop3s.xsd
+http://www.mulesoft.org/schema/mule/imaps http://www.mulesoft.org/schema/mule/imaps/current/mule-imaps.xsd">
+    <pop3:connector name="POP3" backupFolder="backup" moveToFolder="move" validateConnections="true" checkFrequency="80000" doc:name="POP3" doc:description="anji">
+        <reconnect frequency="3000" count="5"/>
+    </pop3:connector>
+    <pop3s:connector name="POP31" backupFolder="backup" moveToFolder="move" validateConnections="true" doc:name="POP3" doc:description="anji">
+        <pop3s:tls-client path="path" storePassword="password"/>
+        <pop3s:tls-trust-store path="path" storePassword="password"/>
+        <reconnect frequency="3000" count="5"/>
+    </pop3s:connector>
+    <imap:connector name="IMAP" backupFolder="backup" moveToFolder="move" validateConnections="true" checkFrequency="80000" doc:name="IMAP" doc:description="anji" mailboxFolder="folder">
+        <reconnect frequency="3000" count="5"/>
+    </imap:connector>
+    <imaps:connector name="IMAP1" backupFolder="backup" mailboxFolder="folder" moveToFolder="move" validateConnections="true" doc:name="IMAP" doc:description="anji">
+        <reconnect frequency="3000" count="5"/>
+        <imaps:tls-client path="path" storePassword="password"/>
+        <imaps:tls-trust-store path="path" storePassword="password"/>
+    </imaps:connector>
+    <flow name="pop3sFlow">
+        <pop3:inbound-endpoint host="host" connector-ref="POP3" responseTimeout="10000" doc:name="POP3" encoding="UTF-8" mimeType="application/json" password="password" port="8080" user="user"/>
+        <pop3:outbound-endpoint host="host" connector-ref="POP3" responseTimeout="20000" doc:name="POP3" encoding="UTF-8" mimeType="application/json" password="password" port="8080" user="user"/>
+    </flow>
+    <flow name="pop3sFlow1">
+        <pop3s:inbound-endpoint host="host" connector-ref="POP31" responseTimeout="30000" doc:name="POP3" encoding="UTF-8" mimeType="application/json" password="password" port="8080" user="user"/>
+        <pop3s:outbound-endpoint host="host" port="8080" user="user" password="password" connector-ref="POP31" responseTimeout="10000" encoding="UTF-8" mimeType="application/json" doc:name="POP3"/>
+    </flow>
+    <flow name="pop3sFlow2">
+        <imap:inbound-endpoint host="host" port="8080" responseTimeout="20000" doc:name="IMAP" connector-ref="IMAP" encoding="UTF-8" mimeType="application/json" password="password" user="user"/>
+        <imaps:outbound-endpoint host="host" port="8080" responseTimeout="10000" doc:name="IMAP" connector-ref="IMAP1" encoding="UTF-8" mimeType="application/json" password="password" user="user"/>
+    </flow>
+    
+</mule>

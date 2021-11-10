@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:smtps="http://www.mulesoft.org/schema/mule/smtps"
+	xmlns:smtp="http://www.mulesoft.org/schema/mule/smtp" xmlns:pop3="http://www.mulesoft.org/schema/mule/pop3"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/pop3 http://www.mulesoft.org/schema/mule/pop3/current/mule-pop3.xsd
+http://www.mulesoft.org/schema/mule/smtp http://www.mulesoft.org/schema/mule/smtp/current/mule-smtp.xsd
+http://www.mulesoft.org/schema/mule/smtps http://www.mulesoft.org/schema/mule/smtps/current/mule-smtps.xsd">
+	<smtp:connector name="SMTP" bccAddresses="bcc"
+		ccAddresses="cc" contentType="application/json" fromAddress="fromAdr"
+		replyToAddresses="replyTo" subject="subject" validateConnections="true"
+		doc:name="SMTP" >
+		<reconnect frequency="3000" count="5"/>
+		</smtp:connector>
+    <smtps:connector name="SMTP1" validateConnections="true" doc:name="SMTP" bccAddresses="bcc" ccAddresses="cc" contentType="application/json" fromAddress="address" replyToAddresses="reply" subject="subject">
+        <smtps:tls-client path="path" storePassword="password"/>
+        <smtps:tls-trust-store path="path" storePassword="password"/>
+    </smtps:connector>
+	<flow name="smtp-connectorFlow">
+		<smtps:outbound-endpoint host="localhost"
+			user="user" password="password" connector-ref="SMTP1" to="to" from="from"
+			subject="subject" cc="cc" bcc="bcc" replyTo="replyTo"
+			responseTimeout="10000" encoding="UTF-8" mimeType="application/json"
+			doc:name="SMTP">
+			<property key="key1" value="val1" />
+		</smtps:outbound-endpoint>
+	</flow>
+	<flow name="smtp-connectorFlow1">
+        <smtp:outbound-endpoint host="localhost" user="user" password="password" connector-ref="SMTP" responseTimeout="10000" doc:name="SMTP" bcc="bcc" cc="cc" from="from" replyTo="replyto" subject="subject" to="to" mimeType="application/json" encoding="UTF-8" port="8080"/>
+		
+	</flow>
+</mule>

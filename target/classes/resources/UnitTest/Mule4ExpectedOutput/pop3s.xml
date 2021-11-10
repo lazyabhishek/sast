@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:email="http://www.mulesoft.org/schema/mule/email"
+	xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd
+http://www.mulesoft.org/schema/mule/tls http://www.mulesoft.org/schema/mule/tls/current/mule-tls.xsd">
+	<flow name="pop3sFlow"  >
+		<scheduler doc:name="POP3"  >
+			<scheduling-strategy >
+				<fixed-frequency  frequency="80000"/>
+			</scheduling-strategy>
+		</scheduler>
+		<email:list-pop3 doc:name="POP3"  config-ref="POP3">
+		</email:list-pop3>
+	</flow>
+	<email:pop3-config name="POP3" doc:name="POP3" doc:description="anji" >
+		<email:pop3-connection host="host" port="8080" user="user" password="password" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</email:pop3-connection>
+	</email:pop3-config>
+	<flow name="pop3sFlow1" >
+		<scheduler doc:name="" />
+		<email:list-imap doc:name="POP3"  config-ref="POP31_1">
+		<reconnect count="5" frequency="3000" />
+		</email:list-imap>
+	</flow>
+	<email:pop3-config name="POP31_1" doc:name="POP3"  doc:description="anji" >
+		<email:pop3s-connection host="host" port="8080" user="user" password="password" >
+			<tls:context >
+				<tls:key-store path="path" password="password" />
+				<tls:trust-store path="path" password="password" />
+			</tls:context>
+		</email:pop3s-connection>
+	</email:pop3-config>
+	<flow name="pop3sFlow2" >
+		<scheduler doc:name="IMAP">
+			<scheduling-strategy>
+				<fixed-frequency frequency="80000" />
+			</scheduling-strategy>
+		</scheduler>
+		<email:list-imap>
+			<reconnect count="5" frequency="3000" />
+		</email:list-imap>
+	</flow>
+	<email:imap-config name="IMAP" doc:name="IMAP"  doc:description="anji" >
+		<email:imap-connection host="host" port="8080" user="user" password="password" >
+			<reconnection >
+				<reconnect frequency="3000" count="5" />
+			</reconnection>
+		</email:imap-connection>
+	</email:imap-config>
+	<email:imap-config name="IMAP1_1" doc:name="IMAP"  doc:description="anji" >
+		<email:imaps-connection host="host" port="8080" user="user" password="password" >
+			<tls:context >
+				<tls:trust-store path="path" password="password" />
+				<tls:key-store path="path" password="password" />
+			</tls:context>
+		</email:imaps-connection>
+	</email:imap-config>
+	
+</mule>

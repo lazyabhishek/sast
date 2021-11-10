@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:neo4j="http://www.mulesoft.org/schema/mule/neo4j" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/neo4j http://www.mulesoft.org/schema/mule/neo4j/current/mule-neo4j.xsd">
+    <neo4j:config name="Neo4j__Basic_Authentication" username="user" password="pass" boltUrl="url" restUrl="url" doc:name="Neo4j: Basic Authentication">
+        <reconnect frequency="3000" count="5"/>
+    </neo4j:config>
+    <flow name="neo4jFlow">
+        <neo4j:create-node config-ref="Neo4j__Basic_Authentication" doc:name="Neo4j" label="label" parameters-ref="#[flowVars.abc]"/>
+    </flow>
+    <flow name="neo4jFlow1">
+        <neo4j:delete-nodes config-ref="Neo4j__Basic_Authentication" label="label" removeRelationships="true" parameters-ref="#[flowVars.abc]" doc:name="Neo4j"/>
+    </flow>
+    <flow name="neo4jFlow2">
+        <neo4j:execute config-ref="Neo4j__Basic_Authentication" query="#[flowVars.q]" parameters-ref="#[flowVars.ref]" doc:name="Neo4j"/>
+    </flow>
+    <flow name="neo4jFlow3">
+        <neo4j:select-nodes config-ref="Neo4j__Basic_Authentication" label="label" parameters-ref="#[flowVars.abc]" doc:name="Neo4j"/>
+    </flow>
+    <flow name="neo4jFlow4">
+        <neo4j:update-nodes config-ref="Neo4j__Basic_Authentication" label="label" parameters-ref="#[flowVars.abc]" setParameters-ref="#[flowVars.p]" doc:name="Neo4j"/>
+    </flow>
+</mule>

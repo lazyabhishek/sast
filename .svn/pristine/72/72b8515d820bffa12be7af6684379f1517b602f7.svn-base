@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:kafka="http://www.mulesoft.org/schema/mule/kafka" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/kafka http://www.mulesoft.org/schema/mule/kafka/current/mule-kafka.xsd">
+<flow name="kafkaFlow">
+<kafka:consumer config-ref="Apache_Kafka__Configuration" doc:name="Apache Kafka (Streaming)" topic="topic"/>
+<kafka:producer config-ref="Apache_Kafka__Configuration1" doc:name="Apache Kafka" key="key" topic="topic">
+<kafka:message><![CDATA[#[vars.abc]]]></kafka:message>
+</kafka:producer>
+</flow>
+<kafka:kafka-consumer-config doc:name="Apache Kafka: Configuration" name="Apache_Kafka__Configuration">
+<kafka:basic-kafka-consumer-connection bootstrapServers="server"/>
+</kafka:kafka-consumer-config>
+<kafka:kafka-producer-config doc:name="Apache Kafka: Configuration" name="Apache_Kafka__Configuration1">
+<kafka:basic-kafka-producer-connection bootstrapServers="server"/>
+</kafka:kafka-producer-config>
+
+</mule>

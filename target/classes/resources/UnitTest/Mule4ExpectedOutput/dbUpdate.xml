@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:db="http://www.mulesoft.org/schema/mule/db" xmlns:vm="http://www.mulesoft.org/schema/mule/vm"
+	xmlns:schedulers="http://www.mulesoft.org/schema/mule/schedulers"
+	xmlns:tracking="http://www.mulesoft.org/schema/mule/ee/tracking" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:spring="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-current.xsd
+http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/ee/tracking http://www.mulesoft.org/schema/mule/ee/tracking/current/mule-tracking-ee.xsd
+http://www.mulesoft.org/schema/mule/schedulers http://www.mulesoft.org/schema/mule/schedulers/current/mule-schedulers.xsd
+http://www.mulesoft.org/schema/mule/vm http://www.mulesoft.org/schema/mule/vm/current/mule-vm.xsd
+http://www.mulesoft.org/schema/mule/db http://www.mulesoft.org/schema/mule/db/current/mule-db.xsd">
+	<db:config name="Oracle_Configuration" doc:name="Oracle Configuration">
+		<db:oracle-connection host="localhost" user="test" password="test" instance="test" port="1522" transactionIsolation="READ_COMMITTED">
+			<reconnection >
+				<reconnect frequency="3000" count="3"/>
+			</reconnection>
+			<db:pooling-profile maxPoolSize="2" preparedStatementCacheSize="2" maxWait="2" minPoolSize="2" acquireIncrement="2"/>
+		</db:oracle-connection>
+	</db:config>
+	<db:config doc:name="Derby Configuration" name="Derby_Configuration">
+		<db:generic-connection driverClassName="org.apache.derby.jdbc.ClientDriver" url="db">
+		<db:pooling-profile acquireIncrement="2" maxPoolSize="2" maxWait="2" maxWaitUnit="MILLISECONDS" minPoolSize="2" preparedStatementCacheSize="2"/>
+		</db:generic-connection>
+	</db:config>
+	<flow name="updateFlow">
+		<db:update doc:name="update"  config-ref="Oracle_Configuration" queryTimeout="10" transactionalAction="ALWAYS_JOIN" targetValue="hello">
+			<db:sql >UPDATE name SET firstname = 'sai'</db:sql>
+		</db:update>
+
+	</flow>
+	<flow name="bulkUpdateFlow">
+		<db:bulk-update doc:name="Bulk update"  config-ref="Derby_Configuration" transactionalAction="ALWAYS_JOIN" queryTimeout="10" targetValue="hello">
+			<db:sql>UPDATE name SET firstname = 'sai'</db:sql>
+			<db:bulk-input-parameters >payload</db:bulk-input-parameters>
+			
+		</db:bulk-update>
+	</flow>
+
+</mule>

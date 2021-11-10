@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:siebel="http://www.mulesoft.org/schema/mule/siebel" xmlns:siebel-bs="http://www.mulesoft.org/schema/mule/siebel-bs" xmlns:siebel-io="http://www.mulesoft.org/schema/mule/siebel-io" xmlns:spring="http://www.mulesoft.org/schema/mule/spring" xmlns:tls="http://www.mulesoft.org/schema/mule/tls" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/spring http://www.mulesoft.org/schema/mule/spring/current/mule-spring.xsd http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd http://www.mulesoft.org/schema/mule/siebel http://www.mulesoft.org/schema/mule/siebel/current/mule-siebel.xsd http://www.mulesoft.org/schema/mule/siebel-bs http://www.mulesoft.org/schema/mule/siebel-bs/current/mule-siebel-bs.xsd http://www.mulesoft.org/schema/mule/siebel-io http://www.mulesoft.org/schema/mule/siebel-io/current/mule-siebel-io.xsd">
+<siebel:siebel-config dataSenseFilterQueryBusComp="comp" dataSenseFilterQueryIntObjects="objects" defaultViewMode="15" defaultViewModeBusComp="10" doc:name="Oracle Siebel Business Objects: Configuration" name="Oracle_Siebel_Business_Objects__Configuration">
+<siebel:basic-connection encoding="encode" language="lang" objectManager="manager" password="pass" port="8080" server="server" serverName="name" user="user">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</siebel:basic-connection>
+</siebel:siebel-config>
+<siebel:siebel-config dataSenseFilterQuery="query" defaultViewModeBusComp="10" doc:name="Oracle Siebel Business Services: Configuration" name="Oracle_Siebel_Business_Services__Configuration">
+<siebel:basic-connection encoding="encode" language="lang" objectManager="manager" password="pass" port="8081" rsaEncryption="true" server="server" serverName="name" user="user">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</siebel:basic-connection>
+</siebel:siebel-config>
+<siebel:siebel-config dataSenseFilterQuery="query" defaultViewModeBusComp="10" doc:name="Oracle Siebel Integration Objects: Configuration" name="Oracle_Siebel_Integration_Objects__Configuration" outputEnrichedWithInputPayload="false">
+<siebel:basic-connection encoding="encode" language="lang" objectManager="manager" password="pass" port="8082" rsaEncryption="true" server="server" serverName="name" user="user">
+<reconnection>
+<reconnect count="5" frequency="3000"/>
+</reconnection>
+</siebel:basic-connection>
+</siebel:siebel-config>
+<flow name="siebelFlow">
+<siebel:create-business-component businessObjectComponentType="type" config-ref="Oracle_Siebel_Business_Objects__Configuration" doc:name="Oracle Siebel Business Objects">
+<siebel:business-component-fields><![CDATA[#[vars.abc]]]></siebel:business-component-fields>
+</siebel:create-business-component>
+</flow>
+<flow name="siebelFlow1">
+<siebel:delete-business-component businessComponentId="id" businessObjectComponentType="type" config-ref="Oracle_Siebel_Business_Objects__Configuration" doc:name="Oracle Siebel Business Objects" viewMode="10"/>
+</flow>
+<flow name="siebelFlow2">
+<siebel:query-business-components businessObjectComponentType="type" config-ref="Oracle_Siebel_Business_Objects__Configuration" doc:name="Oracle Siebel Business Objects">
+<siebel:query-definition><![CDATA[#[vars.q]]]></siebel:query-definition>
+</siebel:query-business-components>
+</flow>
+<flow name="siebelFlow3">
+<siebel:query-join-business-components businessObjectComponentType="type" config-ref="Oracle_Siebel_Business_Objects__Configuration" doc:name="Oracle Siebel Business Objects">
+<siebel:query-to-join-definition><![CDATA[#[vars.q]]]></siebel:query-to-join-definition>
+</siebel:query-join-business-components>
+</flow>
+<flow name="siebelFlow4">
+<siebel:update-business-component businessObjectComponentType="type" config-ref="Oracle_Siebel_Business_Objects__Configuration" doc:name="Oracle Siebel Business Objects" searchSpec="#[vars.s]" viewMode="10">
+<siebel:business-component-fields><![CDATA[#[vars.abc]]]></siebel:business-component-fields>
+</siebel:update-business-component>
+</flow>
+<flow name="siebelFlow5">
+<siebel:upsert-business-component businessObjectComponentType="type" config-ref="Oracle_Siebel_Business_Objects__Configuration" doc:name="Oracle Siebel Business Objects" recordIds="#[vars.id]" viewMode="10">
+<siebel:business-component-fields><![CDATA[#[vars.abc]]]></siebel:business-component-fields>
+</siebel:upsert-business-component>
+</flow>
+<flow name="siebelFlow6">
+<siebel:execute config-ref="Oracle_Siebel_Business_Services__Configuration" doc:name="Oracle Siebel Business Services" methodName="name" serviceName="sname">
+<siebel:input><![CDATA[#[vars.a]]]></siebel:input>
+</siebel:execute>
+</flow>
+<flow name="siebelFlow7">
+<siebel:execute-business-service businessService="service" config-ref="Oracle_Siebel_Business_Services__Configuration" doc:name="Oracle Siebel Business Services">
+<siebel:input-properties><![CDATA[#[vars.in]]]></siebel:input-properties>
+</siebel:execute-business-service>
+</flow>
+<flow name="siebelFlow8">
+<siebel:execute-siebel-adapter config-ref="Oracle_Siebel_Integration_Objects__Configuration" doc:name="Oracle Siebel Integration Objects" integrationObject="object" method="DELETE">
+<siebel:input-properties><![CDATA[#[vars.abc]]]></siebel:input-properties>
+</siebel:execute-siebel-adapter>
+</flow>
+
+</mule>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:kafka="http://www.mulesoft.org/schema/mule/kafka" xmlns="http://www.mulesoft.org/schema/mule/core"
+	xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/kafka http://www.mulesoft.org/schema/mule/kafka/current/mule-kafka.xsd">
+<flow name="kafkaFlow" >
+		<kafka:consumer doc:name="Apache Kafka (Streaming)" config-ref="Apache_Kafka__Configuration" topic="topic"/>
+		<kafka:producer doc:name="Apache Kafka"  config-ref="Apache_Kafka__Configuration1" topic="topic" key="key">
+			<kafka:message ><![CDATA[#[vars.abc]]]></kafka:message>
+		</kafka:producer>
+	</flow>	
+<kafka:kafka-consumer-config name="Apache_Kafka__Configuration" doc:name="Apache Kafka: Configuration" >
+		<kafka:basic-kafka-consumer-connection bootstrapServers="server" />
+	</kafka:kafka-consumer-config>
+	<kafka:kafka-producer-config name="Apache_Kafka__Configuration1" doc:name="Apache Kafka: Configuration" >
+		<kafka:basic-kafka-producer-connection bootstrapServers="server" />
+	</kafka:kafka-producer-config>
+	
+</mule>
